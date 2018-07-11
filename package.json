@@ -6,6 +6,9 @@
   "author": "Masataka Pocke Kuwabara <kuwabara@pocke.me>",
   "license": "Apache v2",
   "private": true,
+  "scripts": {
+    "electron": "electron electron.js"
+  },
   "dependencies": {
     "electron": "^2.0.4",
     "react": "^16.4.1",
