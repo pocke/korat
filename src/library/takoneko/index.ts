@@ -1,20 +1,12 @@
 import { stringify } from 'query-string';
 
-interface FetchOption {
-  body: string?;
-  headers: {[key: string]: string;}?;
-  method: string;
-  redirect: string?;
-}
-
 export default class Takoneko {
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {
   }
 
-  async requset(method: string, path: string, body: object?, query: object?) {
-    const q = this.queryString(query);
+  async requset(method: string, path: string, body: object | null = null, query: object | null = null) {
     const url = this.toURL(path, query);
-    const option: FetchOption = {
+    const option: any = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `token ${this.accessToken}`,
@@ -27,16 +19,15 @@ export default class Takoneko {
       option.body = JSON.stringify(body);
     }
 
-    console.log(url);
     return fetch(url, option);
   }
 
-  private toURL(path: string, query: object?) {
+  private toURL(path: string, query: object | null) {
     const q = this.queryString(query);
     return `${this.apiBase}${path}${q}`;
   }
 
-  private queryString(query: object?) {
+  private queryString(query: object | null) {
     if (!query) { return ''; }
     const q = stringify(query);
     if (q.length === 0) {

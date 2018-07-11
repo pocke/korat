@@ -7,7 +7,7 @@ module.exports = {
   entry: "./src/index.tsx",
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss']
   },
   devtool: process.env.WEBPACK_DEVTOOL || "source-map",
   mode: process.env.NODE_ENV,
@@ -24,7 +24,14 @@ module.exports = {
         options: {
           useCache: true
         }
-      }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'typings-for-css-modules-loader?modules&sass',
+        ]
+      },
     ]
   },
   plugins: [
