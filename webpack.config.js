@@ -1,12 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
 const { CheckerPlugin } = require('awesome-typescript-loader');
-const distDir = path.join(__dirname, "public", "build");
+const distDir = path.join(__dirname, "public");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
-  entry: [
-    "./src/index.tsx"
-  ],
+  entry: "./src/index.tsx",
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
@@ -16,8 +14,7 @@ module.exports = {
 
   output: {
     path: distDir,
-    publicPath: "/build/",
-    filename: "bundle.js"
+    filename: "build/bundle.js"
   },
   module: {
     rules: [

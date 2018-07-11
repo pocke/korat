@@ -7,6 +7,8 @@ const {app, BrowserWindow} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+const APP_URL = process.env.KORAT_URL || `file:///${__dirname}/public/index.html`;
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -14,8 +16,7 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  const url = `file:///${__dirname}/public/index.html`;
-  mainWindow.loadURL(url)
+  mainWindow.loadURL(APP_URL)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

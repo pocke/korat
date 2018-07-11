@@ -7,17 +7,20 @@
   "license": "Apache v2",
   "private": true,
   "scripts": {
-    "electron": "electron electron.js",
+    "electron": "cross-env KORAT_URL=http://localhost:32034 electron electron.js",
     "start": "npm-run-all clean --parallel server",
     "clean": "rimraf public/build dist && mkdirp public/build",
-    "server": "cross-env NODE_ENV=development RUNTIME_TARGET=browser webpack-dev-server --hot --content-base ./public"
+    "server": "cross-env NODE_ENV=development RUNTIME_TARGET=browser webpack-serve --config webpack.config.js --port 32034 --content public"
   },
   "dependencies": {
     "electron": "^2.0.4",
     "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
     "awesome-typescript-loader": "^5.2.0",
     "cross-env": "^5.2.0",
     "mkdirp": "^0.5.1",
@@ -27,6 +30,6 @@
     "webpack": "^4.15.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-serve": "^2.0.2"
   }
 }
