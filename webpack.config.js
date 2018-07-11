@@ -29,7 +29,7 @@ module.exports = {
         test: /\.scss$/,
         use: [
           'style-loader',
-          'typings-for-css-modules-loader?modules&sass',
+          'typings-for-css-modules-loader?namedExport&modules&sass',
         ]
       },
     ]
