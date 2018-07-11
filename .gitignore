@@ -2,3 +2,4 @@
 /.awcache/
 /.sass-cache/
 *.scss.d.ts
+/dist/

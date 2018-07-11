@@ -1,11 +1,11 @@
 "use strict";
 
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+import {app, BrowserWindow} from 'electron';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow: Electron.BrowserWindow | null;
 
 const APP_URL = process.env.KORAT_URL || `file:///${__dirname}/public/index.html`;
 

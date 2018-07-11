@@ -7,10 +7,11 @@
   "license": "Apache v2",
   "private": true,
   "scripts": {
-    "electron": "cross-env KORAT_URL=http://localhost:32034 electron electron.js",
-    "start": "npm-run-all clean --parallel server",
+    "electron": "cross-env KORAT_URL=http://localhost:32034 electron dist/electron.js",
+    "start": "npm-run-all clean --parallel server watch",
     "clean": "rimraf public/build dist && mkdirp public/build",
-    "server": "cross-env NODE_ENV=development RUNTIME_TARGET=browser webpack-serve --config webpack.config.js --port 32034 --content public"
+    "server": "cross-env NODE_ENV=development webpack-serve --config config/webpack.renderer.js --port 32034 --content public",
+    "watch": "cross-env NODE_ENV=development webpack --watch --config config/webpack.electron.js"
   },
   "jest": {
     "transform": {
@@ -34,6 +35,7 @@
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
+    "@types/electron": "^1.6.10",
     "@types/jest": "^23.1.5",
     "@types/query-string": "^6.1.0",
     "@types/react": "^16.4.6",

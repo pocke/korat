@@ -1,21 +1,14 @@
-const path = require("path");
 const webpack = require("webpack");
 const { CheckerPlugin } = require('awesome-typescript-loader');
-const distDir = path.join(__dirname, "public");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-module.exports = {
-  entry: "./src/index.tsx",
 
+module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss']
   },
   devtool: process.env.WEBPACK_DEVTOOL || "source-map",
   mode: process.env.NODE_ENV,
 
-  output: {
-    path: distDir,
-    filename: "build/bundle.js"
-  },
   module: {
     rules: [
       {
@@ -36,13 +29,6 @@ module.exports = {
   },
   plugins: [
     new CheckerPlugin(),
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        // "browser", "electron"
-        RUNTIME_TARGET: JSON.stringify(process.env.RUNTIME_TARGET)
-      }
-    })
   ].concat(process.env.NODE_ENV !== "production" ? [] : [
     new webpack.optimize.UglifyJsPlugin()
   ]
