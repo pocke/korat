@@ -12,6 +12,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   devtool: process.env.WEBPACK_DEVTOOL || "source-map",
+  mode: process.env.NODE_ENV,
 
   output: {
     path: distDir,
