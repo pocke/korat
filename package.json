@@ -1,0 +1,21 @@
+{
+  "name": "korat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/pocke/korat",
+  "author": "Masataka Pocke Kuwabara <kuwabara@pocke.me>",
+  "license": "Apache v2",
+  "private": true,
+  "dependencies": {
+    "electron": "^2.0.4",
+    "react": "^16.4.1",
+    "whatwg-fetch": "^2.0.4"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.15.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-dev-server": "^3.1.4"
+  }
+}

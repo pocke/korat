@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "rootDir": "./",
+    "outDir": "./lib/",
+    "target": "es5",
+    "sourceMap": true,
+    "declaration": false,
+    "jsx": "react",
+    "skipLibCheck": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "*"
+      ]
+    },
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "types/**/*",
+    "src/**/*",
+    "tool/**/*"
+  ],
+  "exclude": [
+    ".git",
+    "node_modules"
+  ]
+}
