@@ -1,13 +1,15 @@
-import * as React from 'react';
+import * as React from "react";
 
-import SideBar from './SideBar';
-import EventBar from './EventBar';
+import SideBar from "./SideBar";
+import EventBar from "./EventBar";
 
 export default class App extends React.Component {
   render() {
-    return <div>
-      <SideBar />
-      <EventBar />
-    </div>;
+    return (
+      <div>
+        <SideBar />
+        <EventBar />
+      </div>
+    );
   }
 }
