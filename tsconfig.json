@@ -4,7 +4,6 @@
     "moduleResolution": "node",
     "newLine": "LF",
     "rootDir": "./",
-    "outDir": "./lib/",
     "target": "es5",
     "sourceMap": true,
     "declaration": false,
