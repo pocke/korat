@@ -2,26 +2,16 @@ import { safeLoad } from 'js-yaml';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
+import Electron, { ipcMain } from 'electron';
 
-interface Configuration {
-  [key: string]: {
-    urlBase: string;
-    apiUrlBase: string;
-    accessToken: string;
-    categories: {
-      displayName: string;
-      id: number;
-      order: number;
-      query: {
-        participating?: boolean;
-      };
-    }[];
-  };
-}
+import Configuration from '../share/configuration';
+import { requestConfiguration, responseConfiguration } from '../share/ipcChannels';
 
 export default async () => {
   const conf = await loadConfiguration();
-  console.log(conf);
+  ipcMain.once(requestConfiguration, (event: Electron.Event) => {
+    event.sender.send(responseConfiguration, conf);
+  });
 };
 
 const loadConfiguration = async () => {
@@ -29,6 +19,7 @@ const loadConfiguration = async () => {
   const configPath = path.join(home, '.config/korat.yaml');
 
   if (!(await fileExist(configPath))) {
+    // TODO
     throw `${configPath} does not exist! Create it.`;
   }
 
