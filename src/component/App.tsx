@@ -10,7 +10,7 @@ export default class App extends React.Component {
       <div className={styles.main}>
         <SideBar />
         <EventBar />
-        <webview src="https://github.com" className={styles.webview}/>
+        <webview src="https://github.com" className={styles.webview} />
       </div>
     );
   }
