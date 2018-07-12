@@ -9,6 +9,7 @@ export default class App extends React.Component {
       <div>
         <SideBar />
         <EventBar />
+        <webview src="https://github.com" />
       </div>
     );
   }
