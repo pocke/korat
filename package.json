@@ -37,7 +37,6 @@
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
-    "@types/electron": "^1.6.10",
     "@types/jest": "^23.1.5",
     "@types/js-yaml": "^3.11.2",
     "@types/query-string": "^6.1.0",
