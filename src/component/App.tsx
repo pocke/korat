@@ -8,20 +8,28 @@ import * as styles from './App.scss';
 import { requestConfiguration, responseConfiguration } from '../share/ipcChannels';
 import { Configuration, ConfigForEndPoint } from '../share/configuration';
 
-interface Props {}
-
 interface ConfigurationInRenderer {
   [key: string]: Pick<ConfigForEndPoint, 'categories'>;
 }
 
+interface Props {}
+
 interface State {
-  configuration: ConfigurationInRenderer;
+  configuration?: ConfigurationInRenderer;
 }
 
 export default class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    this.state = { configuration: undefined };
+  }
+
+  componentDidMount() {
+    this.configrationSync();
+  }
+
+  configrationSync() {
     ipcRenderer.on(responseConfiguration, (_event: any, config: Configuration) => {
       const newCofnig: ConfigurationInRenderer = {};
       Object.keys(config).forEach((key: string) => {
@@ -33,12 +41,20 @@ export default class App extends React.Component<Props, State> {
   }
 
   render() {
+    if (!this.state.configuration) {
+      return this.renderLoading();
+    }
+
     return (
       <div className={styles.main}>
-        <SideBar />
+        <SideBar configuration={this.state.configuration} />
         <EventBar />
         <webview src="https://github.com" className={styles.webview} />
       </div>
     );
+  }
+
+  renderLoading() {
+    return <div>Loading...</div>;
   }
 }
