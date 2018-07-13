@@ -8,8 +8,8 @@ import Configuration from '../share/configuration';
 import { requestConfiguration, responseConfiguration } from '../share/ipcChannels';
 
 export default async () => {
-  const conf = await loadConfiguration();
-  ipcMain.once(requestConfiguration, (event: Electron.Event) => {
+  ipcMain.on(requestConfiguration, async (event: Electron.Event) => {
+    const conf = await loadConfiguration();
     event.sender.send(responseConfiguration, conf);
   });
 };
