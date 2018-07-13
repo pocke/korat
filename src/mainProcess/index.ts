@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import Electron, { ipcMain } from 'electron';
 
-import Configuration from '../share/configuration';
+import { Configuration } from '../share/configuration';
 import { requestConfiguration, responseConfiguration } from '../share/ipcChannels';
 
 export default async () => {

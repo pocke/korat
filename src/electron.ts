@@ -62,9 +62,6 @@ app.on('activate', function() {
 // code. You can also put them in separate files and require them here.
 
 (async () => {
-  await Promise.all([
-    onAppReady(),
-    mainProcess(),
-  ]);
+  await Promise.all([onAppReady(), mainProcess()]);
   createWindow();
 })();
