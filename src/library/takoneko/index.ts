@@ -8,13 +8,13 @@ import { Notification } from '../../mainProcess/models/Notification';
 export default class Takoneko {
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {}
 
-  async get(path: string, options: { body?: object; query?: object } = {}) {
+  async get(path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
     return this.requset('GET', path, options);
   }
 
-  async requset(method: string, path: string, options: { body?: object; query?: object } = {}) {
+  async requset(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
     const url = this.toURL(path, options.query);
-    const headers = new Headers();
+    const headers = options.headers || new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `token ${this.accessToken}`);
     headers.append('Accept', 'application/vnd.github.v3+json');
@@ -31,11 +31,11 @@ export default class Takoneko {
   }
 
   async notifications(
-    options: { all?: boolean; participating?: boolean; since?: string; before?: string } = {},
+    options: { all?: boolean; participating?: boolean; since?: string; before?: string; headers?: Headers } = {},
   ): Promise<{ resp: Response; body: Notification[] }> {
     const query = pick(options, ['all', 'participating', 'since', 'before']);
-    const resp = await this.get('/notifications', { query });
-    const body = (await resp.json()) as Notification[];
+    const resp = await this.get('/notifications', { query, headers: options.headers });
+    const body = (resp.status === 200 ? await resp.json() : null) as Notification[];
     return { resp, body };
   }
 

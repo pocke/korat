@@ -9,6 +9,5 @@ export default async () => {
     const conf = await ConfigManager.load();
     event.sender.send(responseConfiguration, conf);
   });
-  const job = new FetchNotificationJob();
-  job.start();
+  FetchNotificationJob.start();
 };

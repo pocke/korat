@@ -18,7 +18,7 @@ class Session {
   }
 }
 
-const NotificationsSession = new Session('notifications');
+export const NotificationsSession = new Session('notifications');
 
 export const importNotifications = async (notifications: Notification[]) => {
   console.log(`Importing ${notifications.length} notifications`);
