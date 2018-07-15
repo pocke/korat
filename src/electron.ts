@@ -25,7 +25,8 @@ function createWindow() {
   mainWindow.loadURL(APP_URL);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  // TODO: Remove this code when production build
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
