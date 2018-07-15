@@ -10,6 +10,7 @@ interface ConfigurationInRenderer {
 
 interface Props {
   configuration: ConfigurationInRenderer;
+  onSelectCategory: { (categoryID: string): void };
 }
 
 export default class Sidebar extends React.Component<Props> {
@@ -33,6 +34,10 @@ export default class Sidebar extends React.Component<Props> {
   }
 
   renderCategory(c: Category) {
-    return <div key={c.id}>{c.displayName}</div>;
+    return (
+      <div key={c.id}>
+        <button onClick={() => this.props.onSelectCategory(c.id)}>{c.displayName}</button>
+      </div>
+    );
   }
 }

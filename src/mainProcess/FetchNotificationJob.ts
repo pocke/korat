@@ -27,6 +27,7 @@ export default class FetchNotificationJob {
     this.fetchLatestNotifications();
   }
 
+  // TODO: fetch old notifications
   async fetchLatestNotifications(lastModified?: string) {
     const headers = new Headers();
     if (lastModified) {
@@ -39,7 +40,7 @@ export default class FetchNotificationJob {
     }
     const intervalHeader = resp.headers.get('X-Poll-Interval');
     const interval = intervalHeader ? parseInt(intervalHeader) : 60;
-    await sleep(60 * 1000);
+    await sleep(interval * 1000);
     const nextLastModified = resp.headers.get('Last-Modified') || lastModified;
     this.fetchLatestNotifications(nextLastModified);
   }

@@ -1,2 +1,8 @@
-export const requestConfiguration = 'requestConfiguration';
-export const responseConfiguration = 'responseConfiguration';
+export const ConfigurationChannel = {
+  Request: 'Configuration.Request',
+  Response: 'Configuration.Response',
+};
+export const NotificationsChannel = {
+  Request: 'Notifications.Request',
+  Response: 'Notifications.Response',
+};
