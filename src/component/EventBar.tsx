@@ -19,12 +19,14 @@ export default class EventBar extends React.Component<Props> {
   }
 
   private renderNotification(n: Notification) {
+    const boxClassNames = [styles.event];
+    boxClassNames.push(n.unread ? styles.unreadEvent : styles.readEvent);
+    const titleClassName = n.unread ? undefined : styles.readEventTitle;
     return (
-      <div key={n.id}>
-        <a href="#" onClick={this.onClickNotification.bind(this, n)}>
+      <div key={n.id} className={boxClassNames.join(' ')}>
+        <a href="#" onClick={this.onClickNotification.bind(this, n)} className={titleClassName}>
           {n.subject.title} in {n.repository.full_name}
         </a>
-        <hr />
       </div>
     );
   }

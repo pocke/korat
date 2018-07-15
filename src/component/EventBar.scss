@@ -4,3 +4,18 @@
   overflow-y: auto;
   width: 400px;
 }
+
+.event {
+  border-bottom: solid 3px #ddd;
+}
+
+.unreadEvent {
+}
+
+.readEvent {
+  background: #eee;
+}
+
+.readEventTitle {
+  color: #999;
+}
