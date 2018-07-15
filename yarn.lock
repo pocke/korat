@@ -4162,6 +4162,12 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+nedb-promise-ts@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/nedb-promise-ts/-/nedb-promise-ts-0.2.1.tgz#93bb4cc63f46ff44e55a2628381add809e7d6d14"
+  dependencies:
+    nedb "^1.8.0"
+
 nedb@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/nedb/-/nedb-1.8.0.tgz#0e3502cd82c004d5355a43c9e55577bd7bd91d88"
