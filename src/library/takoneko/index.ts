@@ -1,6 +1,7 @@
-import fetch, { Response } from 'node-fetch';
+import fetch, { Response, RequestInit, Headers } from 'node-fetch';
 import { pick } from 'lodash-es';
 import { stringify } from 'query-string';
+import shortid from 'shortid';
 
 import { Notification } from '../../mainProcess/models/Notification';
 
@@ -13,12 +14,12 @@ export default class Takoneko {
 
   async requset(method: string, path: string, options: { body?: object; query?: object } = {}) {
     const url = this.toURL(path, options.query);
-    const fetchOption: any = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `token ${this.accessToken}`,
-        Accept: 'application/vnd.github.v3+json',
-      },
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `token ${this.accessToken}`);
+    headers.append('Accept', 'application/vnd.github.v3+json');
+    const fetchOption: RequestInit = {
+      headers: headers,
       method: method,
       redirect: 'follow',
     };
@@ -26,7 +27,7 @@ export default class Takoneko {
       fetchOption.body = JSON.stringify(options.body);
     }
 
-    return fetch(url, fetchOption);
+    return await this.fetchWithLog(url, fetchOption);
   }
 
   async notifications(
@@ -52,5 +53,38 @@ export default class Takoneko {
       return '';
     }
     return '?' + q;
+  }
+
+  private async fetchWithLog(url: string, fetchOption: RequestInit) {
+    const id = shortid.generate();
+    this.logRequest(id, url, fetchOption);
+    const resp = await fetch(url, fetchOption);
+    this.logResponse(id, resp);
+    return resp;
+  }
+
+  private logRequest(id: string, url: string, fetchOption: RequestInit) {
+    this.log(id, `request: ${fetchOption.method} ${url}`);
+    const headers = fetchOption.headers as Headers;
+    this.logHeaders(id, headers);
+  }
+
+  private logResponse(id: string, resp: Response) {
+    this.log(id, `response: Status ${resp.status}`);
+    this.logHeaders(id, resp.headers);
+  }
+
+  private logHeaders(id: string, headers: Headers) {
+    let mes = 'response: ';
+    headers.forEach((value, name) => {
+      const content = value.replace(/^token \w{40}$/, 'token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+      mes += `${name}: ${content}`;
+      mes += '\n';
+    });
+    this.log(id, mes);
+  }
+
+  private log(id: string, message: string) {
+    console.log(`[${new Date().toISOString()}] [Takoneko - ${id}]: ${message}`);
   }
 }
