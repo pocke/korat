@@ -9,20 +9,11 @@
     "declaration": false,
     "jsx": "react",
     "skipLibCheck": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "typeRoots": [
-      "./types",
-      "./node_modules/@types"
-    ],
+    "lib": ["es2017", "dom"],
+    "typeRoots": ["./types", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "node_modules/*",
-        "*"
-      ]
+      "*": ["node_modules/*", "*"]
     },
     "strict": true,
     "noUnusedLocals": true,
@@ -31,13 +22,6 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "types/**/*",
-    "src/**/*",
-    "tool/**/*"
-  ],
-  "exclude": [
-    ".git",
-    "node_modules"
-  ]
+  "include": ["types/**/*", "src/**/*", "tool/**/*"],
+  "exclude": [".git", "node_modules"]
 }
