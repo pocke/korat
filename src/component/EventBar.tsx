@@ -21,6 +21,7 @@ export default class EventBar extends React.Component<Props> {
     return (
       <div key={n.id}>
         {n.subject.title} in {n.repository.full_name}
+        <hr />
       </div>
     );
   }

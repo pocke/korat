@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import * as styles from './SideBar.scss';
 import { ConfigForEndPoint, Category } from '../share/configuration';
 
 type C = Pick<ConfigForEndPoint, 'categories'>;
@@ -16,7 +17,7 @@ interface Props {
 export default class Sidebar extends React.Component<Props> {
   render() {
     return (
-      <div>
+      <div className={styles.main}>
         {Object.keys(this.props.configuration).map((key: string) =>
           this.renderOneEndpoint(key, this.props.configuration[key]),
         )}
