@@ -5,6 +5,7 @@ import { Notification } from '../mainProcess/models/Notification';
 
 interface Props {
   notifications: Notification[];
+  openEvent: { (url: string): void };
 }
 
 export default class EventBar extends React.Component<Props> {
@@ -17,12 +18,42 @@ export default class EventBar extends React.Component<Props> {
     );
   }
 
-  renderNotification(n: Notification) {
+  private renderNotification(n: Notification) {
     return (
       <div key={n.id}>
-        {n.subject.title} in {n.repository.full_name}
+        <a href="#" onClick={this.onClickNotification.bind(this, n)}>
+          {n.subject.title} in {n.repository.full_name}
+        </a>
         <hr />
       </div>
     );
+  }
+
+  private onClickNotification(n: Notification, ev: Event) {
+    ev.preventDefault();
+    this.props.openEvent(this.buildURL(n));
+  }
+
+  // TODO: GHE
+  private buildURL(n: Notification) {
+    const apiURL = n.subject.url;
+
+    const matchPR = /^https:\/\/api\.github\.com\/repos\/([^\/]+)\/([^\/]+)\/pulls\/(\d+)$/.exec(apiURL);
+    if (matchPR) {
+      const owner = matchPR[1];
+      const repo = matchPR[2];
+      const num = matchPR[3];
+      return `https://github.com/${owner}/${repo}/pull/${num}`;
+    }
+
+    const matchIssue = /^https:\/\/api\.github\.com\/repos\/([^\/]+)\/([^\/]+)\/issues\/(\d+)$/.exec(apiURL);
+    if (matchIssue) {
+      const owner = matchIssue[1];
+      const repo = matchIssue[2];
+      const num = matchIssue[3];
+      return `https://github.com/${owner}/${repo}/issues/${num}`;
+    }
+
+    throw `Cannot get URL for ${apiURL}`;
   }
 }

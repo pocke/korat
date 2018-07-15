@@ -19,13 +19,19 @@ interface State {
   configuration?: ConfigurationInRenderer;
   selectedCategoryID?: string;
   notifications: Notification[];
+  webviewURL: string;
 }
 
 export default class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { configuration: undefined, selectedCategoryID: undefined, notifications: [] };
+    this.state = {
+      configuration: undefined,
+      selectedCategoryID: undefined,
+      notifications: [],
+      webviewURL: 'https://github.com',
+    };
   }
 
   componentDidMount() {
@@ -44,7 +50,6 @@ export default class App extends React.Component<Props, State> {
 
     ipcRenderer.on(NotificationsChannel.Response, (_event: any, notifications: Notification[]) => {
       console.log('Receive Notifications');
-      console.log(notifications);
       this.setState({ notifications });
     });
   }
@@ -61,8 +66,8 @@ export default class App extends React.Component<Props, State> {
     return (
       <div className={styles.main}>
         <SideBar configuration={this.state.configuration} onSelectCategory={this.selectCategory.bind(this)} />
-        <EventBar notifications={this.state.notifications} />
-        <webview src="https://github.com" className={styles.webview} />
+        <EventBar notifications={this.state.notifications} openEvent={this.openEvent.bind(this)} />
+        <webview src={this.state.webviewURL} className={styles.webview} />
       </div>
     );
   }
@@ -74,5 +79,9 @@ export default class App extends React.Component<Props, State> {
   selectCategory(categoryID: string) {
     ipcRenderer.send(NotificationsChannel.Request, categoryID);
     this.setState({ selectedCategoryID: categoryID });
+  }
+
+  openEvent(url: string) {
+    this.setState({ webviewURL: url });
   }
 }
