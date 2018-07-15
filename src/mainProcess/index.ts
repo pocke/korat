@@ -18,7 +18,8 @@ export default async () => {
   ipcMain.on(NotificationsChannel.Request, async (event: Electron.Event, categoryID: string) => {
     console.log(`receive ${NotificationsChannel.Request}`);
     const category = await findCategory(categoryID);
-    const notifications = await NotificationsSession.conn.find(category.query);
+    const cursor = NotificationsSession.conn.findWithCursor(category.query);
+    const notifications = await cursor.sort({ updated_at: -1 }).exec();
     event.sender.send(NotificationsChannel.Response, notifications);
     console.log(`send ${NotificationsChannel.Response}`);
   });
