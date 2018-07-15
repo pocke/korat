@@ -12,7 +12,10 @@
     "clean": "rimraf public/build dist && mkdirp public/build",
     "server": "cross-env NODE_ENV=development webpack-serve --config config/webpack.renderer.js --port 32034 --content public",
     "watch": "cross-env NODE_ENV=development webpack --watch --config config/webpack.electron.js",
-    "format": "prettier --write 'src/**/*.{js,ts,tsx}'"
+    "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
+    "build:dev": "cross-env NODE_ENV=development npm-run-all build:dev:renderer build:dev:electron",
+    "build:dev:renderer": "webpack --config config/webpack.renderer.js",
+    "build:dev:electron": "webpack --config config/webpack.electron.js"
   },
   "jest": {
     "transform": {
