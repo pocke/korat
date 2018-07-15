@@ -6,7 +6,6 @@ import FetchNotificationJob from './FetchNotificationJob';
 import { ConfigurationChannel, NotificationsChannel } from '../share/ipcChannels';
 import { Category } from '../share/configuration';
 import { NotificationsSession } from './db';
-import { Notification } from './models/Notification';
 
 export default async () => {
   ipcMain.on(ConfigurationChannel.Request, async (event: Electron.Event) => {
@@ -19,9 +18,7 @@ export default async () => {
   ipcMain.on(NotificationsChannel.Request, async (event: Electron.Event, categoryID: string) => {
     console.log(`receive ${NotificationsChannel.Request}`);
     const category = await findCategory(categoryID);
-    const q = buildQuery(category.query);
-    console.log(q);
-    const notifications = await NotificationsSession.conn.find(q);
+    const notifications = await NotificationsSession.conn.find(category.query);
     event.sender.send(NotificationsChannel.Response, notifications);
     console.log(`send ${NotificationsChannel.Response}`);
   });
@@ -36,33 +33,4 @@ const findCategory = async (id: string): Promise<Category> => {
     throw `Category ${id} does not found!`;
   }
   return category;
-};
-
-interface SearchQuery {
-  reasons?: {
-    $in: Notification['reason'][];
-  };
-}
-
-const buildQuery = (query: Category['query']) => {
-  const q: SearchQuery = {};
-  if (query.participating !== undefined) {
-    Object.assign(
-      q,
-      buildReasons(['assign', 'author', 'comment', 'invitation', 'manual', 'mention', 'state_change', 'team_mention']),
-    );
-  }
-
-  if (query.reasons) {
-    Object.assign(q, buildReasons(query.reasons));
-  }
-  return q;
-};
-
-const buildReasons = (reasons: Notification['reason'][]) => {
-  if (reasons.length === 0) {
-    return {};
-  }
-
-  return { reason: { $in: reasons } };
 };
