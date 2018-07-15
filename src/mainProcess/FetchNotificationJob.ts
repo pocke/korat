@@ -3,7 +3,7 @@ import { forIn } from 'lodash';
 import Takoneko from '../library/takoneko';
 import ConfigManager from './ConfigManager';
 import { ConfigForEndPoint } from '../share/configuration';
-import { DBsession } from './db';
+import { importNotifications } from './db';
 
 export default class FetchNotificationJob {
   async start() {
@@ -16,6 +16,6 @@ export default class FetchNotificationJob {
   private async startLoop(config: ConfigForEndPoint) {
     const client = new Takoneko(config.accessToken, config.apiUrlBase);
     const { body } = await client.notifications({ all: true });
-    DBsession.notifications.insert(body);
+    importNotifications(body);
   }
 }

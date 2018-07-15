@@ -1,22 +1,41 @@
 import path from 'path';
 import Datastore from 'nedb';
+import { Mutex } from '@pocke/await-semaphore';
+
+import { Notification } from './models/Notification';
 
 const HOME = process.env.HOME as string;
 
-export const DBsession: {
-  notifications: Nedb;
-} = {} as any;
+class Session {
+  private conn: Nedb;
+  private mutex: Mutex;
 
-export const init = () => {
-  return new Promise((resolve, reject) => {
-    const dbPath = path.join(HOME, '.cache/korat/notifications.nedb');
-    DBsession.notifications = new Datastore({ filename: dbPath });
-    DBsession.notifications.loadDatabase((err: Error) => {
+  constructor(private name: string) {
+    const dbPath = path.join(HOME, `.cache/korat/${this.name}.nedb`);
+    this.conn = new Datastore({ filename: dbPath });
+    this.mutex = new Mutex();
+    this.conn.loadDatabase((err: Error) => {
       if (err) {
-        reject(err);
-      } else {
-        resolve();
+        throw err;
       }
     });
+  }
+
+  async with(cb: (conn: Nedb) => any): Promise<any> {
+    const release = await this.mutex.acquire();
+    try {
+      return cb(this.conn);
+    } finally {
+      release();
+    }
+  }
+}
+
+const NotificationsSession = new Session('notifications');
+
+export const importNotifications = (notifications: Notification[]) => {
+  NotificationsSession.with((conn: Nedb) => {
+    // TODO: error handling
+    conn.insert(notifications);
   });
 };

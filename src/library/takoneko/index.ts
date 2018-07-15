@@ -2,31 +2,7 @@ import fetch, { Response } from 'node-fetch';
 import { pick } from 'lodash-es';
 import { stringify } from 'query-string';
 
-interface NotificationResult {
-  id: string;
-  unread: boolean;
-  reason:
-    | 'assign'
-    | 'author'
-    | 'comment'
-    | 'invitation'
-    | 'manual'
-    | 'mention'
-    | 'state_change'
-    | 'subscribed'
-    | 'team_mention';
-  updated_at: string;
-  last_read_at?: string;
-  subject: {
-    title: string;
-    url: string;
-    latest_comment_url: string;
-    type: string;
-  };
-  repository: any; //TODO
-  url: string;
-  subscription_url: string;
-}
+import { Notification } from '../../mainProcess/models/Notification';
 
 export default class Takoneko {
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {}
@@ -55,10 +31,10 @@ export default class Takoneko {
 
   async notifications(
     options: { all?: boolean; participating?: boolean; since?: string; before?: string } = {},
-  ): Promise<{ resp: Response; body: NotificationResult[] }> {
+  ): Promise<{ resp: Response; body: Notification[] }> {
     const query = pick(options, ['all', 'participating', 'since', 'before']);
     const resp = await this.get('/notifications', { query });
-    const body = (await resp.json()) as NotificationResult[];
+    const body = (await resp.json()) as Notification[];
     return { resp, body };
   }
 
