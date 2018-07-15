@@ -1,5 +1,3 @@
-import { Notification } from '../mainProcess/models/Notification';
-
 export interface Configuration {
   [key: string]: ConfigForEndPoint;
 }
@@ -15,8 +13,5 @@ export interface Category {
   displayName: string;
   id: string;
   order: number;
-  query: {
-    participating?: boolean;
-    reasons?: Notification['reason'][];
-  };
+  query: any;
 }
