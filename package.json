@@ -65,7 +65,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
-    "ts-jest": "^23.0.0",
+    "ts-jest": "^23.0.1",
     "typescript": "^2.9.2",
     "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.16.1",
