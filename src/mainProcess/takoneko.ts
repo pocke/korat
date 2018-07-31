@@ -3,7 +3,7 @@ import { pick } from 'lodash-es';
 import { stringify } from 'query-string';
 import shortid from 'shortid';
 
-import { Notification } from '../../mainProcess/models/Notification';
+import { Notification } from './models/Notification';
 
 export default class Takoneko {
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {}

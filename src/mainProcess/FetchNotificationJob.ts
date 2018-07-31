@@ -1,7 +1,7 @@
 import { pick, forIn } from 'lodash';
 import { Headers } from 'node-fetch';
 
-import Takoneko from '../library/takoneko';
+import Takoneko from './takoneko';
 import ConfigManager from './ConfigManager';
 import { ConfigForEndPoint } from '../share/configuration';
 import { importNotifications, NotificationsSession } from './db';
