@@ -1,10 +1,12 @@
+import User from './User';
+
 export default interface SearchIssuesResult {
   total_count: number;
   incomplete_results: boolean;
   items: Item[];
 }
 
-interface Item {
+export interface Item {
   id: number;
   number: number;
   title: string;
@@ -14,18 +16,13 @@ interface Item {
   locked: boolean;
   assignee: null | User;
   assignees: User[];
-  milestone: unknown; // TODO
+  milestone: Milestone;
   comments: number;
   created_at: string;
   updated_at: string;
-  closed_at: null | string;
+  closed_at?: string;
   pull_request: null | {};
   body: string;
-}
-
-interface User {
-  login: string;
-  id: number;
 }
 
 interface Label {
@@ -33,4 +30,15 @@ interface Label {
   name: string;
   color: string;
   default: boolean;
+}
+
+interface Milestone {
+  id: number;
+  number: number;
+  title: string;
+  description: string;
+  state: string; // TODO: enum
+  created_at: string;
+  updated_at: string;
+  closed_at?: string;
 }
