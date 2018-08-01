@@ -2,6 +2,11 @@ import fetch, { Response, RequestInit, Headers } from 'node-fetch';
 import { stringify } from 'query-string';
 import shortid from 'shortid';
 
+import Timer from './Timer';
+
+const MainTimer = new Timer({ interval: 6000, concurrency: 2 });
+const SearchTimer = new Timer({ interval: 0, concurrency: 5 });
+
 export default class Connection {
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {}
 
@@ -10,6 +15,9 @@ export default class Connection {
   }
 
   async requset(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
+    const timer = path.startsWith('/search') ? SearchTimer : MainTimer;
+    await timer.do(() => {});
+
     const url = this.toURL(path, options.query);
     const headers = options.headers || new Headers();
     headers.append('Content-Type', 'application/json');
