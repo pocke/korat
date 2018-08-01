@@ -1,8 +1,9 @@
 import { Headers, Response } from 'node-fetch';
 import { pick } from 'lodash-es';
+import moment from 'moment';
 
 import Connection from './connection';
-import SearchIssuesResult from '../../share/types/SearchIssuesResult';
+import SearchIssuesResult, { Milestone } from '../../share/types/SearchIssuesResult';
 import User from '../../share/types/User';
 import { Notification } from '../models/Notification';
 
@@ -42,29 +43,31 @@ export default class Client {
     return {
       ...pick(orig, ['total_count', 'incomplete_results']),
       items: orig.items.map(item => ({
-        ...pick(item, [
-          'id',
-          'number',
-          'title',
-          'state',
-          'locked',
-          'assignee',
-          'assignees',
-          'milestone',
-          'comments',
-          'created_at',
-          'updated_at',
-          'closed_at',
-          'body',
-        ]),
+        ...pick(item, ['id', 'number', 'title', 'state', 'locked', 'assignee', 'assignees', 'comments', 'body']),
         pull_request: !!item.pull_request,
         user: this.cleanUser(item.user),
+        milestone: this.cleanMilestone(item.milestone),
         labels: item.labels.map(label => pick(label, ['id', 'name', 'color', 'default'])),
+        created_at: moment(item.created_at as any).toDate(),
+        updated_at: moment(item.updated_at as any).toDate(),
+        closed_at: item.closed_at ? moment(item.closed_at as any).toDate() : undefined,
       })),
     };
   }
 
   private cleanUser(orig: User): User {
     return pick(orig, ['login', 'id']);
+  }
+
+  private cleanMilestone(m: Milestone | undefined): Milestone | undefined {
+    if (!m) {
+      return undefined;
+    }
+    return {
+      ...pick(m, ['id', 'number', 'title', 'description', 'state']),
+      created_at: moment(m.created_at as any).toDate(),
+      updated_at: moment(m.updated_at as any).toDate(),
+      closed_at: m.closed_at ? moment(m.closed_at as any).toDate() : undefined,
+    };
   }
 }

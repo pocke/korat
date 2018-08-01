@@ -16,11 +16,11 @@ export interface Item {
   locked: boolean;
   assignee: null | User;
   assignees: User[];
-  milestone: Milestone;
+  milestone?: Milestone;
   comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+  created_at: Date;
+  updated_at: Date;
+  closed_at?: Date;
   pull_request: null | {};
   body: string;
 }
@@ -32,13 +32,13 @@ interface Label {
   default: boolean;
 }
 
-interface Milestone {
+export interface Milestone {
   id: number;
   number: number;
   title: string;
   description: string;
   state: string; // TODO: enum
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+  created_at: Date;
+  updated_at: Date;
+  closed_at?: Date;
 }

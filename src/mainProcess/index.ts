@@ -35,3 +35,6 @@ const findCategory = async (id: string): Promise<Category> => {
   }
   return category;
 };
+
+// For debug
+process.on('unhandledRejection', console.dir);
