@@ -8,6 +8,10 @@ export default class Stream {
   }
 
   async start(): Promise<void> {
+    return this.fetchAndSave();
+  }
+
+  async fetchAndSave(): Promise<void> {
     const q = this.queryBase;
     const { body } = await this.apiClient.searchIssues({ q, sort: 'updated', per_page: 100 });
     importIssues(body.items, 'me');
