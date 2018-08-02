@@ -4,11 +4,12 @@ import { stringify } from 'query-string';
 import { App } from './middleware/app';
 import { TimerMiddleware } from './middleware/timer';
 import { LoggerMiddleware } from './middleware/logger';
+import { ThrowErrorMiddleware } from './middleware/throw_error';
 
 export default class Connection {
   private readonly app: App;
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {
-    this.app = new App([LoggerMiddleware, TimerMiddleware], fetch);
+    this.app = new App([ThrowErrorMiddleware, LoggerMiddleware, TimerMiddleware], fetch);
   }
 
   async get(path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
