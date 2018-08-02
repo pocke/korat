@@ -14,6 +14,6 @@ export default class Channel {
   async fetchAndSave(): Promise<void> {
     const q = this.queryBase;
     const { body } = await this.apiClient.searchIssues({ q, sort: 'updated', per_page: 100 });
-    importIssues(body.items, this.id);
+    await importIssues(body.items, this.id);
   }
 }
