@@ -1,6 +1,8 @@
 import { Semaphore } from '@pocke/await-semaphore';
+import { RequestInit } from 'node-fetch';
+import url from 'url';
 
-import { AppT, OptionT } from './app';
+import { FetchType } from './app';
 
 class Timer {
   private interval: number;
@@ -25,9 +27,10 @@ class Timer {
 const MainTimer = new Timer({ interval: 6000, concurrency: 2 });
 const SearchTimer = new Timer({ interval: 0, concurrency: 5 });
 
-export const TimerMiddleware = (app: AppT): AppT => {
-  return async (method: string, path: string, options: OptionT) => {
-    const timer = path.startsWith('/search') ? SearchTimer : MainTimer;
-    return timer.do(() => app(method, path, options));
+export const TimerMiddleware = (app: FetchType): FetchType => {
+  return async (u: string, init: RequestInit) => {
+    const parsedURL = url.parse(u);
+    const timer = parsedURL.path!.startsWith('/search') ? SearchTimer : MainTimer;
+    return timer.do(() => app(u, init));
   };
 };

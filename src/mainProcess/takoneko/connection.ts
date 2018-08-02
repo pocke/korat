@@ -1,25 +1,21 @@
-import fetch, { Response, RequestInit, Headers } from 'node-fetch';
+import fetch, { RequestInit, Headers } from 'node-fetch';
 import { stringify } from 'query-string';
-import shortid from 'shortid';
 
-import { App, OptionT } from './middleware/app';
+import { App } from './middleware/app';
 import { TimerMiddleware } from './middleware/timer';
+import { LoggerMiddleware } from './middleware/logger';
 
 export default class Connection {
   private readonly app: App;
   constructor(private accessToken: string, private apiBase = 'https://api.github.com') {
-    this.app = new App([TimerMiddleware], this._request.bind(this));
+    this.app = new App([LoggerMiddleware, TimerMiddleware], fetch);
   }
 
   async get(path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
     return this.request('GET', path, options);
   }
 
-  async request(method: string, path: string, options: OptionT) {
-    return this.app.run(method, path, options);
-  }
-
-  async _request(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
+  async request(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
     const url = this.toURL(path, options.query);
     const headers = options.headers || new Headers();
     headers.append('Content-Type', 'application/json');
@@ -34,7 +30,7 @@ export default class Connection {
       fetchOption.body = JSON.stringify(options.body);
     }
 
-    return await this.fetchWithLog(url, fetchOption);
+    return await this.app.run(url, fetchOption);
   }
 
   private toURL(path: string, query: object | undefined) {
@@ -51,38 +47,5 @@ export default class Connection {
       return '';
     }
     return '?' + q;
-  }
-
-  private async fetchWithLog(url: string, fetchOption: RequestInit) {
-    const id = shortid.generate();
-    this.logRequest(id, url, fetchOption);
-    const resp = await fetch(url, fetchOption);
-    this.logResponse(id, resp);
-    return resp;
-  }
-
-  private logRequest(id: string, url: string, fetchOption: RequestInit) {
-    this.log(id, `request: ${fetchOption.method} ${url}`);
-    const headers = fetchOption.headers as Headers;
-    this.logHeaders(id, headers);
-  }
-
-  private logResponse(id: string, resp: Response) {
-    this.log(id, `response: Status ${resp.status}`);
-    this.logHeaders(id, resp.headers);
-  }
-
-  private logHeaders(id: string, headers: Headers) {
-    let mes = 'response: ';
-    headers.forEach((value, name) => {
-      const content = value.replace(/^token \w{40}$/, 'token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-      mes += `${name}: ${content}`;
-      mes += '\n';
-    });
-    this.log(id, mes);
-  }
-
-  private log(id: string, message: string) {
-    console.log(`[${new Date().toISOString()}] [Takoneko - ${id}]: ${message}`);
   }
 }

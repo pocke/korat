@@ -1,21 +1,16 @@
-import { Response, Headers } from 'node-fetch';
+import { RequestInit, Response } from 'node-fetch';
 
-export interface AppT {
-  (method: string, path: string, options: { body?: object; query?: object; headers?: Headers }): Promise<Response>;
+export interface FetchType {
+  (url: string, init: RequestInit): Promise<Response>;
 }
 
-export interface OptionT {
-  body?: object;
-  query?: object;
-  headers?: Headers;
-}
 interface Middleware {
-  (app: AppT): AppT;
+  (f: FetchType): FetchType;
 }
 
 export class App {
-  public readonly run: AppT;
-  constructor(stacks: Middleware[], app: AppT) {
+  public readonly run: FetchType;
+  constructor(stacks: Middleware[], app: FetchType) {
     this.run = stacks.reverse().reduce((ap, mid) => mid(ap), app);
   }
 }
