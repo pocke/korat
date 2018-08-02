@@ -1,6 +1,6 @@
-import Client from '../takoneko';
-import { importIssues } from '../db';
-export default class Stream {
+import Client from './takoneko';
+import { importIssues } from './db';
+export default class Channel {
   private apiClient: Client;
 
   constructor(accessToken: string, apiUrlBase: string, private queryBase: string) {

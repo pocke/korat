@@ -2,7 +2,7 @@ import Electron, { ipcMain } from 'electron';
 import { flatten } from 'lodash-es';
 
 import ConfigManager from './ConfigManager';
-import StreamAggregator from './StreamAggregator';
+import ChannelAggregator from './ChannelAggregator';
 import { ConfigurationChannel, NotificationsChannel } from '../share/ipcChannels';
 import { Category } from '../share/configuration';
 import { NotificationsSession } from './db';
@@ -24,7 +24,7 @@ export default async () => {
     console.log(`send ${NotificationsChannel.Response}`);
   });
 
-  StreamAggregator.start();
+  ChannelAggregator.start();
 };
 
 const findCategory = async (id: string): Promise<Category> => {
