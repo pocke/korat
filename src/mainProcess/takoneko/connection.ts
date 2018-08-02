@@ -2,22 +2,24 @@ import fetch, { Response, RequestInit, Headers } from 'node-fetch';
 import { stringify } from 'query-string';
 import shortid from 'shortid';
 
-import Timer from './Timer';
-
-const MainTimer = new Timer({ interval: 6000, concurrency: 2 });
-const SearchTimer = new Timer({ interval: 0, concurrency: 5 });
+import { App, OptionT } from './middleware/app';
+import { TimerMiddleware } from './middleware/timer';
 
 export default class Connection {
-  constructor(private accessToken: string, private apiBase = 'https://api.github.com') {}
-
-  async get(path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
-    return this.requset('GET', path, options);
+  private readonly app: App;
+  constructor(private accessToken: string, private apiBase = 'https://api.github.com') {
+    this.app = new App([TimerMiddleware], this._request.bind(this));
   }
 
-  async requset(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
-    const timer = path.startsWith('/search') ? SearchTimer : MainTimer;
-    await timer.do(() => {});
+  async get(path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
+    return this.request('GET', path, options);
+  }
 
+  async request(method: string, path: string, options: OptionT) {
+    return this.app.run(method, path, options);
+  }
+
+  async _request(method: string, path: string, options: { body?: object; query?: object; headers?: Headers } = {}) {
     const url = this.toURL(path, options.query);
     const headers = options.headers || new Headers();
     headers.append('Content-Type', 'application/json');
