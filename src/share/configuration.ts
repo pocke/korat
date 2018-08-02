@@ -7,6 +7,7 @@ export interface ConfigForEndPoint {
   apiUrlBase: string;
   accessToken: string;
   categories: Category[];
+  channels: Channel[];
 }
 
 export interface Category {
@@ -14,4 +15,10 @@ export interface Category {
   id: string;
   order: number;
   query: any;
+}
+
+export interface Channel {
+  displayName: string;
+  id: string;
+  query: string;
 }
