@@ -18,10 +18,10 @@ class Session {
     });
   }
 
-  async import(items: any[]) {
+  async import(items: any[], pk: string[]) {
     return Promise.all(
       items.map(async item => {
-        const query = pick(item, ['id']);
+        const query = pick(item, pk);
         return this.conn.update(query, item, { upsert: true });
       }),
     );
@@ -30,12 +30,15 @@ class Session {
 
 export const NotificationsSession = new Session('notifications');
 export const IssuesSession = new Session('issues');
+export const IssueChannelRelationsSession = new Session('issue_channel_relations');
 
-export const importIssues = async (issues: Item[], stream_id: string) => {
+export const importIssues = async (issues: Item[], channel_id: string) => {
   console.log(`Importing ${issues.length} issues to DB`);
-  const data = issues.map(issue => ({ ...issue, stream_id }));
-
-  return IssuesSession.import(data);
+  const issueStreamRelations = issues.map(issue => ({ issue_id: issue.id, channel_id }));
+  return Promise.all([
+    IssuesSession.import(issues, ['id']),
+    IssueChannelRelationsSession.import(issueStreamRelations, ['issue_id', 'channel_id']),
+  ]);
 };
 
 export const importNotifications = async (notifications: Notification[]) => {

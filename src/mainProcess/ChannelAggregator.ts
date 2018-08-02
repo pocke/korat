@@ -8,7 +8,7 @@ export default class ChannelAggregator {
     const config = await ConfigManager.load();
     forIn(config, c => {
       c.channels.forEach(channelConfig => {
-        const ch = new Channel(c.accessToken, c.apiUrlBase, channelConfig.query);
+        const ch = new Channel(c.accessToken, c.apiUrlBase, channelConfig.query, channelConfig.id);
         ch.start();
       });
     });
