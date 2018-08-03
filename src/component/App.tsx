@@ -5,20 +5,20 @@ import { pick } from 'lodash-es';
 import SideBar from './SideBar';
 import EventBar from './EventBar';
 import * as styles from './App.scss';
-import { ConfigurationChannel, NotificationsChannel } from '../share/ipcChannels';
+import { ConfigurationChannel, IssuesChannel } from '../share/ipcChannels';
+import { Item } from '../share/types/SearchIssuesResult';
 import { Configuration, ConfigForEndPoint } from '../share/configuration';
-import { Notification } from '../mainProcess/models/Notification';
 
 interface ConfigurationInRenderer {
-  [key: string]: Pick<ConfigForEndPoint, 'categories'>;
+  [key: string]: Pick<ConfigForEndPoint, 'channels'>;
 }
 
 interface Props {}
 
 interface State {
   configuration?: ConfigurationInRenderer;
-  selectedCategoryID?: string;
-  notifications: Notification[];
+  selectedChannelID?: string;
+  issues: Item[];
   webviewURL: string;
 }
 
@@ -28,8 +28,8 @@ export default class App extends React.Component<Props, State> {
 
     this.state = {
       configuration: undefined,
-      selectedCategoryID: undefined,
-      notifications: [],
+      selectedChannelID: undefined,
+      issues: [],
       webviewURL: 'https://github.com',
     };
   }
@@ -43,14 +43,15 @@ export default class App extends React.Component<Props, State> {
     ipcRenderer.on(ConfigurationChannel.Response, (_event: any, config: Configuration) => {
       const newCofnig: ConfigurationInRenderer = {};
       Object.keys(config).forEach((key: string) => {
-        newCofnig[key] = pick(config[key], 'categories');
+        newCofnig[key] = pick(config[key], 'channels');
       });
       this.setState({ configuration: newCofnig });
     });
 
-    ipcRenderer.on(NotificationsChannel.Response, (_event: any, notifications: Notification[]) => {
-      console.log('Receive Notifications');
-      this.setState({ notifications });
+    ipcRenderer.on(IssuesChannel.Response, (_event: any, issues: Item[]) => {
+      console.log('Receive Issues');
+      console.log(issues);
+      this.setState({ issues });
     });
   }
 
@@ -65,8 +66,8 @@ export default class App extends React.Component<Props, State> {
 
     return (
       <div className={styles.main}>
-        <SideBar configuration={this.state.configuration} onSelectCategory={this.selectCategory.bind(this)} />
-        <EventBar notifications={this.state.notifications} openEvent={this.openEvent.bind(this)} />
+        <SideBar configuration={this.state.configuration} onSelectChannel={this.selectChannel.bind(this)} />
+        <EventBar issues={this.state.issues} openEvent={this.openEvent.bind(this)} />
         <webview src={this.state.webviewURL} className={styles.webview} />
       </div>
     );
@@ -76,9 +77,9 @@ export default class App extends React.Component<Props, State> {
     return <div>Loading...</div>;
   }
 
-  selectCategory(categoryID: string) {
-    ipcRenderer.send(NotificationsChannel.Request, categoryID);
-    this.setState({ selectedCategoryID: categoryID });
+  selectChannel(channelID: string) {
+    ipcRenderer.send(IssuesChannel.Request, channelID);
+    this.setState({ selectedChannelID: channelID });
   }
 
   openEvent(url: string) {

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import * as styles from './SideBar.scss';
-import { ConfigForEndPoint, Category } from '../share/configuration';
+import { ConfigForEndPoint, Channel } from '../share/configuration';
 
-type C = Pick<ConfigForEndPoint, 'categories'>;
+type C = Pick<ConfigForEndPoint, 'channels'>;
 
 interface ConfigurationInRenderer {
   [key: string]: C;
@@ -11,7 +11,7 @@ interface ConfigurationInRenderer {
 
 interface Props {
   configuration: ConfigurationInRenderer;
-  onSelectCategory: { (categoryID: string): void };
+  onSelectChannel: { (channelID: string): void };
 }
 
 export default class Sidebar extends React.Component<Props> {
@@ -29,15 +29,15 @@ export default class Sidebar extends React.Component<Props> {
     return (
       <div key={name}>
         <h2>{name}</h2>
-        {config.categories.map(category => this.renderCategory(category))}
+        {config.channels.map(ch => this.renderChannel(ch))}
       </div>
     );
   }
 
-  renderCategory(c: Category) {
+  renderChannel(c: Channel) {
     return (
       <div key={c.id}>
-        <button onClick={() => this.props.onSelectCategory(c.id)}>{c.displayName}</button>
+        <button onClick={() => this.props.onSelectChannel(c.id)}>{c.displayName}</button>
       </div>
     );
   }

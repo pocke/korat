@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import * as styles from './EventBar.scss';
-import { Notification } from '../mainProcess/models/Notification';
+import { Item } from '../share/types/SearchIssuesResult';
 
 interface Props {
-  notifications: Notification[];
+  issues: Item[];
   openEvent: { (url: string): void };
 }
 
@@ -13,49 +13,32 @@ export default class EventBar extends React.Component<Props> {
     return (
       <div className={styles.main}>
         <h2>Events</h2>
-        {this.props.notifications.map(n => this.renderNotification(n))}
+        {this.props.issues.map(n => this.renderIssue(n))}
       </div>
     );
   }
 
-  private renderNotification(n: Notification) {
-    const boxClassNames = [styles.event];
-    boxClassNames.push(n.unread ? styles.unreadEvent : styles.readEvent);
-    const titleClassName = n.unread ? undefined : styles.readEventTitle;
+  private renderIssue(issue: Item) {
     return (
-      <div key={n.id} className={boxClassNames.join(' ')}>
-        <a href="#" onClick={this.onClickNotification.bind(this, n)} className={titleClassName}>
-          {n.subject.title} in {n.repository.full_name}
+      <div key={issue.id} className={styles.event}>
+        <a href="#" onClick={this.onClickIssue.bind(this, issue)}>
+          {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
         </a>
       </div>
     );
   }
 
-  private onClickNotification(n: Notification, ev: Event) {
+  private onClickIssue(issue: Item, ev: Event) {
     ev.preventDefault();
-    this.props.openEvent(this.buildURL(n));
+    this.props.openEvent(this.buildURL(issue));
   }
 
   // TODO: GHE
-  private buildURL(n: Notification) {
-    const apiURL = n.subject.url;
-
-    const matchPR = /^https:\/\/api\.github\.com\/repos\/([^\/]+)\/([^\/]+)\/pulls\/(\d+)$/.exec(apiURL);
-    if (matchPR) {
-      const owner = matchPR[1];
-      const repo = matchPR[2];
-      const num = matchPR[3];
-      return `https://github.com/${owner}/${repo}/pull/${num}`;
+  private buildURL(issue: Item) {
+    if (issue.pull_request) {
+      return `https://github.com/${issue.repo.owner}/${issue.repo.name}/issues/${issue.number}`;
+    } else {
+      return `https://github.com/${issue.repo.owner}/${issue.repo.name}/pull/${issue.number}`;
     }
-
-    const matchIssue = /^https:\/\/api\.github\.com\/repos\/([^\/]+)\/([^\/]+)\/issues\/(\d+)$/.exec(apiURL);
-    if (matchIssue) {
-      const owner = matchIssue[1];
-      const repo = matchIssue[2];
-      const num = matchIssue[3];
-      return `https://github.com/${owner}/${repo}/issues/${num}`;
-    }
-
-    throw `Cannot get URL for ${apiURL}`;
   }
 }

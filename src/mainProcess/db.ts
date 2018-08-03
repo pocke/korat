@@ -42,10 +42,7 @@ export const importIssues = async (issues: Item[], channel_id: string) => {
 };
 
 const findIssueByUpdatedAt = async (channel_id: string, order: -1 | 1): Promise<Item> => {
-  const relations = (await IssueChannelRelationsSession.conn.find({ channel_id })) as {
-    channel_id: string;
-    issue_id: number;
-  }[];
+  const relations = await findRelations(channel_id);
   const q = {
     id: { $in: relations.map(r => r.issue_id) },
   };
@@ -57,12 +54,27 @@ const findIssueByUpdatedAt = async (channel_id: string, order: -1 | 1): Promise<
   return resp[0];
 };
 
+const findRelations = async (channel_id: string): Promise<{ channel_id: string; issue_id: number }[]> => {
+  return IssueChannelRelationsSession.conn.find({ channel_id }) as any;
+};
+
 export const findOldestIssue = async (channel_id: string): Promise<Item> => {
   return findIssueByUpdatedAt(channel_id, 1);
 };
 
 export const findNewestIssue = async (channel_id: string): Promise<Item> => {
   return findIssueByUpdatedAt(channel_id, 1);
+};
+
+export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
+  const relations = await findRelations(channel_id);
+  const q = {
+    id: { $in: relations.map(r => r.issue_id) },
+  };
+  return IssuesSession.conn
+    .findWithCursor(q)
+    .sort({ updated_at: -1 })
+    .exec();
 };
 
 export const importNotifications = async (notifications: Notification[]) => {
