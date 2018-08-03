@@ -32,7 +32,7 @@ export default class Channel {
 
     const items = await this.fetchAndSave(q);
     if (items.length !== 0) {
-      this.fetchOldIssues();
+      await this.fetchOldIssues();
     }
   }
 

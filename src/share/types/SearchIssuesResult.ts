@@ -11,6 +11,10 @@ export interface Item {
   number: number;
   title: string;
   user: User;
+  repo: {
+    owner: string;
+    name: string;
+  };
   labels: Label[];
   state: string; // TODO: enum
   locked: boolean;
