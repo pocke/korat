@@ -24,8 +24,8 @@ class Timer {
   }
 }
 
-const SearchTimer = new Timer({ interval: 6000, concurrency: 2 });
-const MainTimer = new Timer({ interval: 0, concurrency: 5 });
+const SearchTimer = new Timer({ interval: 5000, concurrency: 2 });
+const MainTimer = new Timer({ interval: 1000, concurrency: 5 });
 
 export const TimerMiddleware = (app: FetchType): FetchType => {
   return async (u: string, init: RequestInit) => {
