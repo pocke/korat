@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import Client from './takoneko';
-import { importIssues, findOldestIssue } from './db';
+import { importIssues, findOldestIssue, findNewestIssue } from './db';
 import { Item } from '../share/types/SearchIssuesResult';
 
 export default class Channel {
@@ -24,11 +24,21 @@ export default class Channel {
     return body.items;
   }
 
+  async fetchNewIssues(): Promise<void> {
+    console.log('fetchNewIssues');
+    const newest = await findNewestIssue(this.id);
+    const updated_at = newest.updated_at;
+    const q = this.queryBase + ` updated:>=${this.formatTime(updated_at)}`;
+    await this.fetchAndSave(q);
+
+    this.fetchNewIssues();
+  }
+
   async fetchOldIssues(): Promise<void> {
     console.log('fetchOldIssues');
     const oldest = await findOldestIssue(this.id);
     const updated_at = oldest.updated_at;
-    const q = this.queryBase + ` updated:>=${this.formatTime(updated_at)}`;
+    const q = this.queryBase + ` updated:<=${this.formatTime(updated_at)}`;
 
     const items = await this.fetchAndSave(q);
     if (items.length !== 0) {

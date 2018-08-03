@@ -41,7 +41,7 @@ export const importIssues = async (issues: Item[], channel_id: string) => {
   ]);
 };
 
-export const findOldestIssue = async (channel_id: string): Promise<Item> => {
+const findIssueByUpdatedAt = async (channel_id: string, order: -1 | 1): Promise<Item> => {
   const relations = (await IssueChannelRelationsSession.conn.find({ channel_id })) as {
     channel_id: string;
     issue_id: number;
@@ -51,10 +51,18 @@ export const findOldestIssue = async (channel_id: string): Promise<Item> => {
   };
   const resp = await IssuesSession.conn
     .findWithCursor(q)
-    .sort({ updated_at: 1 })
+    .sort({ updated_at: order })
     .limit(1)
     .exec();
   return resp[0];
+};
+
+export const findOldestIssue = async (channel_id: string): Promise<Item> => {
+  return findIssueByUpdatedAt(channel_id, 1);
+};
+
+export const findNewestIssue = async (channel_id: string): Promise<Item> => {
+  return findIssueByUpdatedAt(channel_id, 1);
 };
 
 export const importNotifications = async (notifications: Notification[]) => {
