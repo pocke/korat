@@ -2,7 +2,6 @@ import path from 'path';
 import Datastore from 'nedb-promise-ts';
 import { pick } from 'lodash-es';
 
-import { Notification } from './models/Notification';
 import { Item } from '../share/types/SearchIssuesResult';
 
 const HOME = process.env.HOME as string;
@@ -28,7 +27,6 @@ class Session {
   }
 }
 
-export const NotificationsSession = new Session('notifications');
 export const IssuesSession = new Session('issues');
 export const IssueChannelRelationsSession = new Session('issue_channel_relations');
 
@@ -75,16 +73,4 @@ export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
     .findWithCursor(q)
     .sort({ updated_at: -1 })
     .exec();
-};
-
-export const importNotifications = async (notifications: Notification[]) => {
-  console.log(`Importing ${notifications.length} notifications`);
-
-  const conn = NotificationsSession.conn;
-  return Promise.all(
-    notifications.map(async n => {
-      const query = pick(n, ['id']);
-      return await conn.update(query, n, { upsert: true });
-    }),
-  );
 };
