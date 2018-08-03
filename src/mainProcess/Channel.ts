@@ -14,8 +14,9 @@ export default class Channel {
   async start(): Promise<void> {
     const items = await this.fetchAndSave(this.queryBase);
     if (items.length !== 0) {
-      await this.fetchOldIssues();
+      this.fetchOldIssues();
     }
+    this.fetchNewIssues();
   }
 
   async fetchAndSave(q: string): Promise<Item[]> {
