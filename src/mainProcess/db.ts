@@ -41,6 +41,22 @@ export const importIssues = async (issues: Item[], channel_id: string) => {
   ]);
 };
 
+export const findOldestIssue = async (channel_id: string): Promise<Item> => {
+  const relations = (await IssueChannelRelationsSession.conn.find({ channel_id })) as {
+    channel_id: string;
+    issue_id: number;
+  }[];
+  const q = {
+    id: { $in: relations.map(r => r.issue_id) },
+  };
+  const resp = await IssuesSession.conn
+    .findWithCursor(q)
+    .sort({ updated_at: 1 })
+    .limit(1)
+    .exec();
+  return resp[0];
+};
+
 export const importNotifications = async (notifications: Notification[]) => {
   console.log(`Importing ${notifications.length} notifications`);
 

@@ -1,5 +1,9 @@
+import moment from 'moment';
+
 import Client from './takoneko';
-import { importIssues } from './db';
+import { importIssues, findOldestIssue } from './db';
+import { Item } from '../share/types/SearchIssuesResult';
+
 export default class Channel {
   private apiClient: Client;
 
@@ -8,12 +12,33 @@ export default class Channel {
   }
 
   async start(): Promise<void> {
-    return this.fetchAndSave();
+    const items = await this.fetchAndSave(this.queryBase);
+    if (items.length !== 0) {
+      await this.fetchOldIssues();
+    }
   }
 
-  async fetchAndSave(): Promise<void> {
-    const q = this.queryBase;
+  async fetchAndSave(q: string): Promise<Item[]> {
     const { body } = await this.apiClient.searchIssues({ q, sort: 'updated', per_page: 100 });
     await importIssues(body.items, this.id);
+    return body.items;
+  }
+
+  async fetchOldIssues(): Promise<void> {
+    console.log('fetchOldIssues');
+    const oldest = await findOldestIssue(this.id);
+    const updated_at = oldest.updated_at;
+    const q = this.queryBase + ` updated:>=${this.formatTime(updated_at)}`;
+
+    const items = await this.fetchAndSave(q);
+    if (items.length !== 0) {
+      this.fetchOldIssues();
+    }
+  }
+
+  formatTime(date: Date): string {
+    return moment(date)
+      .utc()
+      .format('YYYY-MM-DDTHH:mm:ss[Z]');
   }
 }
