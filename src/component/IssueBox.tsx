@@ -2,7 +2,7 @@ import * as React from 'react';
 import Octicon, { IssueOpened, GitPullRequest } from '@githubprimer/octicons-react';
 
 import * as styles from './IssueBox.scss';
-import { Item } from '../share/types/SearchIssuesResult';
+import { Item, Label } from '../share/types/SearchIssuesResult';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -26,6 +26,7 @@ export default class IssueBox extends React.Component<Props> {
           {this.renderIssueIcon()}
           {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
         </h3>
+        <div className={styles.labelBox}>{issue.labels.map(label => this.renderLabel(label))}</div>
       </div>
     );
   }
@@ -40,6 +41,14 @@ export default class IssueBox extends React.Component<Props> {
     } else {
       return <O as any icon={IssueOpened} className={klass} />;
     }
+  }
+
+  private renderLabel(label: Label) {
+    return (
+      <span style={{ backgroundColor: label.color }} className={styles.label}>
+        {label.name}
+      </span>
+    );
   }
 
   private onClickIssue(ev: Event) {

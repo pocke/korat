@@ -30,7 +30,7 @@ export interface Item {
   read?: boolean;
 }
 
-interface Label {
+export interface Label {
   id: number;
   name: string;
   color: string;
