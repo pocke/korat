@@ -62,11 +62,13 @@ export const updateIssueRead = async (id: number, read: boolean): Promise<any> =
   return IssuesSession.conn.update({ id }, { $set: { read } }, {});
 };
 
+// TODO support pagination
 export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
   const q: any = {};
   q[channel_id] = true;
   return IssuesSession.conn
     .findWithCursor(q)
     .sort({ updated_at: -1 })
+    .limit(100)
     .exec();
 };
