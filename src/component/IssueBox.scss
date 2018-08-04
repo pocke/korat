@@ -1,0 +1,40 @@
+@mixin event() {
+  border-bottom: solid 3px #ddd;
+}
+
+.unreadEvent {
+  @include event();
+}
+
+.readEvent {
+  @include event();
+  background: #eee;
+}
+
+@mixin title() {
+  margin: 0;
+}
+
+.readEventTitle {
+  @include title();
+  color: #999;
+}
+
+.unreadEventTitle {
+  @include title();
+  color: #000;
+}
+
+@mixin icon() {
+  width: 2rem;
+}
+
+.openIcon {
+  @include icon();
+  color: green;
+}
+
+.closedIcon {
+  @include icon();
+  color: red;
+}

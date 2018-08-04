@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import * as styles from './EventBar.scss';
 import { Item } from '../share/types/SearchIssuesResult';
+import IssueBox from './IssueBox';
 
 interface Props {
   issues: Item[];
@@ -14,35 +15,10 @@ export default class EventBar extends React.Component<Props> {
     return (
       <div className={styles.main}>
         <h2>Events</h2>
-        {this.props.issues.map(n => this.renderIssue(n))}
+        {this.props.issues.map(issue => (
+          <IssueBox issue={issue} openEvent={this.props.openEvent} markAsRead={this.props.markAsRead} />
+        ))}
       </div>
     );
-  }
-
-  private renderIssue(issue: Item) {
-    const klass = issue.read ? styles.readEvent : styles.unreadEvent;
-    const titleClass = issue.read ? styles.readEventTitle : styles.unreadEventTitle;
-    return (
-      <div key={issue.id} className={klass}>
-        <a href="#" className={titleClass} onClick={this.onClickIssue.bind(this, issue)}>
-          {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
-        </a>
-      </div>
-    );
-  }
-
-  private onClickIssue(issue: Item, ev: Event) {
-    ev.preventDefault();
-    this.props.markAsRead(issue.id);
-    this.props.openEvent(this.buildURL(issue));
-  }
-
-  // TODO: GHE
-  private buildURL(issue: Item) {
-    if (issue.pull_request) {
-      return `https://github.com/${issue.repo.owner}/${issue.repo.name}/issues/${issue.number}`;
-    } else {
-      return `https://github.com/${issue.repo.owner}/${issue.repo.name}/pull/${issue.number}`;
-    }
   }
 }
