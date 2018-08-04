@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Octicon, { IssueOpened, GitPullRequest } from '@githubprimer/octicons-react';
+import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
 
 import * as styles from './IssueBox.scss';
 import { Item, Label } from '../share/types/SearchIssuesResult';
@@ -27,6 +27,7 @@ export default class IssueBox extends React.Component<Props> {
           {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
         </h3>
         <div className={styles.labelBox}>{issue.labels.map(label => this.renderLabel(label))}</div>
+        {this.renderFooter()}
       </div>
     );
   }
@@ -37,9 +38,9 @@ export default class IssueBox extends React.Component<Props> {
     const klass = issue.state === 'open' ? styles.openIcon : styles.closedIcon;
 
     if (issue.pull_request) {
-      return <O as any icon={GitPullRequest} className={klass} />;
+      return <O icon={GitPullRequest} className={klass} />;
     } else {
-      return <O as any icon={IssueOpened} className={klass} />;
+      return <O icon={IssueOpened} className={klass} />;
     }
   }
 
@@ -48,6 +49,22 @@ export default class IssueBox extends React.Component<Props> {
       <span style={{ backgroundColor: label.color }} className={styles.label}>
         {label.name}
       </span>
+    );
+  }
+
+  private renderFooter() {
+    const { issue } = this.props;
+    const { comments } = issue;
+    const { owner, name } = issue.repo;
+
+    return (
+      <div className={styles.footer}>
+        <span style={{ marginRight: '5px' }}>{`${owner}/${name}`}</span>
+        <span>
+          <O icon={CommentDiscussion} />
+          {comments}
+        </span>
+      </div>
     );
   }
 
