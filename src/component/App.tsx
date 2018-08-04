@@ -1,22 +1,17 @@
 import * as React from 'react';
 import { ipcRenderer } from 'electron';
-import { pick } from 'lodash-es';
 
 import SideBar from './SideBar';
 import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
 import { ConfigurationChannel, IssuesChannel, IssuesMarkAsReadChannel } from '../share/ipcChannels';
 import { Item } from '../share/types/SearchIssuesResult';
-import { Configuration, ConfigForEndPoint } from '../share/configuration';
-
-interface ConfigurationInRenderer {
-  [key: string]: Pick<ConfigForEndPoint, 'channels' | 'urlBase'>;
-}
+import { Configuration } from '../share/configuration';
 
 interface Props {}
 
 interface State {
-  configuration?: ConfigurationInRenderer;
+  configuration?: Configuration[];
   selectedChannelID?: string;
   selectedEndpoint?: string;
   issues: Item[];
@@ -41,12 +36,8 @@ export default class App extends React.Component<Props, State> {
   }
 
   private subscribeEvents() {
-    ipcRenderer.on(ConfigurationChannel.Response, (_event: any, config: Configuration) => {
-      const newCofnig: ConfigurationInRenderer = {};
-      Object.keys(config).forEach((key: string) => {
-        newCofnig[key] = pick(config[key], ['channels', 'urlBase']);
-      });
-      this.setState({ configuration: newCofnig });
+    ipcRenderer.on(ConfigurationChannel.Response, (_event: any, configuration: Configuration[]) => {
+      this.setState({ configuration });
     });
 
     ipcRenderer.on(IssuesChannel.Response, (_event: any, issues: Item[]) => {
@@ -66,6 +57,8 @@ export default class App extends React.Component<Props, State> {
       return this.renderLoading();
     }
 
+    console.log(configuration);
+    console.log('endpoint', selectedEndpoint);
     return (
       <div className={styles.main}>
         <SideBar configuration={configuration} onSelectChannel={this.selectChannel.bind(this)} />
@@ -73,7 +66,7 @@ export default class App extends React.Component<Props, State> {
           <EmptyEventBar />
         ) : (
           <EventBar
-            urlBase={configuration[selectedEndpoint!].urlBase}
+            urlBase={configuration.find(c => c.displayName === selectedEndpoint)!.urlBase}
             issues={issues}
             openEvent={this.openEvent.bind(this)}
             markAsRead={this.markAsRead.bind(this)}

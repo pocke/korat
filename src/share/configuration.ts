@@ -1,8 +1,5 @@
 export interface Configuration {
-  [key: string]: ConfigForEndPoint;
-}
-
-export interface ConfigForEndPoint {
+  displayName: string;
   urlBase: string;
   apiUrlBase: string;
   accessToken: string;

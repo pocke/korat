@@ -1,35 +1,23 @@
 import * as React from 'react';
 
 import * as styles from './SideBar.scss';
-import { ConfigForEndPoint, Channel } from '../share/configuration';
-
-type C = Pick<ConfigForEndPoint, 'channels'>;
-
-interface ConfigurationInRenderer {
-  [key: string]: C;
-}
+import { Configuration, Channel } from '../share/configuration';
 
 interface Props {
-  configuration: ConfigurationInRenderer;
+  configuration: Configuration[];
   onSelectChannel: { (channelID: string, selectedEndpoint: string): void };
 }
 
 export default class Sidebar extends React.Component<Props> {
   render() {
-    return (
-      <div className={styles.main}>
-        {Object.keys(this.props.configuration).map((key: string) =>
-          this.renderOneEndpoint(key, this.props.configuration[key]),
-        )}
-      </div>
-    );
+    return <div className={styles.main}>{this.props.configuration.map(c => this.renderOneEndpoint(c))}</div>;
   }
 
-  renderOneEndpoint(name: string, config: C) {
+  renderOneEndpoint(config: Configuration) {
     return (
-      <div key={name}>
-        <h2>{name}</h2>
-        {config.channels.map(ch => this.renderChannel(ch, name))}
+      <div key={config.displayName}>
+        <h2>{config.displayName}</h2>
+        {config.channels.map(ch => this.renderChannel(ch, config.displayName))}
       </div>
     );
   }

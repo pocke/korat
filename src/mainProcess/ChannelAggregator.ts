@@ -1,19 +1,17 @@
-import { forIn } from 'lodash';
-
 import ConfigManager from './ConfigManager';
 import Fetcher from './Fetcher';
 import Client from './takoneko';
 import { Item } from '../share/types/SearchIssuesResult';
-import { ConfigForEndPoint, Channel as ChannelT } from '../share/configuration';
+import { Configuration, Channel as ChannelT } from '../share/configuration';
 import { importIssues } from './db';
 
 export default class ChannelAggregator {
   static async start() {
     const config = await ConfigManager.load();
-    forIn(config, c => this.startForEndpoint(c));
+    config.forEach(c => this.startForEndpoint(c));
   }
 
-  static async startForEndpoint(config: ConfigForEndPoint) {
+  static async startForEndpoint(config: Configuration) {
     const { accessToken, apiUrlBase, channels } = config;
     const client = new Client(accessToken, apiUrlBase);
     const optimized = this.optimize(channels);
