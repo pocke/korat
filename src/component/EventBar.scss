@@ -5,17 +5,23 @@
   width: 400px;
 }
 
-.event {
+@mixin event() {
   border-bottom: solid 3px #ddd;
 }
 
 .unreadEvent {
+  @include event();
 }
 
 .readEvent {
+  @include event();
   background: #eee;
 }
 
 .readEventTitle {
   color: #999;
+}
+
+.unreadEventTitle {
+  color: #000;
 }

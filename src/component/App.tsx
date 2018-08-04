@@ -5,7 +5,7 @@ import { pick } from 'lodash-es';
 import SideBar from './SideBar';
 import EventBar from './EventBar';
 import * as styles from './App.scss';
-import { ConfigurationChannel, IssuesChannel } from '../share/ipcChannels';
+import { ConfigurationChannel, IssuesChannel, IssuesMarkAsReadChannel } from '../share/ipcChannels';
 import { Item } from '../share/types/SearchIssuesResult';
 import { Configuration, ConfigForEndPoint } from '../share/configuration';
 
@@ -67,7 +67,11 @@ export default class App extends React.Component<Props, State> {
     return (
       <div className={styles.main}>
         <SideBar configuration={this.state.configuration} onSelectChannel={this.selectChannel.bind(this)} />
-        <EventBar issues={this.state.issues} openEvent={this.openEvent.bind(this)} />
+        <EventBar
+          issues={this.state.issues}
+          openEvent={this.openEvent.bind(this)}
+          markAsRead={this.markAsRead.bind(this)}
+        />
         <webview src={this.state.webviewURL} className={styles.webview} />
       </div>
     );
@@ -84,5 +88,21 @@ export default class App extends React.Component<Props, State> {
 
   openEvent(url: string) {
     this.setState({ webviewURL: url });
+  }
+
+  markAsRead(id: number) {
+    const issues = this.state.issues.map(issue => {
+      if (issue.id === id) {
+        return {
+          ...issue,
+          read: true,
+        };
+      } else {
+        return issue;
+      }
+    });
+
+    ipcRenderer.send(IssuesMarkAsReadChannel.Request, id);
+    this.setState({ issues });
   }
 }

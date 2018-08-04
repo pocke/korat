@@ -27,6 +27,7 @@ export interface Item {
   closed_at?: Date;
   pull_request: null | {};
   body: string;
+  read?: boolean;
 }
 
 interface Label {

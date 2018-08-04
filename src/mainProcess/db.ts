@@ -21,7 +21,7 @@ class Session {
     return Promise.all(
       items.map(async item => {
         const query = pick(item, pk);
-        return this.conn.update(query, item, { upsert: true });
+        return this.conn.update(query, { $set: item }, { upsert: true });
       }),
     );
   }
@@ -62,6 +62,10 @@ export const findOldestIssue = async (channel_id: string): Promise<Item> => {
 
 export const findNewestIssue = async (channel_id: string): Promise<Item> => {
   return findIssueByUpdatedAt(channel_id, 1);
+};
+
+export const updateIssueRead = async (id: number, read: boolean): Promise<any> => {
+  return IssuesSession.conn.update({ id }, { $set: { read } }, {});
 };
 
 export const findAllIssues = async (channel_id: string): Promise<Item[]> => {

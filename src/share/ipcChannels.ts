@@ -6,3 +6,11 @@ export const IssuesChannel = {
   Request: 'Issues.Request',
   Response: 'Issues.Response',
 };
+export const IssuesMarkAsReadChannel = {
+  Request: 'IssuesMarkAsRead.Request',
+  Response: 'IssuesMarkAsRead.Response',
+};
+export const IssuesMarkAsUnreadChannel = {
+  Request: 'IssuesMarkAsUnread.Request',
+  Response: 'IssuesMarkAsUnread.Response',
+};

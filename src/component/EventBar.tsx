@@ -6,6 +6,7 @@ import { Item } from '../share/types/SearchIssuesResult';
 interface Props {
   issues: Item[];
   openEvent: { (url: string): void };
+  markAsRead: { (id: number): void };
 }
 
 export default class EventBar extends React.Component<Props> {
@@ -19,9 +20,11 @@ export default class EventBar extends React.Component<Props> {
   }
 
   private renderIssue(issue: Item) {
+    const klass = issue.read ? styles.readEvent : styles.unreadEvent;
+    const titleClass = issue.read ? styles.readEventTitle : styles.unreadEventTitle;
     return (
-      <div key={issue.id} className={styles.event}>
-        <a href="#" onClick={this.onClickIssue.bind(this, issue)}>
+      <div key={issue.id} className={klass}>
+        <a href="#" className={titleClass} onClick={this.onClickIssue.bind(this, issue)}>
           {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
         </a>
       </div>
@@ -30,6 +33,7 @@ export default class EventBar extends React.Component<Props> {
 
   private onClickIssue(issue: Item, ev: Event) {
     ev.preventDefault();
+    this.props.markAsRead(issue.id);
     this.props.openEvent(this.buildURL(issue));
   }
 
