@@ -54,7 +54,7 @@ export default class IssueBox extends React.Component<Props> {
   }
 
   private renderFooter() {
-    const { issue } = this.props;
+    const { issue, urlBase } = this.props;
     const { comments } = issue;
     const { owner, name } = issue.repo;
 
@@ -66,7 +66,7 @@ export default class IssueBox extends React.Component<Props> {
         </span>
 
         <span style={{ marginRight: '5px' }}>
-          {this.userIcon(issue.user.avatar_url)}
+          {this.userIcon(`${urlBase}/${owner}.png`)}
           {`${owner}/${name}`}
         </span>
         <span>
