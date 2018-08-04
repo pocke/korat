@@ -1,3 +1,5 @@
+import { flatten } from 'lodash-es';
+
 import ConfigManager from './ConfigManager';
 import Fetcher from './Fetcher';
 import Client from './takoneko';
@@ -29,14 +31,18 @@ export default class ChannelAggregator {
 
   static optimize(channels: ChannelT[]) {
     const filter = <T>(a: T) => a;
-    return channels.map(ch => ({
-      query: ch.query,
-      filters: [
-        {
-          filter: filter,
-          channel_id: ch.id,
-        },
-      ],
-    }));
+    return flatten(
+      channels.map(ch =>
+        ch.query.map(query => ({
+          query,
+          filters: [
+            {
+              filter: filter,
+              channel_id: ch.id,
+            },
+          ],
+        })),
+      ),
+    );
   }
 }

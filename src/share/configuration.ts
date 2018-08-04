@@ -9,5 +9,5 @@ export interface Configuration {
 export interface Channel {
   displayName: string;
   id: string;
-  query: string;
+  query: string[]; // also allow string
 }

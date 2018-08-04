@@ -22,10 +22,20 @@ class ConfigManager {
     const content = (await util.promisify(fs.readFile)(configPath)).toString();
     const config = safeLoad(content) as Configuration[];
     config.forEach(c => {
-      c.channels = c.channels.map(ch => ({
-        ...ch,
-        id: md5(ch.query),
-      }));
+      c.channels = c.channels.map(ch => {
+        const q = (ch.query as any) as string | string[];
+        let query;
+        if (q instanceof Array) {
+          query = q;
+        } else {
+          query = [q];
+        }
+        return {
+          ...ch,
+          id: md5(query.join('\n')),
+          query,
+        };
+      });
     });
     return config;
   }
