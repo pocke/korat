@@ -49,7 +49,7 @@ export default class Connection {
           page: i,
         },
       };
-      reqs.push(this.get(path, options));
+      reqs.push(this.get(path, optsForPaginate));
     }
 
     const resps = await Promise.all(reqs);
