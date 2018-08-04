@@ -32,7 +32,7 @@ class ConfigManager {
         }
         return {
           ...ch,
-          id: md5(query.join('\n')),
+          id: md5(query.join('\n') + c.displayName),
           query,
         };
       });
