@@ -1,5 +1,6 @@
 @mixin event() {
   border-bottom: solid 3px #ddd;
+  cursor: pointer;
 }
 
 .unreadEvent {
