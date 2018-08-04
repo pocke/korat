@@ -29,6 +29,11 @@ export default class Client {
     return { resp, body };
   }
 
+  async teams(): Promise<string[]> {
+    const resp = await this.connection.getWithPaginate('/user/teams');
+    return resp.map(r => `${r.organization.login}/${r.slug}`);
+  }
+
   private cleanSeachIssueResult(orig: SearchIssuesResult): SearchIssuesResult {
     return {
       ...pick(orig, ['total_count', 'incomplete_results']),

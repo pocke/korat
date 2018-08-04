@@ -4,7 +4,7 @@ import ConfigManager from './ConfigManager';
 import Fetcher from './Fetcher';
 import Client from './takoneko';
 import { Item } from '../share/types/SearchIssuesResult';
-import { Configuration, Channel as ChannelT } from '../share/configuration';
+import { Configuration, Channel } from '../share/configuration';
 import { importIssues } from './db';
 
 export default class ChannelAggregator {
@@ -16,7 +16,8 @@ export default class ChannelAggregator {
   static async startForEndpoint(config: Configuration) {
     const { accessToken, apiUrlBase, channels } = config;
     const client = new Client(accessToken, apiUrlBase);
-    const optimized = this.optimize(channels);
+    const channelsWithSystem = await this.buildSystemChannels(client, channels);
+    const optimized = this.optimize(channelsWithSystem);
 
     optimized.forEach(ch => {
       const onUpdate = async (issues: Item[]) => {
@@ -29,7 +30,26 @@ export default class ChannelAggregator {
     return;
   }
 
-  static optimize(channels: ChannelT[]) {
+  static async buildSystemChannels(client: Client, channels: Channel[]) {
+    return Promise.all(
+      channels.map(async ch => {
+        if (!ch.system) {
+          return ch;
+        } else if (ch.system === 'team') {
+          const teams = await client.teams();
+          const query = teams.map(t => `team:${t}`).join(' ');
+          return {
+            ...ch,
+            query: [query],
+          };
+        } else {
+          throw `${ch.system} is unknown identifier!`;
+        }
+      }),
+    );
+  }
+
+  static optimize(channels: Channel[]) {
     const filter = <T>(a: T) => a;
     return flatten(
       channels.map(ch =>

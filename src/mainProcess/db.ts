@@ -72,3 +72,5 @@ export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
     .limit(100)
     .exec();
 };
+
+IssuesSession.conn.remove({ '9772452cd2dad1e611ee35ee6d60c3c3': true });
