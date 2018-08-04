@@ -60,12 +60,36 @@ export default class IssueBox extends React.Component<Props> {
 
     return (
       <div className={styles.footer}>
-        <span style={{ marginRight: '5px' }}>{`${owner}/${name}`}</span>
+        <span>
+          {this.userIcon(issue.user.avatar_url)}
+          {this.renderAssignees()}
+        </span>
+
+        <span style={{ marginRight: '5px' }}>
+          {this.userIcon(issue.user.avatar_url)}
+          {`${owner}/${name}`}
+        </span>
         <span>
           <O icon={CommentDiscussion} />
           {comments}
         </span>
       </div>
+    );
+  }
+
+  private renderAssignees() {
+    const { assignees } = this.props.issue;
+
+    if (assignees.length === 0) {
+      return null;
+    }
+    return (
+      <span>
+        →
+        {assignees.map(a => (
+          <span key={a.id}>{this.userIcon(a.avatar_url)}</span>
+        ))}
+      </span>
     );
   }
 
@@ -75,6 +99,10 @@ export default class IssueBox extends React.Component<Props> {
     ev.preventDefault();
     this.props.markAsRead(issue.id);
     this.props.openEvent(this.buildURL());
+  }
+
+  private userIcon(url: string) {
+    return <img src={url} alt="user icon" className={styles.userIcon} />;
   }
 
   private buildURL() {

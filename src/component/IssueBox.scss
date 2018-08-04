@@ -55,4 +55,12 @@
 
 .footer {
   margin: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userIcon {
+  width: 1em;
+  height: 1em;
+  display: inline;
 }

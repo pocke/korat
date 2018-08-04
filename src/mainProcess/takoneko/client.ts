@@ -57,7 +57,7 @@ export default class Client {
   }
 
   private cleanUser(orig: User): User {
-    return pick(orig, ['login', 'id']);
+    return pick(orig, ['login', 'id', 'avatar_url']);
   }
 
   private cleanMilestone(m: Milestone | undefined): Milestone | undefined {
