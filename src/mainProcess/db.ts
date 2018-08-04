@@ -28,32 +28,26 @@ class Session {
 }
 
 export const IssuesSession = new Session('issues');
-export const IssueChannelRelationsSession = new Session('issue_channel_relations');
 
 export const importIssues = async (issues: Item[], channel_id: string) => {
   console.log(`Importing ${issues.length} issues to DB`);
-  const issueStreamRelations = issues.map(issue => ({ issue_id: issue.id, channel_id }));
-  return Promise.all([
-    IssuesSession.import(issues, ['id']),
-    IssueChannelRelationsSession.import(issueStreamRelations, ['issue_id', 'channel_id']),
-  ]);
+  const issuesWithChannelID = issues.map(issue => {
+    const res: any = { ...issue };
+    res[channel_id] = true;
+    return res;
+  });
+  return IssuesSession.import(issuesWithChannelID, ['id']);
 };
 
 const findIssueByUpdatedAt = async (channel_id: string, order: -1 | 1): Promise<Item> => {
-  const relations = await findRelations(channel_id);
-  const q = {
-    id: { $in: relations.map(r => r.issue_id) },
-  };
+  const q: any = {};
+  q[channel_id] = true;
   const resp = await IssuesSession.conn
     .findWithCursor(q)
     .sort({ updated_at: order })
     .limit(1)
     .exec();
   return resp[0];
-};
-
-const findRelations = async (channel_id: string): Promise<{ channel_id: string; issue_id: number }[]> => {
-  return IssueChannelRelationsSession.conn.find({ channel_id }) as any;
 };
 
 export const findOldestIssue = async (channel_id: string): Promise<Item> => {
@@ -69,10 +63,8 @@ export const updateIssueRead = async (id: number, read: boolean): Promise<any> =
 };
 
 export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
-  const relations = await findRelations(channel_id);
-  const q = {
-    id: { $in: relations.map(r => r.issue_id) },
-  };
+  const q: any = {};
+  q[channel_id] = true;
   return IssuesSession.conn
     .findWithCursor(q)
     .sort({ updated_at: -1 })

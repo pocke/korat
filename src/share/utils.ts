@@ -5,4 +5,4 @@ export const md5 = (str: string) =>
   crypto
     .createHash('md5')
     .update(str, 'utf8')
-    .digest('base64');
+    .digest('hex');
