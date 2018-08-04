@@ -2,8 +2,10 @@ import { safeLoad } from 'js-yaml';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
+import { forIn } from 'lodash';
 
 import { Configuration } from '../share/configuration';
+import { md5 } from '../share/utils';
 
 const HOME = process.env.HOME as string;
 
@@ -19,7 +21,14 @@ class ConfigManager {
     }
 
     const content = (await util.promisify(fs.readFile)(configPath)).toString();
-    return safeLoad(content) as Configuration;
+    const config = safeLoad(content) as Configuration;
+    forIn(config, value => {
+      value.channels = value.channels.map(ch => ({
+        ...ch,
+        id: md5(ch.query),
+      }));
+    });
+    return config;
   }
 }
 

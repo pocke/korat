@@ -1,14 +1,14 @@
 import moment from 'moment';
 
 import Client from './takoneko';
+import { md5 } from '../share/utils';
 import { importIssues, findOldestIssue, findNewestIssue } from './db';
 import { Item } from '../share/types/SearchIssuesResult';
 
-export default class Channel {
-  private apiClient: Client;
-
-  constructor(accessToken: string, apiUrlBase: string, private queryBase: string, private id: string) {
-    this.apiClient = new Client(accessToken, apiUrlBase);
+export default class Fetcher {
+  private id: string;
+  constructor(private apiClient: Client, private queryBase: string, private onFetch: (issues: Item[]) => void) {
+    this.id = md5(this.queryBase);
   }
 
   async start(): Promise<void> {
@@ -22,6 +22,7 @@ export default class Channel {
   async fetchAndSave(q: string): Promise<Item[]> {
     const { body } = await this.apiClient.searchIssues({ q, sort: 'updated', per_page: 100 });
     await importIssues(body.items, this.id);
+    this.onFetch(body.items);
     return body.items;
   }
 
