@@ -11,7 +11,7 @@ interface ConfigurationInRenderer {
 
 interface Props {
   configuration: ConfigurationInRenderer;
-  onSelectChannel: { (channelID: string): void };
+  onSelectChannel: { (channelID: string, selectedEndpoint: string): void };
 }
 
 export default class Sidebar extends React.Component<Props> {
@@ -29,15 +29,15 @@ export default class Sidebar extends React.Component<Props> {
     return (
       <div key={name}>
         <h2>{name}</h2>
-        {config.channels.map(ch => this.renderChannel(ch))}
+        {config.channels.map(ch => this.renderChannel(ch, name))}
       </div>
     );
   }
 
-  renderChannel(c: Channel) {
+  renderChannel(c: Channel, endpointName: string) {
     return (
       <div key={c.id}>
-        <button onClick={() => this.props.onSelectChannel(c.id)}>{c.displayName}</button>
+        <button onClick={() => this.props.onSelectChannel(c.id, endpointName)}>{c.displayName}</button>
       </div>
     );
   }

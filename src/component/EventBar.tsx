@@ -8,6 +8,7 @@ interface Props {
   issues: Item[];
   openEvent: { (url: string): void };
   markAsRead: { (id: number): void };
+  urlBase: string;
 }
 
 export default class EventBar extends React.Component<Props> {
@@ -16,8 +17,24 @@ export default class EventBar extends React.Component<Props> {
       <div className={styles.main}>
         <h2>Events</h2>
         {this.props.issues.map(issue => (
-          <IssueBox issue={issue} openEvent={this.props.openEvent} markAsRead={this.props.markAsRead} />
+          <IssueBox
+            key={issue.id}
+            issue={issue}
+            openEvent={this.props.openEvent}
+            markAsRead={this.props.markAsRead}
+            urlBase={this.props.urlBase}
+          />
         ))}
+      </div>
+    );
+  }
+}
+
+export class EmptyEventBar extends React.Component {
+  render() {
+    return (
+      <div className={styles.main}>
+        <h2>Events</h2>
       </div>
     );
   }

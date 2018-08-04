@@ -3,14 +3,14 @@ import { ipcRenderer } from 'electron';
 import { pick } from 'lodash-es';
 
 import SideBar from './SideBar';
-import EventBar from './EventBar';
+import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
 import { ConfigurationChannel, IssuesChannel, IssuesMarkAsReadChannel } from '../share/ipcChannels';
 import { Item } from '../share/types/SearchIssuesResult';
 import { Configuration, ConfigForEndPoint } from '../share/configuration';
 
 interface ConfigurationInRenderer {
-  [key: string]: Pick<ConfigForEndPoint, 'channels'>;
+  [key: string]: Pick<ConfigForEndPoint, 'channels' | 'urlBase'>;
 }
 
 interface Props {}
@@ -18,6 +18,7 @@ interface Props {}
 interface State {
   configuration?: ConfigurationInRenderer;
   selectedChannelID?: string;
+  selectedEndpoint?: string;
   issues: Item[];
   webviewURL: string;
 }
@@ -43,7 +44,7 @@ export default class App extends React.Component<Props, State> {
     ipcRenderer.on(ConfigurationChannel.Response, (_event: any, config: Configuration) => {
       const newCofnig: ConfigurationInRenderer = {};
       Object.keys(config).forEach((key: string) => {
-        newCofnig[key] = pick(config[key], 'channels');
+        newCofnig[key] = pick(config[key], ['channels', 'urlBase']);
       });
       this.setState({ configuration: newCofnig });
     });
@@ -60,19 +61,25 @@ export default class App extends React.Component<Props, State> {
   }
 
   render() {
-    if (!this.state.configuration) {
+    const { configuration, selectedEndpoint, issues, webviewURL } = this.state;
+    if (!configuration) {
       return this.renderLoading();
     }
 
     return (
       <div className={styles.main}>
-        <SideBar configuration={this.state.configuration} onSelectChannel={this.selectChannel.bind(this)} />
-        <EventBar
-          issues={this.state.issues}
-          openEvent={this.openEvent.bind(this)}
-          markAsRead={this.markAsRead.bind(this)}
-        />
-        <webview src={this.state.webviewURL} className={styles.webview} />
+        <SideBar configuration={configuration} onSelectChannel={this.selectChannel.bind(this)} />
+        {issues.length === 0 ? (
+          <EmptyEventBar />
+        ) : (
+          <EventBar
+            urlBase={configuration[selectedEndpoint!].urlBase}
+            issues={issues}
+            openEvent={this.openEvent.bind(this)}
+            markAsRead={this.markAsRead.bind(this)}
+          />
+        )}
+        <webview src={webviewURL} className={styles.webview} />
       </div>
     );
   }
@@ -81,9 +88,9 @@ export default class App extends React.Component<Props, State> {
     return <div>Loading...</div>;
   }
 
-  selectChannel(channelID: string) {
-    ipcRenderer.send(IssuesChannel.Request, channelID);
-    this.setState({ selectedChannelID: channelID });
+  selectChannel(selectedChannelID: string, selectedEndpoint: string) {
+    ipcRenderer.send(IssuesChannel.Request, selectedChannelID);
+    this.setState({ selectedChannelID, selectedEndpoint });
   }
 
   openEvent(url: string) {

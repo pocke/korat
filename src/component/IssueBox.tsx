@@ -12,6 +12,7 @@ interface Props {
   issue: Item;
   openEvent: { (url: string): void };
   markAsRead: { (id: number): void };
+  urlBase: string;
 }
 
 export default class IssueBox extends React.Component<Props> {
@@ -46,7 +47,7 @@ export default class IssueBox extends React.Component<Props> {
 
   private renderLabel(label: Label) {
     return (
-      <span style={{ backgroundColor: label.color }} className={styles.label}>
+      <span key={label.id} style={{ backgroundColor: label.color }} className={styles.label}>
         {label.name}
       </span>
     );
@@ -76,15 +77,14 @@ export default class IssueBox extends React.Component<Props> {
     this.props.openEvent(this.buildURL());
   }
 
-  // TODO: GHE
   private buildURL() {
-    const { issue } = this.props;
+    const { issue, urlBase } = this.props;
     const { number } = issue;
     const { owner, name } = issue.repo;
     if (issue.pull_request) {
-      return `https://github.com/${owner}/${name}/issues/${number}`;
+      return `${urlBase}/${owner}/${name}/issues/${number}`;
     } else {
-      return `https://github.com/${owner}/${name}/pull/${number}`;
+      return `${urlBase}/${owner}/${name}/pull/${number}`;
     }
   }
 }
