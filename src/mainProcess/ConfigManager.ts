@@ -27,17 +27,9 @@ class ConfigManager {
         c.id = uuid();
       }
       c.channels = c.channels.map(ch => {
-        const q = (ch.query as any) as string | string[];
-        let query;
-        if (q instanceof Array) {
-          query = q;
-        } else {
-          query = [q];
-        }
         return {
           ...ch,
-          id: md5(query.join('\n') + c.displayName),
-          query,
+          id: md5(ch.query.join('\n') + c.displayName),
         };
       });
     });
