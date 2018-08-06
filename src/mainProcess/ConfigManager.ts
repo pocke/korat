@@ -1,4 +1,4 @@
-import { safeLoad } from 'js-yaml';
+import { safeLoad, safeDump } from 'js-yaml';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
@@ -41,6 +41,8 @@ class ConfigManager {
         };
       });
     });
+
+    util.promisify(fs.writeFile)(configPath, safeDump(config));
     return config;
   }
 }
