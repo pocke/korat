@@ -2,6 +2,7 @@ import { safeLoad } from 'js-yaml';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
+import uuid from 'uuid/v4';
 
 import { Configuration } from '../share/configuration';
 import { md5 } from '../share/utils';
@@ -22,6 +23,9 @@ class ConfigManager {
     const content = (await util.promisify(fs.readFile)(configPath)).toString();
     const config = safeLoad(content) as Configuration[];
     config.forEach(c => {
+      if (!c.id) {
+        c.id = uuid();
+      }
       c.channels = c.channels.map(ch => {
         const q = (ch.query as any) as string | string[];
         let query;

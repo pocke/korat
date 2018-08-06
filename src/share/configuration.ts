@@ -1,4 +1,5 @@
 export interface Configuration {
+  id: string;
   displayName: string;
   urlBase: string;
   apiUrlBase: string;
