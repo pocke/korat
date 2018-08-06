@@ -21,9 +21,11 @@ export default class ChannelAggregator {
 
     optimized.forEach(ch => {
       const onUpdate = async (issues: Item[]) => {
-        await Promise.all(ch.filters.map(async filter => await importIssues(filter.filter(issues), filter.channel_id)));
+        await Promise.all(
+          ch.filters.map(async filter => await importIssues(filter.filter(issues), filter.channel_id, config.id)),
+        );
       };
-      const fetcher = new Fetcher(client, ch.query, onUpdate);
+      const fetcher = new Fetcher(client, ch.query, onUpdate, config.id);
       fetcher.start();
     });
 

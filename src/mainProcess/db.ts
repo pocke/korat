@@ -29,10 +29,10 @@ class Session {
 
 export const IssuesSession = new Session('issues');
 
-export const importIssues = async (issues: Item[], channel_id: string) => {
+export const importIssues = async (issues: Item[], channel_id: string, endpoint_id: string) => {
   console.log(`Importing ${issues.length} issues to DB`);
   const issuesWithChannelID = issues.map(issue => {
-    const res: any = { ...issue };
+    const res: any = { ...issue, endpoint_id };
     res[channel_id] = true;
     return res;
   });
@@ -58,8 +58,8 @@ export const findNewestIssue = async (channel_id: string): Promise<Item> => {
   return findIssueByUpdatedAt(channel_id, 1);
 };
 
-export const updateIssueRead = async (id: number, read: boolean): Promise<any> => {
-  return IssuesSession.conn.update({ id }, { $set: { read } }, {});
+export const updateIssueRead = async (id: number, endpoint_id: string, read: boolean): Promise<any> => {
+  return IssuesSession.conn.update({ id, endpoint_id }, { $set: { read } }, {});
 };
 
 // TODO support pagination

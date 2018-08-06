@@ -102,7 +102,7 @@ export default class App extends React.Component<Props, State> {
       }
     });
 
-    ipcRenderer.send(IssuesMarkAsReadChannel.Request, id);
+    ipcRenderer.send(IssuesMarkAsReadChannel.Request, id, this.state.selectedEndpointID);
     this.setState({ issues });
   }
 }

@@ -7,7 +7,12 @@ import { Item } from '../share/types/SearchIssuesResult';
 
 export default class Fetcher {
   private id: string;
-  constructor(private apiClient: Client, private queryBase: string, private onFetch: (issues: Item[]) => void) {
+  constructor(
+    private apiClient: Client,
+    private queryBase: string,
+    private onFetch: (issues: Item[]) => void,
+    private endpoint_id: string,
+  ) {
     this.id = md5(this.queryBase);
   }
 
@@ -21,7 +26,7 @@ export default class Fetcher {
 
   async fetchAndSave(q: string): Promise<Item[]> {
     const { body } = await this.apiClient.searchIssues({ q, sort: 'updated', per_page: 100 });
-    await importIssues(body.items, this.id);
+    await importIssues(body.items, this.id, this.endpoint_id);
     this.onFetch(body.items);
     return body.items;
   }
