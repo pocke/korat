@@ -15,17 +15,17 @@ export default class Sidebar extends React.Component<Props> {
 
   renderOneEndpoint(config: Configuration) {
     return (
-      <div key={config.displayName}>
+      <div key={config.id}>
         <h2>{config.displayName}</h2>
-        {config.channels.map(ch => this.renderChannel(ch, config.displayName))}
+        {config.channels.map(ch => this.renderChannel(ch, config.id))}
       </div>
     );
   }
 
-  renderChannel(c: Channel, endpointName: string) {
+  renderChannel(c: Channel, endpointID: string) {
     return (
       <div key={c.id}>
-        <button onClick={() => this.props.onSelectChannel(c.id, endpointName)}>{c.displayName}</button>
+        <button onClick={() => this.props.onSelectChannel(c.id, endpointID)}>{c.displayName}</button>
       </div>
     );
   }

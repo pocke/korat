@@ -13,7 +13,7 @@ interface Props {}
 interface State {
   configuration?: Configuration[];
   selectedChannelID?: string;
-  selectedEndpoint?: string;
+  selectedEndpointID?: string;
   issues: Item[];
   webviewURL: string;
 }
@@ -52,13 +52,13 @@ export default class App extends React.Component<Props, State> {
   }
 
   render() {
-    const { configuration, selectedEndpoint, issues, webviewURL } = this.state;
+    const { configuration, selectedEndpointID, issues, webviewURL } = this.state;
     if (!configuration) {
       return this.renderLoading();
     }
 
     console.log(configuration);
-    console.log('endpoint', selectedEndpoint);
+    console.log('endpoint', selectedEndpointID);
     return (
       <div className={styles.main}>
         <SideBar configuration={configuration} onSelectChannel={this.selectChannel.bind(this)} />
@@ -66,7 +66,7 @@ export default class App extends React.Component<Props, State> {
           <EmptyEventBar />
         ) : (
           <EventBar
-            urlBase={configuration.find(c => c.displayName === selectedEndpoint)!.urlBase}
+            urlBase={configuration.find(c => c.id === selectedEndpointID)!.urlBase}
             issues={issues}
             openEvent={this.openEvent.bind(this)}
             markAsRead={this.markAsRead.bind(this)}
@@ -81,9 +81,9 @@ export default class App extends React.Component<Props, State> {
     return <div>Loading...</div>;
   }
 
-  selectChannel(selectedChannelID: string, selectedEndpoint: string) {
+  selectChannel(selectedChannelID: string, selectedEndpointID: string) {
     ipcRenderer.send(IssuesChannel.Request, selectedChannelID);
-    this.setState({ selectedChannelID, selectedEndpoint });
+    this.setState({ selectedChannelID, selectedEndpointID });
   }
 
   openEvent(url: string) {

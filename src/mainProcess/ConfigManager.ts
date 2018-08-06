@@ -29,7 +29,7 @@ class ConfigManager {
       c.channels = c.channels.map(ch => {
         return {
           ...ch,
-          id: md5(ch.query.join('\n') + c.displayName),
+          id: md5(ch.query.join('\n') + c.id),
         };
       });
     });
