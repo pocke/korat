@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron';
 import SideBar from './SideBar';
 import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
-import { ConfigurationChannel } from '../share/ipcChannels';
+import { ConfigurationChannel } from '../../share/ipcChannels';
 import { StoreT } from '../Store';
 import initIpcReceiver from '../ipcReceivers';
 

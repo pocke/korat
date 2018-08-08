@@ -1,6 +1,6 @@
 import { mergeStore, Store } from './Store';
-import { Configuration } from './share/configuration';
-import { Item } from './share/types/SearchIssuesResult';
+import { Configuration } from '../share/configuration';
+import { Item } from '../share/types/SearchIssuesResult';
 
 export const updateConfiguration = (configuration: Configuration[]) => {
   mergeStore({ configuration });

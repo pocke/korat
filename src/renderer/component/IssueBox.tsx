@@ -2,10 +2,10 @@ import * as React from 'react';
 import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
 
 import * as styles from './IssueBox.scss';
-import { Item, Label } from '../share/types/SearchIssuesResult';
+import { Item, Label } from '../../share/types/SearchIssuesResult';
 import { openEvent, markAsRead } from '../Actions';
 import { ipcRenderer } from 'electron';
-import { IssuesMarkAsReadChannel } from '../share/ipcChannels';
+import { IssuesMarkAsReadChannel } from '../../share/ipcChannels';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.

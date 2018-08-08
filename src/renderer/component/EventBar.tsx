@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import * as styles from './EventBar.scss';
-import { Item } from '../share/types/SearchIssuesResult';
+import { Item } from '../../share/types/SearchIssuesResult';
 import IssueBox from './IssueBox';
 
 interface Props {

@@ -1,5 +1,5 @@
-import { Configuration } from './share/configuration';
-import { Item } from './share/types/SearchIssuesResult';
+import { Configuration } from '../share/configuration';
+import { Item } from '../share/types/SearchIssuesResult';
 
 export interface StoreT {
   configuration?: Configuration[];

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import * as styles from './SideBar.scss';
-import { Configuration, Channel } from '../share/configuration';
+import { Configuration, Channel } from '../../share/configuration';
 import { ipcRenderer } from 'electron';
-import { IssuesChannel } from '../share/ipcChannels';
+import { IssuesChannel } from '../../share/ipcChannels';
 import { selectChannel } from '../Actions';
 
 interface Props {
