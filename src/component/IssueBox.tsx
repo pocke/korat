@@ -3,6 +3,9 @@ import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@github
 
 import * as styles from './IssueBox.scss';
 import { Item, Label } from '../share/types/SearchIssuesResult';
+import { openEvent, markAsRead } from '../Actions';
+import { ipcRenderer } from 'electron';
+import { IssuesMarkAsReadChannel } from '../share/ipcChannels';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -10,8 +13,7 @@ const O = Octicon as any;
 
 interface Props {
   issue: Item;
-  openEvent: { (url: string): void };
-  markAsRead: { (id: number): void };
+  selectedEndpointID: string;
   urlBase: string;
 }
 
@@ -97,8 +99,9 @@ export default class IssueBox extends React.Component<Props> {
     const { issue } = this.props;
 
     ev.preventDefault();
-    this.props.markAsRead(issue.id);
-    this.props.openEvent(this.buildURL());
+    markAsRead(issue.id);
+    ipcRenderer.send(IssuesMarkAsReadChannel.Request, issue.id, this.props.selectedEndpointID);
+    openEvent(this.buildURL());
   }
 
   private userIcon(url: string) {

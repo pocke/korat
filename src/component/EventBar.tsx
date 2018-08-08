@@ -6,8 +6,7 @@ import IssueBox from './IssueBox';
 
 interface Props {
   issues: Item[];
-  openEvent: { (url: string): void };
-  markAsRead: { (id: number): void };
+  selectedEndpointID: string;
   urlBase: string;
 }
 
@@ -20,9 +19,8 @@ export default class EventBar extends React.Component<Props> {
           <IssueBox
             key={issue.id}
             issue={issue}
-            openEvent={this.props.openEvent}
-            markAsRead={this.props.markAsRead}
             urlBase={this.props.urlBase}
+            selectedEndpointID={this.props.selectedEndpointID}
           />
         ))}
       </div>

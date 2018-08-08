@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import App from './component/App';
+import StoreManager from './component/StoreManager';
 
-ReactDOM.render(<App />, document.getElementById('appmain'));
+ReactDOM.render(<StoreManager />, document.getElementById('appmain'));

@@ -2,10 +2,12 @@ import * as React from 'react';
 
 import * as styles from './SideBar.scss';
 import { Configuration, Channel } from '../share/configuration';
+import { ipcRenderer } from 'electron';
+import { IssuesChannel } from '../share/ipcChannels';
+import { selectChannel } from '../Actions';
 
 interface Props {
   configuration: Configuration[];
-  onSelectChannel: { (channelID: string, selectedEndpoint: string): void };
 }
 
 export default class Sidebar extends React.Component<Props> {
@@ -25,8 +27,13 @@ export default class Sidebar extends React.Component<Props> {
   renderChannel(c: Channel, endpointID: string) {
     return (
       <div key={c.id}>
-        <button onClick={() => this.props.onSelectChannel(c.id, endpointID)}>{c.displayName}</button>
+        <button onClick={() => this.onSelectChannel(c.id, endpointID)}>{c.displayName}</button>
       </div>
     );
+  }
+
+  onSelectChannel(selectedChannelID: string, selectedEndpointID: string) {
+    ipcRenderer.send(IssuesChannel.Request, selectedChannelID);
+    selectChannel(selectedChannelID, selectedEndpointID);
   }
 }
