@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import * as styles from './SideBar.scss';
-import { Configuration, Channel } from '../../share/configuration';
+import { Configuration } from '../../share/configuration';
+import { Channel } from '../Store';
 import { ipcRenderer } from 'electron';
 import { IssuesChannel } from '../../share/ipcChannels';
 import { selectChannel } from '../Actions';
@@ -28,6 +29,7 @@ export default class Sidebar extends React.Component<Props> {
     return (
       <div key={c.id}>
         <button onClick={() => this.onSelectChannel(c.id, endpointID)}>{c.displayName}</button>
+        {c.unreadCount ? <span>{c.unreadCount}</span> : null}
       </div>
     );
   }

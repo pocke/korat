@@ -17,11 +17,27 @@ class Session {
     });
   }
 
-  async import(items: any[], pk: string[]) {
+  async import(items: Item[], pk: string[], channel_id: string) {
     return Promise.all(
       items.map(async item => {
         const query = pick(item, pk);
-        return this.conn.update(query, { $set: item }, { upsert: true });
+        const exist: Item = (await this.conn.findOne(query)) as any;
+        if (exist) {
+          if (exist.updated_at.getTime() === item.updated_at.getTime()) {
+            console.log('same updated_at', exist.updated_at);
+            const newItemQuery: any = {};
+            newItemQuery[channel_id] = true;
+            return this.conn.update(query, { $set: newItemQuery }, {});
+          } else {
+            console.log('diff updated_at: updating with unread...', exist.updated_at, item.updated_at);
+            console.log({ ...item, read: false });
+            return this.conn.update(query, { ...item, read: false }, {});
+          }
+        } else {
+          console.log('new record');
+          console.log({ ...item, read: false });
+          return this.conn.insert({ ...item, read: false });
+        }
       }),
     );
   }
@@ -36,7 +52,7 @@ export const importIssues = async (issues: Item[], channel_id: string, endpoint_
     res[channel_id] = true;
     return res;
   });
-  return IssuesSession.import(issuesWithChannelID, ['id']);
+  return IssuesSession.import(issuesWithChannelID, ['id', 'endpoint_id'], channel_id);
 };
 
 const findIssueByUpdatedAt = async (channel_id: string, order: -1 | 1): Promise<Item> => {
@@ -66,9 +82,16 @@ export const updateIssueRead = async (id: number, endpoint_id: string, read: boo
 export const findAllIssues = async (channel_id: string): Promise<Item[]> => {
   const q: any = {};
   q[channel_id] = true;
+  console.log(q);
   return IssuesSession.conn
     .findWithCursor(q)
     .sort({ updated_at: -1 })
     .limit(100)
     .exec();
+};
+
+export const unreadCount = async (channel_id: string): Promise<number> => {
+  const q: any = { read: false };
+  q[channel_id] = true;
+  return IssuesSession.conn.count(q) as Promise<number>;
 };

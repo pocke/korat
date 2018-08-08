@@ -14,3 +14,6 @@ export const IssuesMarkAsUnreadChannel = {
   Request: 'IssuesMarkAsUnread.Request',
   Response: 'IssuesMarkAsUnread.Response',
 };
+export const UnreadCountChannel = {
+  Response: 'UnreadCount.Response',
+};

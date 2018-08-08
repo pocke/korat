@@ -4,6 +4,7 @@
 import { app, BrowserWindow } from 'electron';
 
 import mainProcess from './mainProcess';
+import { setWebContents } from './mainProcess/PushNotification';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,6 +21,7 @@ function createWindow() {
       webviewTag: true,
     },
   });
+  setWebContents(mainWindow.webContents);
 
   // and load the index.html of the app.
   mainWindow.loadURL(APP_URL);

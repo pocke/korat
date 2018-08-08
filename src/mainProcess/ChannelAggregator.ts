@@ -5,7 +5,8 @@ import Fetcher from './Fetcher';
 import Client from './takoneko';
 import { Item } from '../share/types/SearchIssuesResult';
 import { Configuration, Channel } from '../share/configuration';
-import { importIssues } from './db';
+import { importIssues, unreadCount } from './db';
+import { pushUnreadCount } from './PushNotification';
 
 export default class ChannelAggregator {
   static async start() {
@@ -24,6 +25,13 @@ export default class ChannelAggregator {
         await Promise.all(
           ch.filters.map(async filter => await importIssues(filter.filter(issues), filter.channel_id, config.id)),
         );
+
+        // TODO: refactoring
+        ch.filters.forEach(async f => {
+          const count = await unreadCount(f.channel_id);
+          console.log(f.channel_id, count);
+          pushUnreadCount(f.channel_id, count);
+        });
       };
       const fetcher = new Fetcher(client, ch.query, onUpdate, config.id);
       fetcher.start();

@@ -1,8 +1,9 @@
-import { mergeStore, Store } from './Store';
-import { Configuration } from '../share/configuration';
+import { flatMap } from 'lodash-es';
+
+import { mergeStore, currentStore, Endpoint } from './Store';
 import { Item } from '../share/types/SearchIssuesResult';
 
-export const updateConfiguration = (configuration: Configuration[]) => {
+export const updateConfiguration = (configuration: Endpoint[]) => {
   mergeStore({ configuration });
 };
 
@@ -19,7 +20,7 @@ export const openEvent = (webviewURL: string) => {
 };
 
 export const markAsRead = (id: number) => {
-  const issues = Store.issues.map(issue => {
+  const issues = currentStore().issues.map(issue => {
     if (issue.id === id) {
       return {
         ...issue,
@@ -30,4 +31,23 @@ export const markAsRead = (id: number) => {
     }
   });
   mergeStore({ issues });
+};
+
+export const updateUnreadCount = (channel_id: string, unreadCount: number) => {
+  const cur = currentStore();
+  const { channel, endpoint_iD } = flatMap(cur.configuration!, (c: Endpoint) =>
+    c.channels.map(channel => ({ channel, endpoint_iD: c.id })),
+  ).find(a => a.channel.id === channel_id)!;
+
+  const configuration = cur.configuration!.map((c: Endpoint) => {
+    if (c.id === endpoint_iD) {
+      return {
+        ...c,
+        channels: c.channels.map(ch => (ch.id === channel.id ? { ...ch, unreadCount } : ch)),
+      };
+    } else {
+      return c;
+    }
+  });
+  mergeStore({ configuration });
 };
