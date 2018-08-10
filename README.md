@@ -6,34 +6,26 @@ It is under development, so everything may be changed.
 
 ```yaml
 # ~/.config/korat.yaml
-github-com:
+- displayName: GitHub.com
   urlBase: 'https://github.com'
   apiUrlBase: 'https://api.github.com'
   # personal access token
   accessToken: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  categories:
-    - displayName: 'Participating'
-      # id should be an unique string
-      id: 'Z6MWEoQUD'
-      order: 1
+  channels:
+    - displayName: team
+      system: team
       query:
-        reason:
-          $ne: 'subscribed'
-    - displayName: 'Mention me and team'
-      id: 'EseK8rQU8'
-      order: 2
+        - 'team:/it-is-system-channel'
+    - displayName: me
       query:
-        reasons:
-          $in: ['mention', 'team_memtion']
-    - displayName: 'assigned'
-      id: 'GViJTXgv-'
-      order: 3
+        - 'involves:pocke'
+        - 'user:pocke'
+    - displayName: RuboCop
       query:
-        reason: 'assign'
-    - displayName: 'all'
-      id: 'fsdafkdja'
-      order: 4
-      query: {}
+        - 'user:rubocop-hq'
+    - displayName: korat
+      query:
+        - 'repo:pocke/korat'
 ```
 
 # Development
