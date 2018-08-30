@@ -73,7 +73,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "ts-jest": "^23.1.4",
-    "typescript": "^3.0.1",
+    "typescript": "^3.0.3",
     "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.17.1",
     "webpack-bundle-analyzer": "^2.13.1",
