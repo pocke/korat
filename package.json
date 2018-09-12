@@ -37,7 +37,7 @@
     "@types/lodash-es": "^4.17.1",
     "electron": "^2.0.8",
     "js-yaml": "^3.12.0",
-    "lodash-es": "^4.17.10",
+    "lodash-es": "^4.17.11",
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "nedb-promise-ts": "^0.3.0",
