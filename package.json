@@ -45,7 +45,7 @@
     "parse-link-header": "^1.0.1",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.5.1",
     "shortid": "^2.2.13",
     "uuid": "^3.3.2"
   },
