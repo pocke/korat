@@ -41,7 +41,7 @@
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "nedb-promise-ts": "^0.3.0",
-    "node-fetch": "^2.1.2",
+    "node-fetch": "^2.2.0",
     "parse-link-header": "^1.0.1",
     "query-string": "^6.1.0",
     "react": "^16.5.2",
