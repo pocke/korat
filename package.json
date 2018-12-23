@@ -64,7 +64,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.9.3",
     "npm-run-all": "^4.1.3",
