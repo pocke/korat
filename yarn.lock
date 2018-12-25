@@ -74,9 +74,9 @@
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/@types/nedb/-/nedb-1.8.6.tgz#cbb63bce2f975507452b5d6ec6b57d8f6e52052d"
 
-"@types/node-fetch@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.2.tgz#8c5da14d70321e4c4ecd5db668e3f93cf6c7399f"
+"@types/node-fetch@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.4.tgz#093d1beae11541aef25999d70aa09286fd025b1a"
   dependencies:
     "@types/node" "*"
 
