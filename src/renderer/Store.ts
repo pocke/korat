@@ -1,4 +1,5 @@
 import { Configuration, Channel as ChannelOrig } from '../share/configuration';
+import { Account } from './API';
 import { Item } from '../share/types/SearchIssuesResult';
 
 export interface Channel extends ChannelOrig {
@@ -10,9 +11,10 @@ export interface Endpoint extends Configuration {
 }
 
 export interface StoreT {
+  accounts?: Account[];
   configuration?: Endpoint[];
-  selectedChannelID?: string;
-  selectedEndpointID?: string;
+  selectedChannelID?: number;
+  selectedEndpointID?: number;
   issues: Item[];
   webviewURL: string;
 }

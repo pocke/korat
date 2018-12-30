@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { ipcRenderer } from 'electron';
 
 import SideBar from './SideBar';
 import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
-import { ConfigurationChannel } from '../../share/ipcChannels';
 import { StoreT } from '../Store';
 import initIpcReceiver from '../ipcReceivers';
+import { fetchAccounts } from '../API';
+import { updateAccounts } from '../Actions';
 
 initIpcReceiver();
 
@@ -17,27 +17,30 @@ export default class App extends React.Component<Props> {
     this.configrationSync();
   }
 
-  private configrationSync() {
-    ipcRenderer.send(ConfigurationChannel.Request);
+  private async configrationSync() {
+    const accounts = await fetchAccounts();
+    updateAccounts(accounts);
+    // ipcRenderer.send(ConfigurationChannel.Request);
   }
 
   render() {
-    const { configuration, selectedEndpointID, issues, webviewURL } = this.props;
-    if (!configuration) {
+    const { accounts, configuration, selectedEndpointID, issues, webviewURL } = this.props;
+    if (!accounts) {
       return this.renderLoading();
     }
 
-    console.log(configuration);
+    console.log(accounts);
     console.log('endpoint', selectedEndpointID);
     return (
       <div className={styles.main}>
-        <SideBar configuration={configuration} />
+        <SideBar accounts={accounts} />
         {issues.length === 0 ? (
           <EmptyEventBar />
         ) : (
           <EventBar
-            urlBase={configuration.find(c => c.id === selectedEndpointID)!.urlBase}
-            selectedEndpointID={selectedEndpointID!}
+            // urlBase={configuration!.find(c => c.id === selectedEndpointID)!.urlBase}
+            urlBase={configuration![0].urlBase} // TODO
+            selectedEndpointID={selectedEndpointID!.toString()}
             issues={issues}
           />
         )}
