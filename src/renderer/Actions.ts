@@ -28,7 +28,7 @@ export const markAsRead = (id: number) => {
     if (issue.ID === id) {
       return {
         ...issue,
-        read: true,
+        AlreadyRead: true,
       };
     } else {
       return issue;

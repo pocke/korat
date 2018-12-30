@@ -43,3 +43,11 @@ export const fetchIssues = async (channelID: number) => {
   const resp = await fetch(URL_BASE + `/channels/${channelID}/issues`);
   return (await resp.json()) as Issue[];
 };
+
+export const markAsRead = async (issueID: number) => {
+  await fetch(URL_BASE + `/issues/${issueID}/markAsRead`, { method: 'PATCH' });
+};
+
+export const markAsUnread = async (issueID: number) => {
+  await fetch(URL_BASE + `/issues/${issueID}/markAsUnread`, { method: 'PATCH' });
+};
