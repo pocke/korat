@@ -1,8 +1,7 @@
 import { flatMap } from 'lodash-es';
 
 import { mergeStore, currentStore, Endpoint } from './Store';
-import { Item } from '../share/types/SearchIssuesResult';
-import { Account } from './API';
+import { Account, Issue } from './API';
 
 export const updateAccounts = (accounts: Account[]) => {
   mergeStore({ accounts });
@@ -12,12 +11,12 @@ export const updateConfiguration = (configuration: Endpoint[]) => {
   mergeStore({ configuration });
 };
 
-export const updateIssues = (issues: Item[]) => {
+export const updateIssues = (issues: Issue[]) => {
   mergeStore({ issues });
 };
 
-export const selectChannel = (selectedChannelID: number, selectedEndpointID: number) => {
-  mergeStore({ selectedChannelID, selectedEndpointID });
+export const selectChannel = (selectedChannelID: number, selectedAccountID: number) => {
+  mergeStore({ selectedChannelID, selectedAccountID });
 };
 
 export const openEvent = (webviewURL: string) => {
@@ -26,7 +25,7 @@ export const openEvent = (webviewURL: string) => {
 
 export const markAsRead = (id: number) => {
   const issues = currentStore().issues.map(issue => {
-    if (issue.id === id) {
+    if (issue.ID === id) {
       return {
         ...issue,
         read: true,

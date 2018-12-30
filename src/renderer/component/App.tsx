@@ -24,13 +24,13 @@ export default class App extends React.Component<Props> {
   }
 
   render() {
-    const { accounts, configuration, selectedEndpointID, issues, webviewURL } = this.props;
+    const { accounts, selectedAccountID, issues, webviewURL } = this.props;
     if (!accounts) {
       return this.renderLoading();
     }
 
     console.log(accounts);
-    console.log('endpoint', selectedEndpointID);
+    console.log('endpoint', selectedAccountID);
     return (
       <div className={styles.main}>
         <SideBar accounts={accounts} />
@@ -38,9 +38,8 @@ export default class App extends React.Component<Props> {
           <EmptyEventBar />
         ) : (
           <EventBar
-            // urlBase={configuration!.find(c => c.id === selectedEndpointID)!.urlBase}
-            urlBase={configuration![0].urlBase} // TODO
-            selectedEndpointID={selectedEndpointID!.toString()}
+            urlBase={accounts.find(a => a.ID === selectedAccountID)!.UrlBase}
+            selectedAccountID={selectedAccountID!.toString()}
             issues={issues}
           />
         )}
