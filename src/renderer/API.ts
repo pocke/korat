@@ -16,6 +16,12 @@ export interface Channel {
   UnreadCount: number;
 }
 
+export interface User {
+  ID: number;
+  Login: string;
+  AvatarURL: string;
+}
+
 export interface Issue {
   ID: number;
   Number: number;
@@ -34,6 +40,7 @@ export interface Issue {
   AlreadyRead: boolean;
 
   Labels: Label[];
+  Assignees: User[];
 }
 
 export interface Label {

@@ -78,22 +78,20 @@ export default class IssueBox extends React.Component<Props> {
     );
   }
 
-  // TODO
   private renderAssignees() {
-    return null;
-    // const { assignees } = this.props.issue;
+    const { Assignees } = this.props.issue;
 
-    // if (assignees.length === 0) {
-    //   return null;
-    // }
-    // return (
-    //   <span>
-    //     →
-    //     {assignees.map(a => (
-    //       <span key={a.id}>{this.userIcon(a.avatar_url)}</span>
-    //     ))}
-    //   </span>
-    // );
+    if (Assignees.length === 0) {
+      return null;
+    }
+    return (
+      <span>
+        →
+        {Assignees.map(a => (
+          <span key={a.ID}>{this.userIcon(a.AvatarURL)}</span>
+        ))}
+      </span>
+    );
   }
 
   private onClickIssue(ev: Event) {
