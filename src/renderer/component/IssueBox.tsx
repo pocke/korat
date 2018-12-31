@@ -62,7 +62,7 @@ export default class IssueBox extends React.Component<Props> {
     return (
       <div className={styles.footer}>
         <span>
-          {/* this.userIcon(issue.user.avatar_url) */}
+          {this.userIcon(issue.User.AvatarURL)}
           {this.renderAssignees()}
         </span>
 

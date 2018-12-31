@@ -26,7 +26,6 @@ export interface Issue {
   ID: number;
   Number: number;
   Title: string;
-  UserID: number;
   RepoOwner: string;
   RepoName: string;
   State: string;
@@ -39,6 +38,7 @@ export interface Issue {
   Body: string;
   AlreadyRead: boolean;
 
+  User: User;
   Labels: Label[];
   Assignees: User[];
 }
