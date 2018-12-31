@@ -37,21 +37,21 @@ export const markAsRead = (id: number) => {
   mergeStore({ issues });
 };
 
-export const updateUnreadCount = (channel_id: string, unreadCount: number) => {
+export const updateUnreadCount = (channelID: number, UnreadCount: number) => {
   const cur = currentStore();
-  const { channel, endpoint_iD } = flatMap(cur.configuration!, (c: Endpoint) =>
-    c.channels.map(channel => ({ channel, endpoint_iD: c.id })),
-  ).find(a => a.channel.id === channel_id)!;
+  const { channel, accountID } = flatMap(cur.accounts!, (a: Account) =>
+    a.Channels.map(channel => ({ channel, accountID: a.ID })),
+  ).find(x => x.channel.ID === channelID)!;
 
-  const configuration = cur.configuration!.map((c: Endpoint) => {
-    if (c.id === endpoint_iD) {
+  const accounts = cur.accounts!.map((a: Account) => {
+    if (a.ID === accountID) {
       return {
-        ...c,
-        channels: c.channels.map(ch => (ch.id === channel.id ? { ...ch, unreadCount } : ch)),
+        ...a,
+        Channels: a.Channels.map(ch => (ch.ID === channel.ID ? { ...ch, UnreadCount } : ch)),
       };
     } else {
-      return c;
+      return a;
     }
   });
-  mergeStore({ configuration });
+  mergeStore({ accounts });
 };

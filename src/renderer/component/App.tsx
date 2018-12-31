@@ -7,20 +7,21 @@ import { StoreT } from '../Store';
 import initIpcReceiver from '../ipcReceivers';
 import { fetchAccounts } from '../API';
 import { updateAccounts } from '../Actions';
+import { wsOpen } from '../WSAPI';
 
 initIpcReceiver();
 
 type Props = StoreT;
 
 export default class App extends React.Component<Props> {
-  componentDidMount() {
-    this.configrationSync();
+  async componentDidMount() {
+    await this.configrationSync();
+    wsOpen();
   }
 
   private async configrationSync() {
     const accounts = await fetchAccounts();
     updateAccounts(accounts);
-    // ipcRenderer.send(ConfigurationChannel.Request);
   }
 
   render() {
