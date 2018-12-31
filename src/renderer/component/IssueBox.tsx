@@ -5,7 +5,7 @@ import * as styles from './IssueBox.scss';
 import { openEvent, markAsRead as markAsReadAction } from '../Actions';
 import { ipcRenderer } from 'electron';
 import { IssuesMarkAsReadChannel } from '../../share/ipcChannels';
-import { Issue, markAsRead as markAsReadRequest } from '../API';
+import { Issue, markAsRead as markAsReadRequest, Label } from '../API';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -29,7 +29,7 @@ export default class IssueBox extends React.Component<Props> {
           {this.renderIssueIcon()}
           {issue.Title} in {`${issue.RepoOwner}/${issue.RepoName}`}
         </h3>
-        {/* <div className={styles.labelBox}>{issue.labels.map(label => this.renderLabel(label))}</div> */}
+        <div className={styles.labelBox}>{issue.Labels.map(label => this.renderLabel(label))}</div>
         {this.renderFooter()}
       </div>
     );
@@ -47,14 +47,13 @@ export default class IssueBox extends React.Component<Props> {
     }
   }
 
-  // TODO
-  // private renderLabel(label: any) {
-  //   return (
-  //     <span key={label.id} style={{ backgroundColor: label.color }} className={styles.label}>
-  //       {label.name}
-  //     </span>
-  //   );
-  // }
+  private renderLabel(label: Label) {
+    return (
+      <span key={label.ID} style={{ backgroundColor: label.Color }} className={styles.label}>
+        {label.Name}
+      </span>
+    );
+  }
 
   private renderFooter() {
     const { issue, urlBase } = this.props;

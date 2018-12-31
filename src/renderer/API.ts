@@ -32,6 +32,15 @@ export interface Issue {
   IsPullRequest: boolean;
   Body: string;
   AlreadyRead: boolean;
+
+  Labels: Label[];
+}
+
+export interface Label {
+  ID: number;
+  Name: string;
+  Color: string;
+  Default: boolean;
 }
 
 export const fetchAccounts = async () => {
