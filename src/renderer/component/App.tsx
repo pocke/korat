@@ -4,22 +4,19 @@ import SideBar from './SideBar';
 import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
 import { StoreT } from '../Store';
-import initIpcReceiver from '../ipcReceivers';
 import { fetchAccounts } from '../API';
 import { updateAccounts } from '../Actions';
 import { wsOpen } from '../WSAPI';
-
-initIpcReceiver();
 
 type Props = StoreT;
 
 export default class App extends React.Component<Props> {
   async componentDidMount() {
-    await this.configrationSync();
+    await this.fetchAccounts();
     wsOpen();
   }
 
-  private async configrationSync() {
+  private async fetchAccounts() {
     const accounts = await fetchAccounts();
     updateAccounts(accounts);
   }

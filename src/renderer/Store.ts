@@ -1,17 +1,7 @@
-import { Configuration, Channel as ChannelOrig } from '../share/configuration';
 import { Account, Issue } from './API';
-
-export interface Channel extends ChannelOrig {
-  unreadCount?: number;
-}
-
-export interface Endpoint extends Configuration {
-  channels: Channel[];
-}
 
 export interface StoreT {
   accounts?: Account[];
-  configuration?: Endpoint[];
   selectedChannelID?: number;
   selectedAccountID?: number;
   issues: Issue[];

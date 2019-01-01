@@ -1,14 +1,10 @@
 import { flatMap } from 'lodash-es';
 
-import { mergeStore, currentStore, Endpoint } from './Store';
+import { mergeStore, currentStore } from './Store';
 import { Account, Issue } from './API';
 
 export const updateAccounts = (accounts: Account[]) => {
   mergeStore({ accounts });
-};
-
-export const updateConfiguration = (configuration: Endpoint[]) => {
-  mergeStore({ configuration });
 };
 
 export const updateIssues = (issues: Issue[]) => {
