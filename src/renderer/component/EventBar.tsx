@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import * as styles from './EventBar.scss';
-import { Item } from '../../share/types/SearchIssuesResult';
 import IssueBox from './IssueBox';
+import { Issue } from '../API';
 
 interface Props {
-  issues: Item[];
-  selectedEndpointID: string;
+  issues: Issue[];
+  selectedAccountID: string;
   urlBase: string;
 }
 
@@ -17,10 +17,10 @@ export default class EventBar extends React.Component<Props> {
         <h2>Events</h2>
         {this.props.issues.map(issue => (
           <IssueBox
-            key={issue.id}
+            key={issue.ID}
             issue={issue}
             urlBase={this.props.urlBase}
-            selectedEndpointID={this.props.selectedEndpointID}
+            selectedAccountID={this.props.selectedAccountID}
           />
         ))}
       </div>

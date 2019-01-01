@@ -1,43 +1,43 @@
 import * as React from 'react';
-import { ipcRenderer } from 'electron';
 
 import SideBar from './SideBar';
 import EventBar, { EmptyEventBar } from './EventBar';
 import * as styles from './App.scss';
-import { ConfigurationChannel } from '../../share/ipcChannels';
 import { StoreT } from '../Store';
-import initIpcReceiver from '../ipcReceivers';
-
-initIpcReceiver();
+import { fetchAccounts } from '../API';
+import { updateAccounts } from '../Actions';
+import { wsOpen } from '../WSAPI';
 
 type Props = StoreT;
 
 export default class App extends React.Component<Props> {
-  componentDidMount() {
-    this.configrationSync();
+  async componentDidMount() {
+    await this.fetchAccounts();
+    wsOpen();
   }
 
-  private configrationSync() {
-    ipcRenderer.send(ConfigurationChannel.Request);
+  private async fetchAccounts() {
+    const accounts = await fetchAccounts();
+    updateAccounts(accounts);
   }
 
   render() {
-    const { configuration, selectedEndpointID, issues, webviewURL } = this.props;
-    if (!configuration) {
+    const { accounts, selectedAccountID, issues, webviewURL } = this.props;
+    if (!accounts) {
       return this.renderLoading();
     }
 
-    console.log(configuration);
-    console.log('endpoint', selectedEndpointID);
+    console.log(accounts);
+    console.log('endpoint', selectedAccountID);
     return (
       <div className={styles.main}>
-        <SideBar configuration={configuration} />
+        <SideBar accounts={accounts} />
         {issues.length === 0 ? (
           <EmptyEventBar />
         ) : (
           <EventBar
-            urlBase={configuration.find(c => c.id === selectedEndpointID)!.urlBase}
-            selectedEndpointID={selectedEndpointID!}
+            urlBase={accounts.find(a => a.ID === selectedAccountID)!.UrlBase}
+            selectedAccountID={selectedAccountID!.toString()}
             issues={issues}
           />
         )}

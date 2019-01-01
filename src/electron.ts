@@ -3,9 +3,6 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron';
 
-import mainProcess from './mainProcess';
-import { setWebContents } from './mainProcess/PushNotification';
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow | null;
@@ -21,7 +18,6 @@ function createWindow() {
       webviewTag: true,
     },
   });
-  setWebContents(mainWindow.webContents);
 
   // and load the index.html of the app.
   mainWindow.loadURL(APP_URL);
@@ -65,6 +61,6 @@ app.on('activate', function() {
 // code. You can also put them in separate files and require them here.
 
 (async () => {
-  await Promise.all([onAppReady(), mainProcess()]);
+  await onAppReady();
   createWindow();
 })();

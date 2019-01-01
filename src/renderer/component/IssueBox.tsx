@@ -2,18 +2,16 @@ import * as React from 'react';
 import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
 
 import * as styles from './IssueBox.scss';
-import { Item, Label } from '../../share/types/SearchIssuesResult';
-import { openEvent, markAsRead } from '../Actions';
-import { ipcRenderer } from 'electron';
-import { IssuesMarkAsReadChannel } from '../../share/ipcChannels';
+import { openEvent, markAsRead as markAsReadAction } from '../Actions';
+import { Issue, markAsRead as markAsReadRequest, Label } from '../API';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
 const O = Octicon as any;
 
 interface Props {
-  issue: Item;
-  selectedEndpointID: string;
+  issue: Issue;
+  selectedAccountID: string;
   urlBase: string;
 }
 
@@ -21,15 +19,15 @@ export default class IssueBox extends React.Component<Props> {
   render() {
     const { issue } = this.props;
 
-    const klass = issue.read ? styles.readEvent : styles.unreadEvent;
-    const titleClass = issue.read ? styles.readEventTitle : styles.unreadEventTitle;
+    const klass = issue.AlreadyRead ? styles.readEvent : styles.unreadEvent;
+    const titleClass = issue.AlreadyRead ? styles.readEventTitle : styles.unreadEventTitle;
     return (
-      <div key={issue.id} className={klass} onClick={this.onClickIssue.bind(this)}>
+      <div key={issue.ID} className={klass} onClick={this.onClickIssue.bind(this)}>
         <h3 className={titleClass}>
           {this.renderIssueIcon()}
-          {issue.title} in {`${issue.repo.owner}/${issue.repo.name}`}
+          {issue.Title} in {`${issue.RepoOwner}/${issue.RepoName}`}
         </h3>
-        <div className={styles.labelBox}>{issue.labels.map(label => this.renderLabel(label))}</div>
+        <div className={styles.labelBox}>{issue.Labels.map(label => this.renderLabel(label))}</div>
         {this.renderFooter()}
       </div>
     );
@@ -38,9 +36,9 @@ export default class IssueBox extends React.Component<Props> {
   private renderIssueIcon() {
     const { issue } = this.props;
 
-    const klass = issue.state === 'open' ? styles.openIcon : styles.closedIcon;
+    const klass = issue.State === 'open' ? styles.openIcon : styles.closedIcon;
 
-    if (issue.pull_request) {
+    if (issue.IsPullRequest) {
       return <O icon={GitPullRequest} className={klass} />;
     } else {
       return <O icon={IssueOpened} className={klass} />;
@@ -49,47 +47,46 @@ export default class IssueBox extends React.Component<Props> {
 
   private renderLabel(label: Label) {
     return (
-      <span key={label.id} style={{ backgroundColor: label.color }} className={styles.label}>
-        {label.name}
+      <span key={label.ID} style={{ backgroundColor: label.Color }} className={styles.label}>
+        {label.Name}
       </span>
     );
   }
 
   private renderFooter() {
     const { issue, urlBase } = this.props;
-    const { comments } = issue;
-    const { owner, name } = issue.repo;
+    const { Comments, RepoOwner, RepoName } = issue;
 
     return (
       <div className={styles.footer}>
         <span>
-          {this.userIcon(issue.user.avatar_url)}
+          {this.userIcon(issue.User.AvatarURL)}
           {this.renderAssignees()}
         </span>
 
         <span style={{ marginRight: '5px' }}>
-          {this.userIcon(`${urlBase}/${owner}.png`)}
-          {`${owner}/${name}`}
+          {this.userIcon(`${urlBase}/${RepoOwner}.png`)}
+          {`${RepoOwner}/${RepoName}`}
         </span>
         <span>
           <O icon={CommentDiscussion} />
-          {comments}
+          {Comments}
         </span>
       </div>
     );
   }
 
   private renderAssignees() {
-    const { assignees } = this.props.issue;
+    const { Assignees } = this.props.issue;
 
-    if (assignees.length === 0) {
+    if (Assignees.length === 0) {
       return null;
     }
     return (
       <span>
         →
-        {assignees.map(a => (
-          <span key={a.id}>{this.userIcon(a.avatar_url)}</span>
+        {Assignees.map(a => (
+          <span key={a.ID}>{this.userIcon(a.AvatarURL)}</span>
         ))}
       </span>
     );
@@ -99,8 +96,8 @@ export default class IssueBox extends React.Component<Props> {
     const { issue } = this.props;
 
     ev.preventDefault();
-    markAsRead(issue.id);
-    ipcRenderer.send(IssuesMarkAsReadChannel.Request, issue.id, this.props.selectedEndpointID);
+    markAsReadAction(issue.ID);
+    markAsReadRequest(issue.ID);
     openEvent(this.buildURL());
   }
 
@@ -110,12 +107,11 @@ export default class IssueBox extends React.Component<Props> {
 
   private buildURL() {
     const { issue, urlBase } = this.props;
-    const { number } = issue;
-    const { owner, name } = issue.repo;
-    if (issue.pull_request) {
-      return `${urlBase}/${owner}/${name}/issues/${number}`;
+    const { Number, RepoOwner, RepoName } = issue;
+    if (issue.IsPullRequest) {
+      return `${urlBase}/${RepoOwner}/${RepoName}/issues/${Number}`;
     } else {
-      return `${urlBase}/${owner}/${name}/pull/${number}`;
+      return `${urlBase}/${RepoOwner}/${RepoName}/pull/${Number}`;
     }
   }
 }
