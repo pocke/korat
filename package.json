@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@githubprimer/octicons-react": "^8.0.0",
+    "@githubprimer/octicons-react": "^8.2.0",
     "@types/lodash-es": "^4.17.1",
     "electron": "^2.0.10",
     "lodash-es": "^4.17.11",
