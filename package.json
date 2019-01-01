@@ -36,7 +36,7 @@
     "@types/lodash-es": "^4.17.1",
     "electron": "^2.0.10",
     "lodash-es": "^4.17.11",
-    "moment": "^2.22.2",
+    "moment": "^2.23.0",
     "react": "^16.5.2",
     "react-dom": "^16.4.2"
   },
