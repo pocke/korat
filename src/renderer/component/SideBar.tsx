@@ -8,7 +8,7 @@ interface Props {
   accounts: Account[];
 }
 
-export default class Sidebar extends React.Component<Props> {
+export default class Sidebar extends React.PureComponent<Props> {
   render() {
     return <div className={styles.main}>{this.props.accounts.map(a => this.renderOneAccount(a))}</div>;
   }

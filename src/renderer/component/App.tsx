@@ -10,7 +10,7 @@ import { wsOpen } from '../WSAPI';
 
 type Props = StoreT;
 
-export default class App extends React.Component<Props> {
+export default class App extends React.PureComponent<Props> {
   async componentDidMount() {
     await this.fetchAccounts();
     wsOpen();
