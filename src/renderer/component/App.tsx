@@ -27,8 +27,6 @@ export default class App extends React.Component<Props> {
       return this.renderLoading();
     }
 
-    console.log(accounts);
-    console.log('endpoint', selectedAccountID);
     return (
       <div className={styles.main}>
         <SideBar accounts={accounts} />
