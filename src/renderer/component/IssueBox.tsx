@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
+import { sum } from 'lodash-es';
 
 import * as styles from './IssueBox.scss';
 import { openEvent, markAsRead as markAsReadAction } from '../Actions';
@@ -47,10 +48,22 @@ export default class IssueBox extends React.Component<Props> {
 
   private renderLabel(label: Label) {
     return (
-      <span key={label.ID} style={{ backgroundColor: label.Color }} className={styles.label}>
+      <span
+        key={label.ID}
+        style={{ backgroundColor: label.Color, color: this.labelTextColor(label.Color) }}
+        className={styles.label}
+      >
         {label.Name}
       </span>
     );
+  }
+
+  private labelTextColor(bg: string) {
+    const color = bg
+      .slice(1)
+      .match(/../g)!
+      .map(hex => parseInt(hex, 16));
+    return sum(color) / 3 > 80 ? '#000000' : '#ffffff';
   }
 
   private renderFooter() {
