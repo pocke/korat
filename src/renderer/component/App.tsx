@@ -7,6 +7,7 @@ import { StoreT } from '../Store';
 import { fetchAccounts } from '../API';
 import { updateAccounts } from '../Actions';
 import { wsOpen } from '../WSAPI';
+import { BrowserViewProxy } from './BrowserViewProxy';
 
 type Props = StoreT;
 
@@ -32,7 +33,9 @@ export default class App extends React.PureComponent<Props> {
       <div className={styles.main}>
         <SideBar accounts={accounts} />
         <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} />
-        <webview src={webviewURL} className={styles.webview} />
+        <div className={styles.webview}>
+          <BrowserViewProxy url={webviewURL} />
+        </div>
       </div>
     );
   }
