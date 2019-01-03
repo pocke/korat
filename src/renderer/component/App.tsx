@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import SideBar from './SideBar';
-import EventBar, { EmptyEventBar } from './EventBar';
+import { EventBar } from './EventBar';
 import * as styles from './App.scss';
 import { StoreT } from '../Store';
 import { fetchAccounts } from '../API';
@@ -27,18 +27,11 @@ export default class App extends React.PureComponent<Props> {
       return this.renderLoading();
     }
 
+    const account = accounts.find(a => a.ID === selectedAccountID);
     return (
       <div className={styles.main}>
         <SideBar accounts={accounts} />
-        {issues.length === 0 ? (
-          <EmptyEventBar />
-        ) : (
-          <EventBar
-            urlBase={accounts.find(a => a.ID === selectedAccountID)!.UrlBase}
-            selectedAccountID={selectedAccountID!.toString()}
-            issues={issues}
-          />
-        )}
+        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} />
         <webview src={webviewURL} className={styles.webview} />
       </div>
     );

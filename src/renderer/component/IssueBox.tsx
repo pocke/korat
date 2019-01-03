@@ -12,7 +12,6 @@ const O = Octicon as any;
 
 interface Props {
   issue: Issue;
-  selectedAccountID: string;
   urlBase: string;
 }
 
