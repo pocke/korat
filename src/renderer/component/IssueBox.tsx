@@ -105,7 +105,7 @@ export default class IssueBox extends React.Component<Props> {
     );
   }
 
-  private onClickIssue(ev: Event) {
+  private onClickIssue(ev: React.MouseEvent<HTMLDivElement>) {
     const { issue } = this.props;
 
     ev.preventDefault();

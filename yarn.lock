@@ -17,8 +17,9 @@
     js-tokens "^3.0.0"
 
 "@githubprimer/octicons-react@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.0.0.tgz#11c72f75d9d0124bc801db71b786055651a2a448"
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.2.0.tgz#a95bbd4c409fbf975c94e2ece4881860001f134f"
+  integrity sha512-WUb8Fd93j7RvAS5GOFJafPVDYxHon+g/OZTF0vAGFbYifrb11ejeBB79hm8Xi+E33OPPGCA3ZpqhPJU+5gvczw==
   dependencies:
     prop-types "^15.6.1"
 
@@ -3327,6 +3328,7 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
+  integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
 js-yaml@^3.7.0, js-yaml@^3.9.0:
   version "3.12.0"
@@ -6013,8 +6015,9 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 typescript@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
+  integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==
 
 typings-for-css-modules-loader@^1.7.0:
   version "1.7.0"
