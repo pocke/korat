@@ -24,9 +24,13 @@ export default class Sidebar extends React.PureComponent<Props> {
 
   renderChannel(c: Channel, accountID: number) {
     return (
-      <div key={c.ID}>
-        <button onClick={() => this.onSelectChannel(c.ID, accountID)}>{c.DisplayName}</button>
-        {c.UnreadCount ? <span>{c.UnreadCount}</span> : null}
+      <div onClick={() => this.onSelectChannel(c.ID, accountID)} key={c.ID} className={styles.channel}>
+        <span>{c.DisplayName}</span>
+        {c.UnreadCount ? (
+          <span className={styles.unreadCount}>
+            <span>{c.UnreadCount}</span>
+          </span>
+        ) : null}
       </div>
     );
   }
