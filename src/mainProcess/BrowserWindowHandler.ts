@@ -10,13 +10,11 @@ export const setMainWindow = (w: Electron.BrowserWindow) => {
 
 class ViewPool {
   private pool: Array<Electron.BrowserView>;
-  private urls: Array<string>;
   private wins: Array<Electron.BrowserWindow>;
   private openedIdx: number;
   private headIdx: number;
 
   constructor(private length: number) {
-    this.urls = times(this.length, () => '');
     this.pool = times(this.length, () => new BrowserView({ webPreferences: { nodeIntegration: false } }));
     this.wins = times(this.length, n => {
       const w = new BrowserWindow({ width: 100, height: 100, show: false });
@@ -28,20 +26,25 @@ class ViewPool {
     this.headIdx = 0;
   }
 
-  prefetch(url: string) {
-    if (this.findByURL(url)) {
-      return;
+  async prefetch(url: string): Promise<BrowserView> {
+    const v = this.findByURL(url);
+    if (v) {
+      console.log('cache hit: ', url);
+      return v;
     }
     const idx = this.nextIdx();
-    this.urls[idx] = url;
-    this.pool[idx].webContents.loadURL(url);
+    const view = this.pool[idx];
+    const wc = view.webContents;
+    return new Promise((resolve, _reject) => {
+      wc.once('dom-ready', () => resolve(view));
+      wc.loadURL(url);
+    });
   }
 
-  open(url: string) {
-    this.prefetch(url);
-    const view = this.findByURL(url)!;
-    this.openedIdx = view.idx;
-    return view.conn;
+  async open(url: string) {
+    const view = await this.prefetch(url);
+    this.openedIdx = this.pool.indexOf(view);
+    return view;
   }
 
   setBounds(size: Size) {
@@ -51,11 +54,10 @@ class ViewPool {
   }
 
   private findByURL(url: string) {
-    const idx = this.urls.indexOf(url);
-    if (idx === -1) {
-      return null;
-    }
-    return { conn: this.pool[idx], idx };
+    console.log(this.pool.map(v => v.webContents.getURL()));
+    const view = this.pool.find(v => v.webContents.getURL() === url);
+    console.log('view: ', view);
+    return view;
   }
 
   private nextIdx(): number {
@@ -93,9 +95,9 @@ ipcMain.on('browser-view-change-size', (_event: any, size: Size) => {
   viewPool.setBounds(size);
 });
 
-ipcMain.on('browser-view-load-url', (_event: any, url: string) => {
+ipcMain.on('browser-view-load-url', async (_event: any, url: string) => {
   console.log('browser-view-load-url', url);
-  const view = viewPool.open(url);
+  const view = await viewPool.open(url);
   mainWindow.setBrowserView(view);
 });
 
