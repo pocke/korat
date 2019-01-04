@@ -78,7 +78,7 @@ class ViewPool {
 
 let viewPool: ViewPool;
 app.on('ready', () => {
-  viewPool = PREFETCH_ENABLED ? new ViewPool(10) : new ViewPool(1);
+  viewPool = PREFETCH_ENABLED ? new ViewPool(15) : new ViewPool(1);
 });
 
 interface Size {

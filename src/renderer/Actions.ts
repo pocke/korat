@@ -13,11 +13,11 @@ export const updateIssues = (issues: Issue[]) => {
   const { UrlBase } = selectedAccount();
   issues
     .filter(i => i.AlreadyRead)
-    .slice(0, 3)
+    .slice(0, 7)
     .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
   issues
     .filter(i => !i.AlreadyRead)
-    .slice(0, 6)
+    .slice(0, 7)
     .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
   mergeStore({ issues });
 };
