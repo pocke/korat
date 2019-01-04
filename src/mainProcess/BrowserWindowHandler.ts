@@ -100,8 +100,8 @@ ipcMain.on('browser-view-load-url', (_event: any, url: string) => {
 });
 
 ipcMain.on('browser-view-prefetch', (_event: any, url: string) => {
-  console.log('browser-view-prefetch', url);
-
   if (!PREFETCH_ENABLED) return;
+
+  console.log('browser-view-prefetch', url);
   viewPool.prefetch(url);
 });

@@ -1,13 +1,21 @@
 import { flatMap } from 'lodash-es';
+import { ipcRenderer } from 'electron';
 
 import { mergeStore, currentStore } from './Store';
 import { Account, Issue } from './API';
+import { issueURL } from '../utils';
 
 export const updateAccounts = (accounts: Account[]) => {
   mergeStore({ accounts });
 };
 
 export const updateIssues = (issues: Issue[]) => {
+  const cur = currentStore();
+  const account = cur.accounts!.find(a => a.ID === cur.selectedAccountID)!;
+  issues
+    .filter(i => !i.AlreadyRead)
+    .slice(0, 9)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, account.UrlBase)));
   mergeStore({ issues });
 };
 
