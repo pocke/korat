@@ -26,7 +26,7 @@ export default class IssueBox extends React.Component<Props> {
       <div key={issue.ID} className={klass} onClick={this.onClickIssue.bind(this)}>
         <h3 className={titleClass}>
           {this.renderIssueIcon()}
-          {issue.Title} in {`${issue.RepoOwner}/${issue.RepoName}`}
+          {issue.Title}
         </h3>
         <div className={styles.labelBox}>{issue.Labels.map(label => this.renderLabel(label))}</div>
         {this.renderFooter()}
@@ -79,7 +79,7 @@ export default class IssueBox extends React.Component<Props> {
 
         <span style={{ marginRight: '5px' }}>
           {this.userIcon(`${urlBase}/${RepoOwner}.png`)}
-          {`${RepoOwner}/${RepoName}`}
+          {`${RepoOwner}/${RepoName}#${issue.Number}`}
         </span>
         <span>
           <O icon={CommentDiscussion} />
