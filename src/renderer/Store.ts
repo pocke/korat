@@ -23,6 +23,14 @@ export const mergeStore = (newStore: Partial<StoreT>) => {
   }
 };
 
+export const selectedAccount = () => {
+  return Store.accounts!.find(a => a.ID === Store.selectedAccountID)!;
+};
+
+export const selectedChannel = () => {
+  return selectedAccount().Channels.find(c => c.ID === Store.selectedChannelID)!;
+};
+
 let _onUpdate: ((store: StoreT) => void) | null = null;
 
 export const onUpdate = (f: (store: StoreT) => void) => {

@@ -31,7 +31,7 @@ export default class App extends React.PureComponent<Props> {
     const account = accounts.find(a => a.ID === selectedAccountID);
     return (
       <div className={styles.main}>
-        <SideBar accounts={accounts} />
+        <SideBar accounts={accounts} selectedChannelID={this.props.selectedChannelID} />
         <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} />
         <div className={styles.webview}>
           <BrowserViewProxy url={webviewURL} />

@@ -6,6 +6,7 @@ import { Account, Channel, fetchIssues } from '../API';
 
 interface Props {
   accounts: Account[];
+  selectedChannelID: number | undefined;
 }
 
 export default class Sidebar extends React.PureComponent<Props> {
@@ -23,9 +24,13 @@ export default class Sidebar extends React.PureComponent<Props> {
   }
 
   renderChannel(c: Channel, accountID: number) {
+    const classes = [styles.channel];
+    if (c.ID == this.props.selectedChannelID) {
+      classes.push(styles.selectedChannel);
+    }
     return (
       <div key={c.ID}>
-        <div onClick={() => this.onSelectChannel(c.ID, accountID)} className={styles.channel}>
+        <div onClick={() => this.onSelectChannel(c.ID, accountID)} className={classes.join(' ')}>
           <span>{c.DisplayName}</span>
           {c.UnreadCount ? (
             <span className={styles.unreadCount}>
@@ -33,7 +38,6 @@ export default class Sidebar extends React.PureComponent<Props> {
             </span>
           ) : null}
         </div>
-        <hr />
       </div>
     );
   }
