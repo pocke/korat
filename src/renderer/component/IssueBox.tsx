@@ -5,6 +5,7 @@ import { sum } from 'lodash-es';
 import * as styles from './IssueBox.scss';
 import { openEvent, markAsRead as markAsReadAction } from '../Actions';
 import { Issue, markAsRead as markAsReadRequest, Label } from '../API';
+import { issueURL } from '../../utils';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -105,25 +106,15 @@ export default class IssueBox extends React.Component<Props> {
   }
 
   private onClickIssue(ev: React.MouseEvent<HTMLDivElement>) {
-    const { issue } = this.props;
+    const { issue, urlBase } = this.props;
 
     ev.preventDefault();
     markAsReadAction(issue.ID);
     markAsReadRequest(issue.ID);
-    openEvent(this.buildURL());
+    openEvent(issueURL(issue, urlBase));
   }
 
   private userIcon(url: string) {
     return <img src={url} alt="user icon" className={styles.userIcon} />;
-  }
-
-  private buildURL() {
-    const { issue, urlBase } = this.props;
-    const { Number, RepoOwner, RepoName } = issue;
-    if (issue.IsPullRequest) {
-      return `${urlBase}/${RepoOwner}/${RepoName}/issues/${Number}`;
-    } else {
-      return `${urlBase}/${RepoOwner}/${RepoName}/pull/${Number}`;
-    }
   }
 }
