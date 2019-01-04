@@ -1,3 +1,5 @@
+@import '../theme';
+
 @mixin event() {
   border-bottom: solid 3px #ddd;
   cursor: pointer;
@@ -9,7 +11,7 @@
 
 .readEvent {
   @include event();
-  background: #eee;
+  background: $BACKGROUND_DARK_COLOR;
 }
 
 @mixin title() {
@@ -20,12 +22,12 @@
 
 .readEventTitle {
   @include title();
-  color: #999;
+  color: $MUTED_FONT_COLOR;
 }
 
 .unreadEventTitle {
   @include title();
-  color: #000;
+  color: $FONT_COLOR;
 }
 
 @mixin icon() {

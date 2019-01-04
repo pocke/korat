@@ -1,3 +1,5 @@
+@import '../theme';
+
 .main {
   padding-left: 5px;
   border-right: solid 3px #ddd;
@@ -23,5 +25,10 @@
   border-radius: 20px;
   height: 20px;
   min-width: 20px;
-  background-color: #ff9999; // TODO
+  font-weight: bold;
+  background-color: $SECONDARY_COLOR;
+}
+
+.selectedChannel {
+  background-color: $PRIMARY_COLOR;
 }
