@@ -7,11 +7,13 @@
 
 .unreadEvent {
   @include event();
+  color: $FONT_COLOR;
 }
 
 .readEvent {
   @include event();
   background: $BACKGROUND_DARK_COLOR;
+  color: $MUTED_FONT_COLOR;
 }
 
 @mixin title() {
@@ -22,12 +24,10 @@
 
 .readEventTitle {
   @include title();
-  color: $MUTED_FONT_COLOR;
 }
 
 .unreadEventTitle {
   @include title();
-  color: $FONT_COLOR;
 }
 
 @mixin icon() {
