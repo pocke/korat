@@ -54,9 +54,7 @@ class ViewPool {
   }
 
   private findByURL(url: string) {
-    console.log(this.pool.map(v => v.webContents.getURL()));
     const view = this.pool.find(v => v.webContents.getURL() === url);
-    console.log('view: ', view);
     return view;
   }
 
