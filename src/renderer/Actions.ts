@@ -13,8 +13,12 @@ export const updateIssues = (issues: Issue[]) => {
   const cur = currentStore();
   const account = cur.accounts!.find(a => a.ID === cur.selectedAccountID)!;
   issues
+    .filter(i => i.AlreadyRead)
+    .slice(0, 3)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, account.UrlBase)));
+  issues
     .filter(i => !i.AlreadyRead)
-    .slice(0, 9)
+    .slice(0, 6)
     .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, account.UrlBase)));
   mergeStore({ issues });
 };
