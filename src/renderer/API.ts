@@ -55,8 +55,12 @@ export const fetchAccounts = async () => {
   return (await resp.json()) as Account[];
 };
 
-export const fetchIssues = async (channelID: number) => {
-  const resp = await fetch(URL_BASE + `/channels/${channelID}/issues`);
+export const fetchIssues = async (channelID: number, option: { onlyUnreadIssue?: boolean } = {}) => {
+  let u = URL_BASE + `/channels/${channelID}/issues`;
+  if (option.onlyUnreadIssue) {
+    u += '?onlyUnread=1';
+  }
+  const resp = await fetch(u);
   return (await resp.json()) as Issue[];
 };
 

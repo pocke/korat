@@ -6,11 +6,13 @@ export interface StoreT {
   selectedAccountID?: number;
   issues: Issue[];
   webviewURL: string;
+  onlyUnreadIssue: boolean;
 }
 
 let Store: StoreT = {
   issues: [],
   webviewURL: 'https://github.com',
+  onlyUnreadIssue: false,
 };
 
 export const currentStore = () => Store;

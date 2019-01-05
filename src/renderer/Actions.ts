@@ -2,7 +2,7 @@ import { flatMap } from 'lodash-es';
 import { ipcRenderer } from 'electron';
 
 import { mergeStore, currentStore, selectedAccount } from './Store';
-import { Account, Issue } from './API';
+import { Account, Issue, fetchIssues } from './API';
 import { issueURL } from '../utils';
 
 export const updateAccounts = (accounts: Account[]) => {
@@ -61,4 +61,22 @@ export const updateUnreadCount = (channelID: number, UnreadCount: number) => {
     }
   });
   mergeStore({ accounts });
+};
+
+export const updateOnlyUnreadIssues = async (onlyUnreadIssue: boolean) => {
+  const cur = currentStore();
+  const { UrlBase } = selectedAccount();
+
+  const issues = await fetchIssues(cur.selectedChannelID!, { onlyUnreadIssue });
+  issues
+    .filter(i => i.AlreadyRead)
+    .slice(0, 7)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
+  issues
+    .filter(i => !i.AlreadyRead)
+    .slice(0, 7)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
+
+  console.log(issues);
+  mergeStore({ onlyUnreadIssue, issues });
 };

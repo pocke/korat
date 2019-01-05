@@ -7,6 +7,7 @@ import { Account, Channel, fetchIssues } from '../API';
 interface Props {
   accounts: Account[];
   selectedChannelID: number | undefined;
+  onlyUnreadIssue: boolean;
 }
 
 export default class Sidebar extends React.PureComponent<Props> {
@@ -44,7 +45,7 @@ export default class Sidebar extends React.PureComponent<Props> {
 
   async onSelectChannel(selectedChannelID: number, selectedAccountID: number) {
     selectChannel(selectedChannelID, selectedAccountID);
-    const issues = await fetchIssues(selectedChannelID);
+    const issues = await fetchIssues(selectedChannelID, { onlyUnreadIssue: this.props.onlyUnreadIssue });
     updateIssues(issues);
   }
 }
