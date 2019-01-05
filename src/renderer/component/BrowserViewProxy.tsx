@@ -34,8 +34,12 @@ export class BrowserViewProxy extends React.Component<Props, State> {
     window.addEventListener('resize', this.onResize);
   }
 
-  onResize() {
-    const { x, y, width, height } = this.el.current!.getBoundingClientRect() as DOMRect;
+  private onResize() {
+    const current = this.el.current;
+    if (!current) {
+      return;
+    }
+    const { x, y, width, height } = current.getBoundingClientRect() as DOMRect;
     this.setState({ x, y, width, height });
   }
 
