@@ -40,6 +40,7 @@ export default class App extends React.PureComponent<Props> {
           issues={issues}
           onlyUnreadIssue={onlyUnreadIssue}
           selectedChannelID={this.props.selectedChannelID}
+          account={account}
         />
         <div className={styles.webview}>
           <InternalBrowser url={webviewURL} />

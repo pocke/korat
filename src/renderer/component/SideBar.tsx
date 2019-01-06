@@ -46,6 +46,7 @@ export default class Sidebar extends React.PureComponent<Props> {
 
   async onSelectChannel(selectedChannelID: number, selectedAccountID: number) {
     Store.dispatch(selectChannelAction(selectedChannelID, selectedAccountID));
-    Store.dispatch(await refreshIssuesAction(selectedChannelID, this.props.onlyUnreadIssue));
+    const urlBase = this.props.accounts.find(a => a.ID === selectedAccountID)!.UrlBase;
+    Store.dispatch(await refreshIssuesAction(selectedChannelID, this.props.onlyUnreadIssue, urlBase));
   }
 }

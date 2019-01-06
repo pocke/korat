@@ -1,4 +1,6 @@
 import { fetchAccounts, Account, Issue, fetchIssues, markAsRead as markAsReadRequest } from './API';
+import { ipcRenderer } from 'electron';
+import { issueURL } from '../utils';
 
 export const UpdateAccounts = 'UpdateAccounts';
 export const RefreshIssues = 'RefreshIssues';
@@ -62,17 +64,24 @@ export const updateAccountsAction = async (): Promise<UpdateAccountsType> => {
   };
 };
 
-// TODO update the cache
-// issues
-//   .filter(i => i.AlreadyRead)
-//   .slice(0, 7)
-//   .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
-// issues
-//   .filter(i => !i.AlreadyRead)
-//   .slice(0, 7)
-//   .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, UrlBase)));
-export const refreshIssuesAction = async (channelID: number, onlyUnreadIssue: boolean): Promise<RefreshIssuesType> => {
+export const refreshIssuesAction = async (
+  channelID: number,
+  onlyUnreadIssue: boolean,
+  urlBase: string,
+): Promise<RefreshIssuesType> => {
   const issues = await fetchIssues(channelID, { onlyUnreadIssue });
+  if (onlyUnreadIssue) {
+    issues.slice(0, 14).forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+  } else {
+    issues
+      .filter(i => i.AlreadyRead)
+      .slice(0, 7)
+      .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+    issues
+      .filter(i => !i.AlreadyRead)
+      .slice(0, 7)
+      .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+  }
   return {
     type: RefreshIssues,
     issues,
