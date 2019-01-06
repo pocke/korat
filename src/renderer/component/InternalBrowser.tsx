@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { AddressBar } from './InternalBrowser/AddressBar';
 import { BrowserViewProxy } from './InternalBrowser/BrowserViewProxy';
+import * as styles from './InternalBrowser.scss';
 
 interface Props {
   url: string;
@@ -9,7 +10,7 @@ interface Props {
 export class InternalBrowser extends React.Component<Props> {
   render() {
     return (
-      <div style={{ width: '100%', height: '100%' }}>
+      <div className={styles.container}>
         <AddressBar />
         <BrowserViewProxy url={this.props.url} />
       </div>

@@ -41,6 +41,6 @@ export class BrowserViewProxy extends React.Component<Props> {
   }
 
   render() {
-    return <div style={{ width: '100%', height: '100%' }} ref={this.el} />;
+    return <div style={{ width: '100%', flexGrow: 1 }} ref={this.el} />;
   }
 }

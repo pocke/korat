@@ -42,9 +42,7 @@ export class App extends React.PureComponent<Props> {
           selectedChannelID={this.props.selectedChannelID}
           account={account}
         />
-        <div className={styles.webview}>
-          <InternalBrowser url={webviewURL} />
-        </div>
+        <InternalBrowser url={webviewURL} />
       </div>
     );
   }
