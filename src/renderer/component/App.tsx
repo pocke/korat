@@ -4,10 +4,10 @@ import SideBar from './SideBar';
 import { EventBar } from './EventBar';
 import * as styles from './App.scss';
 import { AppState } from '../AppState';
-import { fetchAccounts } from '../API';
-import { updateAccounts } from '../Actions';
 import { wsOpen } from '../WSAPI';
 import { InternalBrowser } from './InternalBrowser';
+import { Store } from '../Store';
+import { updateAccountsAction } from '../ActionCreator';
 
 type Props = AppState;
 
@@ -18,8 +18,7 @@ export default class App extends React.PureComponent<Props> {
   }
 
   private async fetchAccounts() {
-    const accounts = await fetchAccounts();
-    updateAccounts(accounts);
+    Store.dispatch(await updateAccountsAction());
   }
 
   render() {

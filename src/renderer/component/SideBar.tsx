@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import * as styles from './SideBar.scss';
-import { selectChannel, updateIssues } from '../Actions';
-import { Account, Channel, fetchIssues } from '../API';
+import { Account, Channel } from '../API';
+import { Store } from '../Store';
+import { refreshIssuesAction, selectChannelAction } from '../ActionCreator';
 
 interface Props {
   accounts: Account[];
@@ -44,8 +45,7 @@ export default class Sidebar extends React.PureComponent<Props> {
   }
 
   async onSelectChannel(selectedChannelID: number, selectedAccountID: number) {
-    selectChannel(selectedChannelID, selectedAccountID);
-    const issues = await fetchIssues(selectedChannelID, { onlyUnreadIssue: this.props.onlyUnreadIssue });
-    updateIssues(issues);
+    Store.dispatch(selectChannelAction(selectedChannelID, selectedAccountID));
+    Store.dispatch(await refreshIssuesAction(selectedChannelID, this.props.onlyUnreadIssue));
   }
 }

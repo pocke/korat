@@ -3,7 +3,8 @@ import * as React from 'react';
 import * as styles from './EventBar.scss';
 import IssueBox from './IssueBox';
 import { Issue } from '../API';
-import { updateOnlyUnreadIssues } from '../Actions';
+import { updateOnlyUnreadIssuesAction } from '../ActionCreator';
+import { Store } from '../Store';
 
 interface Props {
   issues: Issue[];
@@ -42,6 +43,6 @@ export class EventBar extends React.Component<Props> {
   }
 
   private onChangeOnlyUnreadIssueCheckbox(ev: React.ChangeEvent<HTMLInputElement>) {
-    updateOnlyUnreadIssues(ev.target.checked);
+    Store.dispatch(updateOnlyUnreadIssuesAction(ev.target.checked));
   }
 }
