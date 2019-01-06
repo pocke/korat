@@ -7,7 +7,7 @@ import { StoreT } from '../Store';
 import { fetchAccounts } from '../API';
 import { updateAccounts } from '../Actions';
 import { wsOpen } from '../WSAPI';
-import { BrowserViewProxy } from './BrowserViewProxy';
+import { InternalBrowser } from './InternalBrowser';
 
 type Props = StoreT;
 
@@ -38,7 +38,7 @@ export default class App extends React.PureComponent<Props> {
         />
         <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} onlyUnreadIssue={onlyUnreadIssue} />
         <div className={styles.webview}>
-          <BrowserViewProxy url={webviewURL} />
+          <InternalBrowser url={webviewURL} />
         </div>
       </div>
     );

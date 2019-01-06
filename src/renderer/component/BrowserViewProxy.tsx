@@ -58,6 +58,43 @@ export class BrowserViewProxy extends React.Component<Props, State> {
   }
 
   render() {
-    return <div style={{ width: '100%', height: '100%' }} ref={this.el} />;
+    return (
+      <div style={{ width: '100%', height: '100%' }}>
+        <AddressBar />
+        <div style={{ width: '100%', height: '100%' }} ref={this.el} />
+      </div>
+    );
+  }
+}
+
+interface AddressBarProps {}
+
+interface AddressBarState {
+  url: string;
+}
+
+class AddressBar extends React.Component<AddressBarProps, AddressBarState> {
+  constructor(props: AddressBarProps) {
+    super(props);
+    this.state = { url: '' };
+
+    this.onWillNavigate = this.onWillNavigate.bind(this);
+  }
+
+  componentDidMount() {
+    ipcRenderer.on('browser-view-will-navigate', this.onWillNavigate);
+  }
+
+  componentWillUnmount() {
+    ipcRenderer.removeListener('browser-view-will-navigate', this.onWillNavigate);
+  }
+
+  render() {
+    return <div style={{ height: '20px' }}>{this.state.url}</div>;
+  }
+
+  private onWillNavigate(_event: Electron.Event, url: string) {
+    console.log('onWillNavigate', url);
+    this.setState({ url });
   }
 }
