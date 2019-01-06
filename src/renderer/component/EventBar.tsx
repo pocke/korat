@@ -40,6 +40,7 @@ export class EventBar extends React.Component<Props> {
             <IssueBox key={issue.ID} issue={issue} urlBase={this.props.urlBase} />
           ))}
         </div>
+        <div className={styles.rest} />
       </div>
     );
   }
