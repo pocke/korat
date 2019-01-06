@@ -35,7 +35,12 @@ export default class App extends React.PureComponent<Props> {
           selectedChannelID={this.props.selectedChannelID}
           onlyUnreadIssue={onlyUnreadIssue}
         />
-        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} onlyUnreadIssue={onlyUnreadIssue} />
+        <EventBar
+          urlBase={account ? account.UrlBase : ''}
+          issues={issues}
+          onlyUnreadIssue={onlyUnreadIssue}
+          selectedChannelID={this.props.selectedChannelID}
+        />
         <div className={styles.webview}>
           <InternalBrowser url={webviewURL} />
         </div>
