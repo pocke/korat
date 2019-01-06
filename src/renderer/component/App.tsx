@@ -3,13 +3,13 @@ import * as React from 'react';
 import SideBar from './SideBar';
 import { EventBar } from './EventBar';
 import * as styles from './App.scss';
-import { StoreT } from '../Store';
+import { AppState } from '../AppState';
 import { fetchAccounts } from '../API';
 import { updateAccounts } from '../Actions';
 import { wsOpen } from '../WSAPI';
 import { InternalBrowser } from './InternalBrowser';
 
-type Props = StoreT;
+type Props = AppState;
 
 export default class App extends React.PureComponent<Props> {
   async componentDidMount() {
