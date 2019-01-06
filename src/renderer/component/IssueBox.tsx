@@ -17,7 +17,7 @@ interface Props {
   urlBase: string;
 }
 
-export default class IssueBox extends React.Component<Props> {
+export class IssueBox extends React.Component<Props> {
   render() {
     const { issue } = this.props;
 

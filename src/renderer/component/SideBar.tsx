@@ -11,7 +11,7 @@ interface Props {
   onlyUnreadIssue: boolean;
 }
 
-export default class Sidebar extends React.PureComponent<Props> {
+export class SideBar extends React.PureComponent<Props> {
   render() {
     return <div className={styles.main}>{this.props.accounts.map(a => this.renderOneAccount(a))}</div>;
   }

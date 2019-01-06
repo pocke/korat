@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import * as styles from './EventBar.scss';
-import IssueBox from './IssueBox';
+import { IssueBox } from './IssueBox';
 import { Issue, Account } from '../API';
 import { updateOnlyUnreadIssuesAction, refreshIssuesAction } from '../ActionCreator';
 import { Store } from '../Store';

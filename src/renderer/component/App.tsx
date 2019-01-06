@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import SideBar from './SideBar';
+import { SideBar } from './SideBar';
 import { EventBar } from './EventBar';
 import * as styles from './App.scss';
 import { AppState } from '../AppState';
@@ -11,7 +11,7 @@ import { updateAccountsAction } from '../ActionCreator';
 
 type Props = AppState;
 
-export default class App extends React.PureComponent<Props> {
+export class App extends React.PureComponent<Props> {
   async componentDidMount() {
     await this.fetchAccounts();
     wsOpen();
