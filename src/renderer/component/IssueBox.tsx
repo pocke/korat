@@ -3,9 +3,10 @@ import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@github
 import { sum } from 'lodash-es';
 
 import * as styles from './IssueBox.scss';
-import { openEvent, markAsRead as markAsReadAction } from '../Actions';
-import { Issue, markAsRead as markAsReadRequest, Label } from '../API';
+import { Issue, Label } from '../API';
 import { issueURL } from '../../utils';
+import { Store } from '../Store';
+import { openIssueAction, markAsReadAction } from '../ActionCreator';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -109,9 +110,8 @@ export default class IssueBox extends React.Component<Props> {
     const { issue, urlBase } = this.props;
 
     ev.preventDefault();
-    markAsReadAction(issue.ID);
-    markAsReadRequest(issue.ID);
-    openEvent(issueURL(issue, urlBase));
+    Store.dispatch(openIssueAction(issueURL(issue, urlBase)));
+    Store.dispatch(markAsReadAction(issue.ID));
   }
 
   private userIcon(url: string) {

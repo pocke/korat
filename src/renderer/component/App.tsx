@@ -3,13 +3,13 @@ import * as React from 'react';
 import SideBar from './SideBar';
 import { EventBar } from './EventBar';
 import * as styles from './App.scss';
-import { StoreT } from '../Store';
-import { fetchAccounts } from '../API';
-import { updateAccounts } from '../Actions';
+import { AppState } from '../AppState';
 import { wsOpen } from '../WSAPI';
 import { InternalBrowser } from './InternalBrowser';
+import { Store } from '../Store';
+import { updateAccountsAction } from '../ActionCreator';
 
-type Props = StoreT;
+type Props = AppState;
 
 export default class App extends React.PureComponent<Props> {
   async componentDidMount() {
@@ -18,8 +18,7 @@ export default class App extends React.PureComponent<Props> {
   }
 
   private async fetchAccounts() {
-    const accounts = await fetchAccounts();
-    updateAccounts(accounts);
+    Store.dispatch(await updateAccountsAction());
   }
 
   render() {
@@ -36,7 +35,13 @@ export default class App extends React.PureComponent<Props> {
           selectedChannelID={this.props.selectedChannelID}
           onlyUnreadIssue={onlyUnreadIssue}
         />
-        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} onlyUnreadIssue={onlyUnreadIssue} />
+        <EventBar
+          urlBase={account ? account.UrlBase : ''}
+          issues={issues}
+          onlyUnreadIssue={onlyUnreadIssue}
+          selectedChannelID={this.props.selectedChannelID}
+          account={account}
+        />
         <div className={styles.webview}>
           <InternalBrowser url={webviewURL} />
         </div>

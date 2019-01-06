@@ -1,4 +1,5 @@
-import { updateUnreadCount } from './Actions';
+import { updateUnreadCountAction } from './ActionCreator';
+import { Store } from './Store';
 
 const URL = 'ws://localhost:5427/ws';
 
@@ -18,9 +19,9 @@ export const wsOpen = () => {
     const data = JSON.parse(event.data) as WsMessage;
     console.log('ws received', data);
     if (data.Type === 'UnreadCount') {
-      updateUnreadCount(data.Payload.ChannelID, data.Payload.Count);
+      Store.dispatch(updateUnreadCountAction(data.Payload.ChannelID, data.Payload.Count));
     } else {
-      // unreachable
+      throw 'unreachable';
     }
   });
 };
