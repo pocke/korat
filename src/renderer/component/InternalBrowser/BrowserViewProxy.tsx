@@ -5,25 +5,12 @@ interface Props {
   url: string;
 }
 
-interface State {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-export class BrowserViewProxy extends React.Component<Props, State> {
+export class BrowserViewProxy extends React.Component<Props> {
   private el: React.RefObject<HTMLDivElement>;
 
   constructor(props: Props) {
     super(props);
     this.el = React.createRef();
-    this.state = {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
 
     this.onResize = this.onResize.bind(this);
   }
@@ -40,16 +27,12 @@ export class BrowserViewProxy extends React.Component<Props, State> {
       return;
     }
     const { x, y, width, height } = current.getBoundingClientRect() as DOMRect;
-    this.setState({ x, y, width, height });
+    ipcRenderer.send('browser-view-change-size', { x, y, width, height });
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State, __: any) {
+  componentDidUpdate(prevProps: Props, _prevState: any, __: any) {
     if (prevProps.url !== this.props.url) {
       ipcRenderer.send('browser-view-load-url', this.props.url);
-    }
-    if (prevState !== this.state) {
-      const { x, y, width, height } = this.state;
-      ipcRenderer.send('browser-view-change-size', { x, y, width, height });
     }
   }
 
