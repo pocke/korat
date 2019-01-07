@@ -37,6 +37,7 @@ export interface Issue {
   IsPullRequest: boolean;
   Body: string;
   AlreadyRead: boolean;
+  Merged: boolean | null;
 
   User: User;
   Labels: Label[];

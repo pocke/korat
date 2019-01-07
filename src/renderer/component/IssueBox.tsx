@@ -60,11 +60,20 @@ export class IssueBox extends React.Component<Props> {
   private renderIssueIcon() {
     const { issue } = this.props;
 
-    const klass = issue.State === 'open' ? styles.openIcon : styles.closedIcon;
-
     if (issue.IsPullRequest) {
+      let klass: string;
+      if (issue.ClosedAt === null) {
+        klass = styles.openIcon;
+      } else if (issue.Merged === null) {
+        klass = styles.undeterminedIcon;
+      } else if (issue.Merged) {
+        klass = styles.mergedIcon;
+      } else {
+        klass = styles.closedIcon;
+      }
       return <O icon={GitPullRequest} className={klass} />;
     } else {
+      const klass = issue.State === 'open' ? styles.openIcon : styles.closedIcon;
       return <O icon={IssueOpened} className={klass} />;
     }
   }

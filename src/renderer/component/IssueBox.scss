@@ -32,16 +32,27 @@
 
 @mixin icon() {
   width: 2rem;
+  height: 2rem;
 }
 
 .openIcon {
   @include icon();
-  color: green;
+  color: $GITHUB_OPEN_COLOR;
 }
 
 .closedIcon {
   @include icon();
-  color: red;
+  color: $GITHUB_CLOSED_COLOR;
+}
+
+.mergedIcon {
+  @include icon();
+  color: $GITHUB_MERGED_COLOR;
+}
+
+.undeterminedIcon {
+  @include icon();
+  color: $MUTED_FONT_COLOR;
 }
 
 .labelBox {
