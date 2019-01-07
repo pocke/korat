@@ -7,4 +7,16 @@ export interface AppState {
   issues: Issue[];
   webviewURL: string;
   onlyUnreadIssue: boolean;
+
+  filter: {
+    issue: boolean;
+    pullRequest: boolean;
+
+    read: boolean;
+    unread: boolean;
+
+    closed: boolean;
+    open: boolean;
+    merged: boolean;
+  };
 }
