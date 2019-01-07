@@ -19,7 +19,12 @@ export class ViewPool {
   constructor(private length: number) {
     this.ev = new EventEmitter();
     this.pool = times(this.length, idx => {
-      const v = new BrowserView({ webPreferences: { nodeIntegration: false } });
+      const v = new BrowserView({
+        webPreferences: {
+          nodeIntegration: false,
+          preload: `${__dirname}/../public/build/preload.js`,
+        },
+      });
       v.webContents.on('will-navigate', (_event, url) => {
         if (this.openedIdx === idx) {
           this.ev.emit('will-navigate', url);
