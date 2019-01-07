@@ -1,3 +1,5 @@
+// It injects this file to BrowserView.
+
 import { ipcRenderer } from 'electron';
 
 window.addEventListener('contextmenu', (ev: MouseEvent) => {
