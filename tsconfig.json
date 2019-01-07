@@ -21,7 +21,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": false
   },
   "include": ["types/**/*", "src/**/*", "tool/**/*"],
   "exclude": [".git", "node_modules"]
