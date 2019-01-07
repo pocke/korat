@@ -1,4 +1,11 @@
-import { fetchAccounts, Account, Issue, fetchIssues, markAsRead as markAsReadRequest } from './API';
+import {
+  fetchAccounts,
+  Account,
+  Issue,
+  fetchIssues,
+  markAsRead as markAsReadRequest,
+  markAsUnread as markAsUnreadRequest,
+} from './API';
 import { ipcRenderer } from 'electron';
 import { issueURL } from '../utils';
 
@@ -7,6 +14,7 @@ export const RefreshIssues = 'RefreshIssues';
 export const SelectChannel = 'SelectChannel';
 export const OpenIssue = 'OpenIssue';
 export const MarkAsRead = 'MarkAsRead';
+export const MarkAsUnread = 'MarkAsUnread';
 export const UpdateUnreadCount = 'UpdateUnreadCount';
 export const UpdateOnlyUnreadIssues = 'UpdateOnlyUnreadIssues';
 
@@ -36,6 +44,11 @@ interface MarkAsReadType {
   issueID: number;
 }
 
+interface MarkAsUnreadType {
+  type: typeof MarkAsUnread;
+  issueID: number;
+}
+
 interface UpdateUnreadCountType {
   type: typeof UpdateUnreadCount;
   channelID: number;
@@ -53,6 +66,7 @@ export type ActionTypes =
   | SelectChannelType
   | OpenIssueType
   | MarkAsReadType
+  | MarkAsUnreadType
   | UpdateUnreadCountType
   | UpdateOnlyUnreadIssuesType;
 
@@ -107,6 +121,14 @@ export const markAsReadAction = (issueID: number): MarkAsReadType => {
   markAsReadRequest(issueID);
   return {
     type: MarkAsRead,
+    issueID,
+  };
+};
+
+export const markAsUnreadAction = (issueID: number): MarkAsUnreadType => {
+  markAsUnreadRequest(issueID);
+  return {
+    type: MarkAsUnread,
     issueID,
   };
 };

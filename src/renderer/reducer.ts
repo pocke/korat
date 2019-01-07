@@ -7,6 +7,7 @@ import {
   ActionTypes,
   OpenIssue,
   MarkAsRead,
+  MarkAsUnread,
   UpdateUnreadCount,
   UpdateOnlyUnreadIssues,
 } from './ActionCreator';
@@ -27,6 +28,19 @@ export const reducer = (currentState: AppState, action: ActionTypes): AppState =
           return {
             ...issue,
             AlreadyRead: true,
+          };
+        } else {
+          return issue;
+        }
+      });
+      return { ...currentState, issues };
+    }
+    case MarkAsUnread: {
+      const issues = currentState.issues.map(issue => {
+        if (issue.ID === action.issueID) {
+          return {
+            ...issue,
+            AlreadyRead: false,
           };
         } else {
           return issue;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
 import { sum } from 'lodash-es';
+import { ipcRenderer } from 'electron';
 
 import * as styles from './IssueBox.scss';
 import { Issue, Label } from '../API';
@@ -18,13 +19,34 @@ interface Props {
 }
 
 export class IssueBox extends React.Component<Props> {
+  private el: React.RefObject<HTMLDivElement>;
+  constructor(props: Props) {
+    super(props);
+    this.onContextmenu = this.onContextmenu.bind(this);
+    this.el = React.createRef();
+  }
+
+  componentDidMount() {
+    const current = this.el.current;
+    if (current) {
+      current.addEventListener('contextmenu', this.onContextmenu);
+    }
+  }
+
+  componentWillUnmount() {
+    const current = this.el.current;
+    if (current) {
+      current.removeEventListener('contextmenu', this.onContextmenu);
+    }
+  }
+
   render() {
     const { issue } = this.props;
 
     const klass = issue.AlreadyRead ? styles.readEvent : styles.unreadEvent;
     const titleClass = issue.AlreadyRead ? styles.readEventTitle : styles.unreadEventTitle;
     return (
-      <div key={issue.ID} className={klass} onClick={this.onClickIssue.bind(this)}>
+      <div key={issue.ID} className={klass} onClick={this.onClickIssue.bind(this)} ref={this.el}>
         <h3 className={titleClass}>
           {this.renderIssueIcon()}
           {issue.Title}
@@ -116,5 +138,10 @@ export class IssueBox extends React.Component<Props> {
 
   private userIcon(url: string) {
     return <img src={url} alt="user icon" className={styles.userIcon} />;
+  }
+
+  private onContextmenu(ev: MouseEvent) {
+    ev.preventDefault();
+    ipcRenderer.send('issuebox-contextmenu', this.props.issue.ID);
   }
 }
