@@ -1,4 +1,4 @@
-import { Menu, MenuItem, BrowserWindow, Event, ipcMain } from 'electron';
+import { Menu, MenuItem, BrowserWindow, Event, ipcMain, clipboard } from 'electron';
 import { spawn } from 'child_process';
 
 export const startContextMenu = () => {
@@ -30,6 +30,12 @@ export const startContextMenu = () => {
         click: (_: MenuItem, _win: BrowserWindow, _ev: Event) => {
           // TODO: Support other os
           spawn('xdg-open', [url]);
+        },
+      },
+      {
+        label: 'Copy link',
+        click: (_: MenuItem, _win: BrowserWindow, _ev: Event) => {
+          clipboard.writeText(url);
         },
       },
     ]);
