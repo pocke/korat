@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion } from '@githubprimer/octicons-react';
+import Octicon, { IssueOpened, GitPullRequest, CommentDiscussion, GitMerge } from '@githubprimer/octicons-react';
 import { sum } from 'lodash-es';
 import { ipcRenderer } from 'electron';
 
@@ -62,16 +62,18 @@ export class IssueBox extends React.Component<Props> {
 
     if (issue.IsPullRequest) {
       let klass: string;
+      let icon = GitPullRequest;
       if (issue.ClosedAt === null) {
         klass = styles.openIcon;
       } else if (issue.Merged === null) {
         klass = styles.undeterminedIcon;
       } else if (issue.Merged) {
+        icon = GitMerge;
         klass = styles.mergedIcon;
       } else {
         klass = styles.closedIcon;
       }
-      return <O icon={GitPullRequest} className={klass} />;
+      return <O icon={icon} className={klass} />;
     } else {
       const klass = issue.State === 'open' ? styles.openIcon : styles.closedIcon;
       return <O icon={IssueOpened} className={klass} />;
