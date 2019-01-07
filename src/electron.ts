@@ -12,7 +12,8 @@ startContextMenu();
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow | null;
 
-const APP_URL = process.env.KORAT_URL || `file:///${__dirname}/public/index.html`;
+const APP_URL = `file://${__dirname}/../public/index.html`;
+console.log({ APP_URL });
 
 function createWindow() {
   // Create the browser window.

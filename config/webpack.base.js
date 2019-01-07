@@ -7,6 +7,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss'],
   },
   devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   mode: process.env.NODE_ENV,
 
   module: {

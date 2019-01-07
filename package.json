@@ -7,15 +7,15 @@
   "license": "Apache v2",
   "private": true,
   "scripts": {
-    "electron": "cross-env KORAT_URL=http://localhost:32034 electron dist/electron.js",
-    "start": "npm-run-all clean --parallel server watch",
+    "electron": "electron dist/electron.js",
+    "start": "npm-run-all clean --parallel watch:main watch:renderer",
     "clean": "rimraf public/build dist && mkdirp public/build",
-    "server": "cross-env NODE_ENV=development webpack-serve --config config/webpack.renderer.js --port 32034 --content public",
-    "watch": "cross-env NODE_ENV=development webpack --watch --config config/webpack.electron.js",
+    "watch:renderer": "cross-env NODE_ENV=development webpack --watch --config config/webpack.renderer.js",
+    "watch:main": "cross-env NODE_ENV=development webpack --watch --config config/webpack.electron.js",
     "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
-    "build:dev": "cross-env NODE_ENV=development npm-run-all build:dev:renderer build:dev:electron",
-    "build:dev:renderer": "webpack --config config/webpack.renderer.js",
-    "build:dev:electron": "webpack --config config/webpack.electron.js"
+    "build:dev": "npm-run-all build:dev:renderer build:dev:electron",
+    "build:dev:renderer": "cross-env NODE_ENV=development webpack --config config/webpack.renderer.js",
+    "build:dev:electron": "cross-env NODE_ENV=development webpack --config config/webpack.electron.js"
   },
   "jest": {
     "transform": {

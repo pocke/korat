@@ -4,10 +4,13 @@ const base = require('./webpack.base');
 
 const renderProcessConfig = Object.assign({}, base, {
   target: 'electron-renderer',
-  entry: './src/renderer.tsx',
+  entry: {
+    renderer: './src/renderer.tsx',
+    preload: './src/preload/preload.ts',
+  },
   output: {
     path: path.resolve(__dirname, '../public'),
-    filename: 'build/bundle.js',
+    filename: 'build/[name].js',
   },
 });
 
