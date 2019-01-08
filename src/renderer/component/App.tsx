@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { SideBar } from './SideBar';
+import { ChannelBar } from './ChannelBar';
 import { EventBar } from './EventBar';
 import * as styles from './App.scss';
 import { AppState } from '../AppState';
@@ -30,7 +30,7 @@ export class App extends React.PureComponent<Props> {
     const account = accounts.find(a => a.ID === selectedAccountID);
     return (
       <div className={styles.main}>
-        <SideBar
+        <ChannelBar
           accounts={accounts}
           selectedChannelID={this.props.selectedChannelID}
           onlyUnreadIssue={onlyUnreadIssue}

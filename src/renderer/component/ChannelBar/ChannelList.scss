@@ -1,12 +1,4 @@
-@import '../theme';
-
-.main {
-  border-right: solid 3px #ddd;
-  box-sizing: border-box;
-  overflow-y: auto;
-  overflow-x: hidden; // It is workaround. I should calculate the width accurately.
-  width: 200px;
-}
+@import '../../theme';
 
 .channel {
   font-weight: 600;
