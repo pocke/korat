@@ -6,4 +6,8 @@
   overflow-y: auto;
   overflow-x: hidden; // It is workaround. I should calculate the width accurately.
   width: 200px;
+
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
 }

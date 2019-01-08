@@ -8,6 +8,7 @@ import {
 } from './API';
 import { ipcRenderer } from 'electron';
 import { issueURL } from '../utils';
+import { Filter } from './AppState';
 
 export const UpdateAccounts = 'UpdateAccounts';
 export const RefreshIssues = 'RefreshIssues';
@@ -17,6 +18,7 @@ export const MarkAsRead = 'MarkAsRead';
 export const MarkAsUnread = 'MarkAsUnread';
 export const UpdateUnreadCount = 'UpdateUnreadCount';
 export const UpdateOnlyUnreadIssues = 'UpdateOnlyUnreadIssues';
+export const UpdateFilter = 'UpdateFilter';
 
 interface UpdateAccountsType {
   type: typeof UpdateAccounts;
@@ -60,6 +62,11 @@ interface UpdateOnlyUnreadIssuesType {
   onlyUnreadIssues: boolean;
 }
 
+interface UpdateFilterType {
+  type: typeof UpdateFilter;
+  filter: Partial<Filter>;
+}
+
 export type ActionTypes =
   | UpdateAccountsType
   | RefreshIssuesType
@@ -68,7 +75,8 @@ export type ActionTypes =
   | MarkAsReadType
   | MarkAsUnreadType
   | UpdateUnreadCountType
-  | UpdateOnlyUnreadIssuesType;
+  | UpdateOnlyUnreadIssuesType
+  | UpdateFilterType;
 
 export const updateAccountsAction = async (): Promise<UpdateAccountsType> => {
   const accounts = await fetchAccounts();
@@ -145,5 +153,12 @@ export const updateOnlyUnreadIssuesAction = (onlyUnreadIssues: boolean): UpdateO
   return {
     type: UpdateOnlyUnreadIssues,
     onlyUnreadIssues,
+  };
+};
+
+export const updateFilterAction = (filter: Partial<Filter>): UpdateFilterType => {
+  return {
+    type: UpdateFilter,
+    filter,
   };
 };

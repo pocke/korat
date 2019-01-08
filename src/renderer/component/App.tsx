@@ -22,7 +22,7 @@ export class App extends React.PureComponent<Props> {
   }
 
   render() {
-    const { accounts, selectedAccountID, issues, webviewURL, onlyUnreadIssue } = this.props;
+    const { accounts, selectedAccountID, issues, webviewURL, onlyUnreadIssue, filter } = this.props;
     if (!accounts) {
       return this.renderLoading();
     }
@@ -34,6 +34,7 @@ export class App extends React.PureComponent<Props> {
           accounts={accounts}
           selectedChannelID={this.props.selectedChannelID}
           onlyUnreadIssue={onlyUnreadIssue}
+          filter={filter}
         />
         <EventBar
           urlBase={account ? account.UrlBase : ''}
