@@ -44,6 +44,9 @@ export interface Issue {
   User: User;
   Labels: Label[];
   Assignees: User[];
+
+  // extended
+  cached?: boolean;
 }
 
 export interface Label {

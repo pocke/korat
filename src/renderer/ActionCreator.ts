@@ -6,8 +6,7 @@ import {
   markAsRead as markAsReadRequest,
   markAsUnread as markAsUnreadRequest,
 } from './API';
-import { ipcRenderer } from 'electron';
-import { issueURL } from '../utils';
+import { prefetchIssue } from '../utils';
 import { Filter } from './AppState';
 
 export const UpdateAccounts = 'UpdateAccounts';
@@ -87,13 +86,13 @@ export const refreshIssuesAction = async (
   const issues = await fetchIssues(channelID, filter);
 
   issues
-    .filter(i => i.AlreadyRead)
-    .slice(0, 7)
-    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+    .filter(i => i.AlreadyRead && !i.cached)
+    .slice(0, 2)
+    .forEach(i => prefetchIssue(i, urlBase));
   issues
-    .filter(i => !i.AlreadyRead)
-    .slice(0, 7)
-    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+    .filter(i => !i.AlreadyRead && !i.cached)
+    .slice(0, 3)
+    .forEach(i => prefetchIssue(i, urlBase));
   return {
     type: RefreshIssues,
     issues,

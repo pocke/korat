@@ -16,6 +16,7 @@ const O = Octicon as any;
 interface Props {
   issue: Issue;
   urlBase: string;
+  prefetchIssue: () => void;
 }
 
 export class IssueBox extends React.Component<Props> {
@@ -145,6 +146,7 @@ export class IssueBox extends React.Component<Props> {
     ev.preventDefault();
     Store.dispatch(openIssueAction(issueURL(issue, urlBase)));
     Store.dispatch(markAsReadAction(issue.ID));
+    this.props.prefetchIssue();
   }
 
   private userIcon(url: string) {
