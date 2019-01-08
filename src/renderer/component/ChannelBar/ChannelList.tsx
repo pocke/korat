@@ -2,13 +2,12 @@ import * as React from 'react';
 
 import * as styles from './ChannelList.scss';
 import { Account, Channel } from '../../API';
-import { Store } from '../../Store';
-import { refreshIssuesAction, selectChannelAction } from '../../ActionCreator';
+import { Store, StoreEvent } from '../../Store';
+import { selectChannelAction } from '../../ActionCreator';
 
 interface Props {
   accounts: Account[];
   selectedChannelID: number | undefined;
-  onlyUnreadIssue: boolean;
 }
 
 export class ChannelList extends React.Component<Props> {
@@ -46,7 +45,6 @@ export class ChannelList extends React.Component<Props> {
 
   async onSelectChannel(selectedChannelID: number, selectedAccountID: number) {
     Store.dispatch(selectChannelAction(selectedChannelID, selectedAccountID));
-    const urlBase = this.props.accounts.find(a => a.ID === selectedAccountID)!.UrlBase;
-    Store.dispatch(await refreshIssuesAction(selectedChannelID, this.props.onlyUnreadIssue, urlBase));
+    StoreEvent.emit('refresh-issues');
   }
 }

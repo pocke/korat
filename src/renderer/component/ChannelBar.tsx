@@ -9,16 +9,16 @@ import { Filter } from '../AppState';
 interface Props {
   accounts: Account[];
   selectedChannelID: number | undefined;
-  onlyUnreadIssue: boolean;
   filter: Filter;
 }
 
 export class ChannelBar extends React.PureComponent<Props> {
   render() {
-    const { accounts, selectedChannelID, onlyUnreadIssue, filter } = this.props;
+    const { accounts, selectedChannelID, filter } = this.props;
+
     return (
       <div className={styles.container}>
-        <ChannelList accounts={accounts} selectedChannelID={selectedChannelID} onlyUnreadIssue={onlyUnreadIssue} />
+        <ChannelList accounts={accounts} selectedChannelID={selectedChannelID} />
         <FilterController filter={filter} />
       </div>
     );

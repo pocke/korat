@@ -11,7 +11,6 @@ export class StoreManager extends React.Component<Props, State> {
     this.state = {
       issues: [],
       webviewURL: 'https://github.com',
-      onlyUnreadIssue: false,
       filter: {
         issue: true,
         pullRequest: true,

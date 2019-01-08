@@ -4,7 +4,7 @@ import { ActionTypes } from './ActionCreator';
 
 export class ToygerStore<T> {
   private onUpdateCallback?: ((newState: T) => void);
-  private state?: T;
+  public state?: T;
 
   constructor(private reducer: (currentState: T, action: ActionTypes) => T) {}
 

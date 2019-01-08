@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Filter } from '../../AppState';
 import { updateFilterAction } from '../../ActionCreator';
-import { Store } from '../../Store';
+import { Store, StoreEvent } from '../../Store';
 
 interface Props {
   filter: Filter;
@@ -60,7 +60,8 @@ export class FilterController extends React.PureComponent<Props> {
     );
   }
 
-  private onChange(f: Partial<Filter>) {
+  private async onChange(f: Partial<Filter>) {
     Store.dispatch(updateFilterAction(f));
+    StoreEvent.emit('refresh-issues');
   }
 }

@@ -22,7 +22,7 @@ export class App extends React.PureComponent<Props> {
   }
 
   render() {
-    const { accounts, selectedAccountID, issues, webviewURL, onlyUnreadIssue, filter } = this.props;
+    const { accounts, selectedAccountID, issues, webviewURL, filter } = this.props;
     if (!accounts) {
       return this.renderLoading();
     }
@@ -30,19 +30,8 @@ export class App extends React.PureComponent<Props> {
     const account = accounts.find(a => a.ID === selectedAccountID);
     return (
       <div className={styles.main}>
-        <ChannelBar
-          accounts={accounts}
-          selectedChannelID={this.props.selectedChannelID}
-          onlyUnreadIssue={onlyUnreadIssue}
-          filter={filter}
-        />
-        <EventBar
-          urlBase={account ? account.UrlBase : ''}
-          issues={issues}
-          onlyUnreadIssue={onlyUnreadIssue}
-          selectedChannelID={this.props.selectedChannelID}
-          account={account}
-        />
+        <ChannelBar accounts={accounts} selectedChannelID={this.props.selectedChannelID} filter={filter} />
+        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} />
         <InternalBrowser url={webviewURL} />
       </div>
     );

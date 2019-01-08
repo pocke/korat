@@ -6,7 +6,6 @@ export interface AppState {
   selectedAccountID?: number;
   issues: Issue[];
   webviewURL: string;
-  onlyUnreadIssue: boolean;
 
   filter: Filter;
 }

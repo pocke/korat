@@ -17,7 +17,6 @@ export const OpenIssue = 'OpenIssue';
 export const MarkAsRead = 'MarkAsRead';
 export const MarkAsUnread = 'MarkAsUnread';
 export const UpdateUnreadCount = 'UpdateUnreadCount';
-export const UpdateOnlyUnreadIssues = 'UpdateOnlyUnreadIssues';
 export const UpdateFilter = 'UpdateFilter';
 
 interface UpdateAccountsType {
@@ -57,11 +56,6 @@ interface UpdateUnreadCountType {
   unreadCount: number;
 }
 
-interface UpdateOnlyUnreadIssuesType {
-  type: typeof UpdateOnlyUnreadIssues;
-  onlyUnreadIssues: boolean;
-}
-
 interface UpdateFilterType {
   type: typeof UpdateFilter;
   filter: Partial<Filter>;
@@ -75,7 +69,6 @@ export type ActionTypes =
   | MarkAsReadType
   | MarkAsUnreadType
   | UpdateUnreadCountType
-  | UpdateOnlyUnreadIssuesType
   | UpdateFilterType;
 
 export const updateAccountsAction = async (): Promise<UpdateAccountsType> => {
@@ -88,22 +81,19 @@ export const updateAccountsAction = async (): Promise<UpdateAccountsType> => {
 
 export const refreshIssuesAction = async (
   channelID: number,
-  onlyUnreadIssue: boolean,
+  filter: Filter,
   urlBase: string,
 ): Promise<RefreshIssuesType> => {
-  const issues = await fetchIssues(channelID, { onlyUnreadIssue });
-  if (onlyUnreadIssue) {
-    issues.slice(0, 14).forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
-  } else {
-    issues
-      .filter(i => i.AlreadyRead)
-      .slice(0, 7)
-      .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
-    issues
-      .filter(i => !i.AlreadyRead)
-      .slice(0, 7)
-      .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
-  }
+  const issues = await fetchIssues(channelID, filter);
+
+  issues
+    .filter(i => i.AlreadyRead)
+    .slice(0, 7)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
+  issues
+    .filter(i => !i.AlreadyRead)
+    .slice(0, 7)
+    .forEach(i => ipcRenderer.send('browser-view-prefetch', issueURL(i, urlBase)));
   return {
     type: RefreshIssues,
     issues,
@@ -146,13 +136,6 @@ export const updateUnreadCountAction = (channelID: number, unreadCount: number):
     type: UpdateUnreadCount,
     channelID,
     unreadCount,
-  };
-};
-
-export const updateOnlyUnreadIssuesAction = (onlyUnreadIssues: boolean): UpdateOnlyUnreadIssuesType => {
-  return {
-    type: UpdateOnlyUnreadIssues,
-    onlyUnreadIssues,
   };
 };
 
