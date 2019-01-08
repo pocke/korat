@@ -11,7 +11,17 @@ export class StoreManager extends React.Component<Props, State> {
     this.state = {
       issues: [],
       webviewURL: 'https://github.com',
-      onlyUnreadIssue: false,
+      filter: {
+        issue: true,
+        pullRequest: true,
+
+        read: true,
+        unread: true,
+
+        closed: true,
+        open: true,
+        merged: true,
+      },
     };
     Store.onUpdate((state: State) => this.setState(state));
     Store.setInitialState(this.state);

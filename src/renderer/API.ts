@@ -1,3 +1,5 @@
+import { Filter } from './AppState';
+
 const URL_BASE = 'http://localhost:5427';
 
 export interface Account {
@@ -56,12 +58,10 @@ export const fetchAccounts = async () => {
   return (await resp.json()) as Account[];
 };
 
-export const fetchIssues = async (channelID: number, option: { onlyUnreadIssue?: boolean } = {}) => {
-  let u = URL_BASE + `/channels/${channelID}/issues`;
-  if (option.onlyUnreadIssue) {
-    u += '?onlyUnread=1';
-  }
-  const resp = await fetch(u);
+export const fetchIssues = async (channelID: number, filter: Filter) => {
+  const u = new URL(URL_BASE + `/channels/${channelID}/issues`);
+  u.searchParams.append('filter', JSON.stringify(filter));
+  const resp = await fetch(u as any); // HACK
   return (await resp.json()) as Issue[];
 };
 

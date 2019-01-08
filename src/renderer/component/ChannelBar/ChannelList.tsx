@@ -1,19 +1,18 @@
 import * as React from 'react';
 
-import * as styles from './SideBar.scss';
-import { Account, Channel } from '../API';
-import { Store } from '../Store';
-import { refreshIssuesAction, selectChannelAction } from '../ActionCreator';
+import * as styles from './ChannelList.scss';
+import { Account, Channel } from '../../API';
+import { Store, StoreEvent } from '../../Store';
+import { selectChannelAction } from '../../ActionCreator';
 
 interface Props {
   accounts: Account[];
   selectedChannelID: number | undefined;
-  onlyUnreadIssue: boolean;
 }
 
-export class SideBar extends React.PureComponent<Props> {
+export class ChannelList extends React.Component<Props> {
   render() {
-    return <div className={styles.main}>{this.props.accounts.map(a => this.renderOneAccount(a))}</div>;
+    return this.props.accounts.map(a => this.renderOneAccount(a));
   }
 
   renderOneAccount(account: Account) {
@@ -46,7 +45,6 @@ export class SideBar extends React.PureComponent<Props> {
 
   async onSelectChannel(selectedChannelID: number, selectedAccountID: number) {
     Store.dispatch(selectChannelAction(selectedChannelID, selectedAccountID));
-    const urlBase = this.props.accounts.find(a => a.ID === selectedAccountID)!.UrlBase;
-    Store.dispatch(await refreshIssuesAction(selectedChannelID, this.props.onlyUnreadIssue, urlBase));
+    StoreEvent.emit('refresh-issues');
   }
 }

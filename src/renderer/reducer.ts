@@ -9,7 +9,7 @@ import {
   MarkAsRead,
   MarkAsUnread,
   UpdateUnreadCount,
-  UpdateOnlyUnreadIssues,
+  UpdateFilter,
 } from './ActionCreator';
 
 export const reducer = (currentState: AppState, action: ActionTypes): AppState => {
@@ -65,8 +65,8 @@ export const reducer = (currentState: AppState, action: ActionTypes): AppState =
       });
       return { ...currentState, accounts };
     }
-    case UpdateOnlyUnreadIssues:
-      return { ...currentState, onlyUnreadIssue: action.onlyUnreadIssues };
+    case UpdateFilter:
+      return { ...currentState, filter: { ...currentState.filter, ...action.filter } };
   }
 
   throw 'unreachable';

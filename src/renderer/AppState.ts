@@ -6,5 +6,18 @@ export interface AppState {
   selectedAccountID?: number;
   issues: Issue[];
   webviewURL: string;
-  onlyUnreadIssue: boolean;
+
+  filter: Filter;
+}
+
+export interface Filter {
+  issue: boolean;
+  pullRequest: boolean;
+
+  read: boolean;
+  unread: boolean;
+
+  closed: boolean;
+  open: boolean;
+  merged: boolean;
 }
