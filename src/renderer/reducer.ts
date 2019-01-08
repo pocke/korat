@@ -21,7 +21,7 @@ export const reducer = (currentState: AppState, action: ActionTypes): AppState =
     case SelectChannel:
       return { ...currentState, selectedAccountID: action.accountID, selectedChannelID: action.channelID };
     case OpenIssue:
-      return { ...currentState, webviewURL: action.url };
+      return { ...currentState, webviewURL: action.url, selectedIssueID: action.issueID };
     case MarkAsRead: {
       const issues = currentState.issues.map(issue => {
         if (issue.ID === action.issueID) {

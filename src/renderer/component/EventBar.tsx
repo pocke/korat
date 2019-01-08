@@ -8,6 +8,7 @@ import { prefetchIssue } from '../../utils';
 interface Props {
   issues: Issue[];
   urlBase: string;
+  selectedIssueID?: number;
 }
 
 export class EventBar extends React.Component<Props> {
@@ -24,7 +25,13 @@ export class EventBar extends React.Component<Props> {
         </div>
         <div className={styles.main}>
           {this.props.issues.map(issue => (
-            <IssueBox key={issue.ID} issue={issue} urlBase={this.props.urlBase} prefetchIssue={this.prefetchIssue} />
+            <IssueBox
+              key={issue.ID}
+              issue={issue}
+              urlBase={this.props.urlBase}
+              prefetchIssue={this.prefetchIssue}
+              selectedIssueID={this.props.selectedIssueID}
+            />
           ))}
         </div>
         <div className={styles.rest} />

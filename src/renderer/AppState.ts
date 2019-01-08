@@ -4,6 +4,7 @@ export interface AppState {
   accounts?: Account[];
   selectedChannelID?: number;
   selectedAccountID?: number;
+  selectedIssueID?: number;
   issues: Issue[];
   webviewURL: string;
 

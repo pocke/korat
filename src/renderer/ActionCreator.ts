@@ -6,7 +6,7 @@ import {
   markAsRead as markAsReadRequest,
   markAsUnread as markAsUnreadRequest,
 } from './API';
-import { prefetchIssue } from '../utils';
+import { prefetchIssue, issueURL } from '../utils';
 import { Filter } from './AppState';
 
 export const UpdateAccounts = 'UpdateAccounts';
@@ -37,6 +37,7 @@ interface SelectChannelType {
 interface OpenIssueType {
   type: typeof OpenIssue;
   url: string;
+  issueID: number;
 }
 
 interface MarkAsReadType {
@@ -107,10 +108,12 @@ export const selectChannelAction = (channelID: number, accountID: number): Selec
   };
 };
 
-export const openIssueAction = (url: string): OpenIssueType => {
+export const openIssueAction = (issue: Issue, urlBase: string): OpenIssueType => {
+  const url = issueURL(issue, urlBase);
   return {
     type: OpenIssue,
     url,
+    issueID: issue.ID,
   };
 };
 

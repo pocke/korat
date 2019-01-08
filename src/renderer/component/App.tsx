@@ -22,7 +22,7 @@ export class App extends React.PureComponent<Props> {
   }
 
   render() {
-    const { accounts, selectedAccountID, issues, webviewURL, filter } = this.props;
+    const { accounts, selectedAccountID, issues, webviewURL, filter, selectedIssueID } = this.props;
     if (!accounts) {
       return this.renderLoading();
     }
@@ -31,7 +31,7 @@ export class App extends React.PureComponent<Props> {
     return (
       <div className={styles.main}>
         <ChannelBar accounts={accounts} selectedChannelID={this.props.selectedChannelID} filter={filter} />
-        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} />
+        <EventBar urlBase={account ? account.UrlBase : ''} issues={issues} selectedIssueID={selectedIssueID} />
         <InternalBrowser url={webviewURL} />
       </div>
     );

@@ -16,6 +16,12 @@
   color: $MUTED_FONT_COLOR;
 }
 
+.selectedEvent {
+  @include event();
+  background: $PRIMARY_COLOR;
+  color: $FONT_COLOR;
+}
+
 @mixin title() {
   margin: 0;
   min-height: 70px;

@@ -5,7 +5,6 @@ import { ipcRenderer } from 'electron';
 
 import * as styles from './IssueBox.scss';
 import { Issue, Label } from '../API';
-import { issueURL } from '../../utils';
 import { Store } from '../Store';
 import { openIssueAction, markAsReadAction } from '../ActionCreator';
 
@@ -16,6 +15,7 @@ const O = Octicon as any;
 interface Props {
   issue: Issue;
   urlBase: string;
+  selectedIssueID?: number;
   prefetchIssue: () => void;
 }
 
@@ -42,9 +42,10 @@ export class IssueBox extends React.Component<Props> {
   }
 
   render() {
-    const { issue } = this.props;
+    const { issue, selectedIssueID } = this.props;
 
-    const klass = issue.AlreadyRead ? styles.readEvent : styles.unreadEvent;
+    const klass =
+      issue.ID === selectedIssueID ? styles.selectedEvent : issue.AlreadyRead ? styles.readEvent : styles.unreadEvent;
     const titleClass = issue.AlreadyRead ? styles.readEventTitle : styles.unreadEventTitle;
     return (
       <div key={issue.ID} className={klass} onClick={this.onClickIssue.bind(this)} ref={this.el}>
@@ -144,7 +145,7 @@ export class IssueBox extends React.Component<Props> {
     const { issue, urlBase } = this.props;
 
     ev.preventDefault();
-    Store.dispatch(openIssueAction(issueURL(issue, urlBase)));
+    Store.dispatch(openIssueAction(issue, urlBase));
     Store.dispatch(markAsReadAction(issue.ID));
     this.props.prefetchIssue();
   }
