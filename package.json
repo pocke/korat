@@ -46,6 +46,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
+    "electron-builder": "^20.38.4",
     "jest": "^23.6.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",
