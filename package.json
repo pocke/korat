@@ -19,7 +19,7 @@
     "build:dev:electron": "NODE_ENV=development webpack --config config/webpack.electron.js",
     "build:production:renderer": "NODE_ENV=production webpack --config config/webpack.renderer.js",
     "build:production:electron": "NODE_ENV=production webpack --config config/webpack.electron.js",
-    "make-package": "cp $(which korat-go) ./ && rm -r dist/production && npm-run-all build:production:renderer build:production:electron dist",
+    "make-packages": "cp $(which korat-go) ./ && rm -r dist/production && npm-run-all build:production:renderer build:production:electron dist",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
