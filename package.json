@@ -2,21 +2,23 @@
   "name": "korat",
   "description": "GitHub Issue Reader",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "electron-built/electron.js",
   "repository": "https://github.com/pocke/korat",
   "author": "Masataka Pocke Kuwabara <kuwabara@pocke.me>",
   "license": "Apache v2",
   "private": true,
   "scripts": {
-    "electron": "electron dist/electron.js",
+    "electron": "electron electron-built/electron.js",
     "start": "npm-run-all clean --parallel watch:main watch:renderer",
-    "clean": "rimraf public/build dist && mkdirp public/build",
+    "clean": "rimraf public/build electron-built && mkdirp public/build",
     "watch:renderer": "cross-env NODE_ENV=development webpack --watch --config config/webpack.renderer.js",
     "watch:main": "cross-env NODE_ENV=development webpack --watch --config config/webpack.electron.js",
     "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
     "build:dev": "npm-run-all build:dev:renderer build:dev:electron",
     "build:dev:renderer": "cross-env NODE_ENV=development webpack --config config/webpack.renderer.js",
-    "build:dev:electron": "cross-env NODE_ENV=development webpack --config config/webpack.electron.js"
+    "build:dev:electron": "cross-env NODE_ENV=development webpack --config config/webpack.electron.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "jest": {
     "transform": {
@@ -34,8 +36,6 @@
   },
   "dependencies": {
     "@githubprimer/octicons-react": "^8.0.0",
-    "@types/lodash-es": "^4.17.1",
-    "electron": "^4.0.1",
     "lodash-es": "^4.17.11",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
@@ -44,10 +44,12 @@
     "@types/jest": "^23.3.12",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "electron-builder": "^20.38.4",
+    "electron": "^4.0.1",
     "jest": "^23.6.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",

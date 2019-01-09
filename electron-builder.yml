@@ -1,0 +1,20 @@
+appId: me.pocke.korat
+
+directories:
+  output: dist/production
+
+publish:
+  - provider: github
+    owner: pocke
+    repo: korat
+
+# TODO
+# win:
+
+# TODO
+# mac:
+
+linux:
+  target:
+    - AppImage
+    - tar.xz
