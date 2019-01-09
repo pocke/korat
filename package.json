@@ -1,6 +1,7 @@
 {
   "name": "korat",
-  "version": "1.0.0",
+  "description": "GitHub Issue Reader",
+  "version": "0.1.0",
   "main": "index.js",
   "repository": "https://github.com/pocke/korat",
   "author": "Masataka Pocke Kuwabara <kuwabara@pocke.me>",
