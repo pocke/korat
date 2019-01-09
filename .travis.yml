@@ -2,6 +2,9 @@ sudo: false
 language: node_js
 node_js:
   - '10'
+
+before_script:
+  - 'export PATH=~/bin/:$PATH'
 script:
   - 'GO111MODULE=on go get github.com/pocke/korat-go'
   - 'yarn run build:dev || yarn run build:dev'
