@@ -28,16 +28,14 @@ module.exports = {
       },
     ],
   },
-  plugins: [new CheckerPlugin()]
-    .concat(process.env.NODE_ENV !== 'production' ? [] : [new webpack.optimize.UglifyJsPlugin()])
-    .concat(
-      process.env.WEBPACK_ANALYZE === undefined
-        ? []
-        : [
-            new BundleAnalyzerPlugin({
-              analyzerMode: 'static',
-              reportFilename: 'output/app.report.html',
-            }),
-          ],
-    ),
+  plugins: [new CheckerPlugin()].concat(
+    process.env.WEBPACK_ANALYZE === undefined
+      ? []
+      : [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: 'output/app.report.html',
+          }),
+        ],
+  ),
 };

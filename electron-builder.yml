@@ -1,0 +1,25 @@
+appId: me.pocke.korat
+
+directories:
+  output: dist/production
+
+publish:
+  - provider: github
+    owner: pocke
+    repo: korat
+files:
+  - 'electron-built/**/*'
+  - 'public/**/*'
+extraFiles:
+  - korat-go
+
+# TODO
+# win:
+
+# TODO
+# mac:
+
+linux:
+  target:
+    - AppImage
+    - tar.xz

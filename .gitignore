@@ -4,3 +4,5 @@
 *.scss.d.ts
 /dist/
 /public/build
+/electron-built
+/korat-go
