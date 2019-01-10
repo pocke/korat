@@ -21,10 +21,10 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@githubprimer/octicons-react@^8.0.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.2.0.tgz#a95bbd4c409fbf975c94e2ece4881860001f134f"
-  integrity sha512-WUb8Fd93j7RvAS5GOFJafPVDYxHon+g/OZTF0vAGFbYifrb11ejeBB79hm8Xi+E33OPPGCA3ZpqhPJU+5gvczw==
+"@githubprimer/octicons-react@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.3.0.tgz#93894243eb76f4a6718f7d94fbe0d349e1a6dd16"
+  integrity sha512-txquKlc2YDMMoekc3fG43eBdsMedumhbig9o8K8MYACMHLGbfhp9yHvaWadnrG6vS7XAztPnNtdkgUW5LHnqcg==
   dependencies:
     prop-types "^15.6.1"
 
@@ -1482,13 +1482,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-cross-env@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
-  dependencies:
-    cross-spawn "^6.0.5"
-    is-windows "^1.0.0"
 
 cross-spawn@^3.0.0:
   version "3.0.1"
@@ -3205,7 +3198,7 @@ is-utf8@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
 
-is-windows@^1.0.0, is-windows@^1.0.1, is-windows@^1.0.2:
+is-windows@^1.0.1, is-windows@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
 
@@ -5563,7 +5556,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
+rimraf@2, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
