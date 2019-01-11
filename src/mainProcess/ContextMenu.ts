@@ -1,8 +1,13 @@
 import { Menu, MenuItem, BrowserWindow, Event, ipcMain, clipboard } from 'electron';
 import { spawn } from 'child_process';
 
+// TODO: Support other os
+const openBrowser = (url: string) => {
+  spawn('xdg-open', [url]);
+};
+
 export const startContextMenu = () => {
-  ipcMain.addListener('issuebox-contextmenu', (_ev: Event, issueID: number) => {
+  ipcMain.addListener('issuebox-contextmenu', (_ev: Event, issueID: number, issueURL: string) => {
     const menu = Menu.buildFromTemplate([
       {
         label: 'Mark as Read',
@@ -14,6 +19,12 @@ export const startContextMenu = () => {
         label: 'Mark as Unread',
         click: (_: MenuItem, win: BrowserWindow, _ev: Event) => {
           win.webContents.send('mark-as-unread-issue', issueID);
+        },
+      },
+      {
+        label: 'Open link in the external browser',
+        click: (_, __, ___) => {
+          openBrowser(issueURL);
         },
       },
     ]);
@@ -28,8 +39,7 @@ export const startContextMenu = () => {
       {
         label: 'Open link in the external browser',
         click: (_: MenuItem, _win: BrowserWindow, _ev: Event) => {
-          // TODO: Support other os
-          spawn('xdg-open', [url]);
+          openBrowser(url);
         },
       },
       {

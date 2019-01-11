@@ -7,6 +7,7 @@ import * as styles from './IssueBox.scss';
 import { Issue, Label } from '../API';
 import { Store } from '../Store';
 import { openIssueAction, markAsReadAction } from '../ActionCreator';
+import { issueURL } from '../../utils';
 
 // HACK: Octicon is a JavaScript library, so tsc does not understand Octicon type.
 //       So cast to any.
@@ -156,6 +157,8 @@ export class IssueBox extends React.Component<Props> {
 
   private onContextmenu(ev: MouseEvent) {
     ev.preventDefault();
-    ipcRenderer.send('issuebox-contextmenu', this.props.issue.ID);
+    const { issue, urlBase } = this.props;
+    const url = issueURL(issue, urlBase);
+    ipcRenderer.send('issuebox-contextmenu', issue.ID, url);
   }
 }
