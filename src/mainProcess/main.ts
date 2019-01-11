@@ -5,6 +5,7 @@ import { app, BrowserWindow } from 'electron';
 
 import { setMainWindow } from './BrowserWindowHandler';
 import { startContextMenu } from './ContextMenu';
+import { setMenu } from './Menu';
 
 export const start = async () => {
   startContextMenu();
@@ -65,5 +66,6 @@ export const start = async () => {
   // code. You can also put them in separate files and require them here.
 
   await onAppReady();
+  setMenu();
   createWindow();
 };
