@@ -7,6 +7,7 @@ const renderProcessConfig = Object.assign({}, base, {
   entry: {
     renderer: './src/renderer.tsx',
     preload: './src/preload/preload.ts',
+    settings: './src/settings.tsx',
   },
   output: {
     path: path.resolve(__dirname, '../public'),
