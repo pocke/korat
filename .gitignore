@@ -5,4 +5,4 @@
 /dist/
 /public/build
 /electron-built
-/korat-go
+/korat-go-*

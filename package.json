@@ -19,11 +19,9 @@
     "build:dev:electron": "NODE_ENV=development webpack --config config/webpack.electron.js",
     "build:production:renderer": "NODE_ENV=production webpack --config config/webpack.renderer.js",
     "build:production:electron": "NODE_ENV=production webpack --config config/webpack.electron.js",
-    "make-packages": "cp $(which korat-go) ./ && rm -rf dist/production && npm-run-all build:production:renderer build:production:electron dist",
-    "publish-packages": "cp $(which korat-go) ./ && rm -rf dist/production && npm-run-all build:production:renderer build:production:electron dist-publish",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --publish never",
-    "dist": "electron-builder --publish onTag"
+    "dist-publish": "electron-builder --publish onTag"
   },
   "jest": {
     "transform": {

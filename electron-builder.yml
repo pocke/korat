@@ -11,15 +11,19 @@ files:
   - 'electron-built/**/*'
   - 'public/**/*'
 extraFiles:
-  - korat-go
+  - from: 'korat-go-${os}'
+    to: 'korat-go'
 
-# TODO
-# win:
+win:
+  target:
+    - nsis
 
-# TODO
-# mac:
+mac:
+  target:
+    - zip
+    - dmg
+  category: public.app-category.developer-tools
 
 linux:
   target:
-    - AppImage
     - tar.xz
