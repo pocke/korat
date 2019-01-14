@@ -1,6 +1,7 @@
-import { Menu } from 'electron';
+import { Menu, BrowserWindow } from 'electron';
+import { openSettingsWindow } from './Settings';
 
-export const setMenu = () => {
+export const setMenu = (win: BrowserWindow) => {
   const menu = Menu.buildFromTemplate([
     {
       label: 'Edit',
@@ -36,9 +37,16 @@ export const setMenu = () => {
     },
     {
       label: 'Settings',
-      submenu: [{ label: 'Open settings' }],
+      submenu: [
+        {
+          label: 'Open settings',
+          click: () => {
+            openSettingsWindow(win);
+          },
+        },
+      ],
     },
   ]);
 
-  Menu.setApplicationMenu(menu);
+  win.setMenu(menu);
 };
