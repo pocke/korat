@@ -29,3 +29,11 @@ Before Commit
 ```bash
 $ yarn run format
 ```
+
+# Releasing package to GitHub
+
+```bash
+$ ./pack.sh publish
+```
+
+Note: I've confirmed this script only on Linux. Probably it works on Windows and macOS.
