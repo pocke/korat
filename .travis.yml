@@ -8,4 +8,4 @@ before_script:
   - 'export PATH=~/bin/:$PATH'
 script:
   - 'yarn run build:dev || yarn run build:dev'
-  - 'yarn run make-packages'
+  - './pack.sh build'
