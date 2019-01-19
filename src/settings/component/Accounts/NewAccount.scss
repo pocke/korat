@@ -1,0 +1,14 @@
+@import '../../../renderer/theme.scss';
+
+.saveButton {
+  background-color: $PRIMARY_COLOR;
+  hieght: 20px;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.saveButton:invalid {
+  border: 1px solid red;
+}

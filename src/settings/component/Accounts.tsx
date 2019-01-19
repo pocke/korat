@@ -27,6 +27,14 @@ export class AccountsSettings extends React.Component<Props> {
   }
 
   private renderAddAccountButton() {
-    return <div className={styles.addAccountButton}>+ Add account</div>;
+    return (
+      <div className={styles.addAccountButton} onClick={() => this.onClickAddAccountButton()}>
+        + Add account
+      </div>
+    );
+  }
+
+  private onClickAddAccountButton() {
+    this.props.setState({ selectedAccountID: null });
   }
 }
