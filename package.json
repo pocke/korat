@@ -19,8 +19,8 @@
     "build:dev:electron": "NODE_ENV=development webpack --config config/webpack.electron.js",
     "build:production:renderer": "NODE_ENV=production webpack --config config/webpack.renderer.js",
     "build:production:electron": "NODE_ENV=production webpack --config config/webpack.electron.js",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --publish never",
+    "pack": "electron-builder -lm --dir",
+    "dist": "electron-builder -lm --publish never",
     "dist-publish": "electron-builder --publish onTag"
   },
   "jest": {

@@ -21,7 +21,7 @@ win:
 mac:
   target:
     - zip
-    - dmg
+    # - dmg
   category: public.app-category.developer-tools
 
 linux:
