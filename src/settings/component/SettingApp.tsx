@@ -1,26 +1,38 @@
 import * as React from 'react';
-import { Tabs, TabController } from './TabController';
+import { TabController } from './TabController';
+import { fetchAccounts } from '../../renderer/API';
+import { AppState as State, setStateT } from '../state';
 
 interface Props {}
-
-interface State {
-  selectedTab: Tabs;
-}
 
 export class SettingApp extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       selectedTab: 'accounts',
+      accounts: null,
+      selectedAccountID: null,
     };
-    this.selectTab = this.selectTab.bind(this);
+    this.setState = this.setState.bind(this);
+  }
+
+  async componentDidMount() {
+    const accounts = await fetchAccounts();
+    this.setState({ accounts });
   }
 
   render() {
-    return <TabController selectedTab={this.state.selectedTab} selectTab={this.selectTab} />;
-  }
-
-  private selectTab(tab: Tabs) {
-    this.setState({ selectedTab: tab });
+    if (this.state.accounts) {
+      return (
+        <TabController
+          selectedTab={this.state.selectedTab}
+          setState={this.setState as setStateT}
+          accounts={this.state.accounts}
+          selectedAccountID={this.state.selectedAccountID}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }

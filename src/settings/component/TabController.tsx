@@ -1,20 +1,29 @@
 import * as React from 'react';
 import { AccountsSettings } from './Accounts';
 import * as styles from './TabController.scss';
+import { Account } from '../../renderer/API';
+import { setStateT } from '../state';
 
 export type Tabs = 'accounts' | 'channels';
 
 interface Props {
   selectedTab: Tabs;
-  selectTab: (tab: Tabs) => void;
+  accounts: Account[];
+  setState: setStateT;
+  selectedAccountID: number | null;
 }
 
 export class TabController extends React.Component<Props> {
   render() {
     return (
       <div className={styles.tabController}>
-        <TabHeader selectedTab={this.props.selectedTab} selectTab={this.props.selectTab} />
-        <TabContent selectedTab={this.props.selectedTab} />
+        <TabHeader selectedTab={this.props.selectedTab} setState={this.props.setState} />
+        <TabContent
+          selectedTab={this.props.selectedTab}
+          accounts={this.props.accounts}
+          selectedAccountID={this.props.selectedAccountID}
+          setState={this.props.setState}
+        />
       </div>
     );
   }
@@ -22,17 +31,17 @@ export class TabController extends React.Component<Props> {
 
 interface HeaderProps {
   selectedTab: Tabs;
-  selectTab: (tab: Tabs) => void;
+  setState: setStateT;
 }
 
 class TabHeader extends React.Component<HeaderProps> {
   render() {
     return (
       <div className={styles.tabHeaderContainer}>
-        <div className={this.styleFor('accounts')} onClick={() => this.props.selectTab('accounts')}>
+        <div className={this.styleFor('accounts')} onClick={() => this.props.setState({ selectedTab: 'accounts' })}>
           Accounts
         </div>
-        <div className={this.styleFor('channels')} onClick={() => this.props.selectTab('channels')}>
+        <div className={this.styleFor('channels')} onClick={() => this.props.setState({ selectedTab: 'channels' })}>
           Channels
         </div>
       </div>
@@ -46,13 +55,22 @@ class TabHeader extends React.Component<HeaderProps> {
 
 interface ContentProps {
   selectedTab: Tabs;
+  accounts: Account[];
+  selectedAccountID: number | null;
+  setState: setStateT;
 }
 
 class TabContent extends React.Component<ContentProps> {
   render() {
     switch (this.props.selectedTab) {
       case 'accounts':
-        return <AccountsSettings />;
+        return (
+          <AccountsSettings
+            accounts={this.props.accounts}
+            selectedAccountID={this.props.selectedAccountID}
+            setState={this.props.setState}
+          />
+        );
       case 'channels':
         return null;
     }
