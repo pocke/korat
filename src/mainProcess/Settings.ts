@@ -11,4 +11,5 @@ export const openSettingsWindow = (parent: BrowserWindow) => {
     frame: false,
   });
   win.loadURL(APP_URL);
+  win.webContents.openDevTools();
 };
