@@ -15,7 +15,7 @@ export class AccountList extends React.Component<Props> {
 
   private renderAccount(a: Account) {
     return (
-      <li className={styles.account} onClick={() => this.onClickAccount(a.ID)}>
+      <li key={a.ID} className={styles.account} onClick={() => this.onClickAccount(a.ID)}>
         {a.DisplayName}
       </li>
     );
