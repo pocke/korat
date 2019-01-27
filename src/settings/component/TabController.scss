@@ -1,0 +1,25 @@
+@import '../../renderer/theme.scss';
+
+.tabController {
+  width: 100%;
+}
+
+.tabHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px $PRIMARY_COLOR solid;
+  width: 100%;
+}
+
+@mixin tabHeaderBase() {
+  margin-right: 5px;
+}
+
+.tabHeader {
+  @include tabHeaderBase();
+}
+
+.tabHeaderSelected {
+  @include tabHeaderBase();
+  background-color: $PRIMARY_COLOR;
+}

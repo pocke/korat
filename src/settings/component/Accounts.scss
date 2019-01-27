@@ -1,0 +1,23 @@
+@import '../../renderer/theme.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.sideBarContainer {
+  padding-right: 3px;
+  margin-right: 3px;
+  border-right: 1px $PRIMARY_COLOR solid;
+  height: 100%;
+}
+
+.addAccountButton {
+  background-color: $PRIMARY_COLOR;
+  height: 20px;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+}

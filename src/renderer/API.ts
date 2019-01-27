@@ -75,3 +75,20 @@ export const markAsRead = async (issueID: number) => {
 export const markAsUnread = async (issueID: number) => {
   await fetch(URL_BASE + `/issues/${issueID}/markAsUnread`, { method: 'PATCH' });
 };
+
+interface CreateAccountParam {
+  DisplayName: string;
+  AccessToken: string;
+  UrlBase: string;
+  ApiUrlBase: string;
+}
+
+export const createAccount = async (p: CreateAccountParam) =>
+  await fetch(URL_BASE + '/accounts', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(p),
+  });

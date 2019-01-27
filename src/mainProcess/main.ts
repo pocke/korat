@@ -23,6 +23,7 @@ export const start = async () => {
       height: 600,
     });
     setMainWindow(mainWindow);
+    setMenu(mainWindow);
 
     // and load the index.html of the app.
     mainWindow.loadURL(APP_URL);
@@ -66,6 +67,5 @@ export const start = async () => {
   // code. You can also put them in separate files and require them here.
 
   await onAppReady();
-  setMenu();
   createWindow();
 };
