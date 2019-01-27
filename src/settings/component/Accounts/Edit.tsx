@@ -9,6 +9,7 @@ export class EditAccount extends React.Component<Props> {
   render() {
     return (
       <div>
+        <h2>Edit Account</h2>
         <div>
           <label>
             Display name:

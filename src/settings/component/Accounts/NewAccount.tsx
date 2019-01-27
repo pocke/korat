@@ -17,6 +17,8 @@ export class NewAccount extends React.Component<Props, State> {
     super(props);
     this.state = {
       account: {
+        DisplayName: '',
+        AccessToken: '',
         UrlBase: 'https://github.com',
         ApiUrlBase: 'https://api.github.com',
       },
@@ -26,6 +28,7 @@ export class NewAccount extends React.Component<Props, State> {
   render() {
     return (
       <div>
+        <h2>Create New Account</h2>
         <div>
           <label>
             Display name:
