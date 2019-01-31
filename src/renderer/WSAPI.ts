@@ -24,4 +24,8 @@ export const wsOpen = () => {
       throw 'unreachable';
     }
   });
+  socket.addEventListener('close', _event => {
+    console.log('ws closed');
+    setTimeout(() => wsOpen(), 3000);
+  });
 };
