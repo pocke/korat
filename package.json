@@ -38,7 +38,7 @@
     ]
   },
   "dependencies": {
-    "@githubprimer/octicons-react": "^8.3.0",
+    "@githubprimer/octicons-react": "^8.4.0",
     "lodash-es": "^4.17.11",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"

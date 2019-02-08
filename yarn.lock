@@ -21,10 +21,10 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@githubprimer/octicons-react@^8.3.0":
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.3.0.tgz#93894243eb76f4a6718f7d94fbe0d349e1a6dd16"
-  integrity sha512-txquKlc2YDMMoekc3fG43eBdsMedumhbig9o8K8MYACMHLGbfhp9yHvaWadnrG6vS7XAztPnNtdkgUW5LHnqcg==
+"@githubprimer/octicons-react@^8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.4.0.tgz#1d112fbe12db4989d14b2049f0f2e71cc4884dc2"
+  integrity sha512-TFuf3JfCuK7RK1laQMGXMCL/WXdyMwrQmbrLJswVZmwCm1kZdo3qkRhsfafg1RAWIhyzrZq0z1g93ArrexCn/A==
   dependencies:
     prop-types "^15.6.1"
 
