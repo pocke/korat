@@ -62,7 +62,7 @@
     "typescript": "^3.3.3",
     "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.29.3",
-    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-bundle-analyzer": "^3.0.4",
     "webpack-cli": "^3.2.3",
     "webpack-serve": "^2.0.3"
   },
