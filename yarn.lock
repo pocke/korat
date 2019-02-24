@@ -136,10 +136,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@githubprimer/octicons-react@^8.3.0":
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.3.0.tgz#93894243eb76f4a6718f7d94fbe0d349e1a6dd16"
-  integrity sha512-txquKlc2YDMMoekc3fG43eBdsMedumhbig9o8K8MYACMHLGbfhp9yHvaWadnrG6vS7XAztPnNtdkgUW5LHnqcg==
+"@githubprimer/octicons-react@^8.4.2":
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/@githubprimer/octicons-react/-/octicons-react-8.4.2.tgz#9f4be408456da895298d3831c9e7b5764ea3a58e"
+  integrity sha512-XVFkZ2Xf+Y8zgz+g5zuVnrzOsDrwKjBrU77IKNyDAXjZ8dhphE01uL9yqRWq29Sa/gchuR1Q5nrHo0Vr9Hnxqg==
   dependencies:
     prop-types "^15.6.1"
 
