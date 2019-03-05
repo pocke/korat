@@ -47,7 +47,7 @@
     "@types/jest": "^23.3.13",
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.0.11",
-    "@types/lodash-es": "^4.17.2",
+    "@types/lodash-es": "^4.17.3",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^1.0.0",
     "electron-builder": "^20.38.5",
