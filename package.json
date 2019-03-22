@@ -40,7 +40,7 @@
   "dependencies": {
     "@githubprimer/octicons-react": "^8.3.0",
     "lodash-es": "^4.17.11",
-    "react": "^16.7.0",
+    "react": "^16.8.5",
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
