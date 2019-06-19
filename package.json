@@ -50,7 +50,7 @@
     "@types/lodash-es": "^4.17.3",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^1.0.0",
-    "electron-builder": "^20.38.5",
+    "electron-builder": "^20.44.2",
     "electron": "^4.0.8",
     "jest": "^24.1.0",
     "node-sass": "^4.11.0",
